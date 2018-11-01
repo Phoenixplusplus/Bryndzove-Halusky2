@@ -164,6 +164,5 @@ public class NetworkManager : Photon.MonoBehaviour
         // send reference to character UI and initialise it
         UI_Character UIC = GameObject.Find("CharacterUI").GetComponent<UI_Character>();
         UIC.localCharacter = localCharacter.GetComponent<C_Character>();
-        UIC.Initialise();
     }
 }
