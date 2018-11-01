@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 enum RoomsListInfo
 {
     STATUS,
@@ -10,7 +11,8 @@ enum RoomsListInfo
     RED_TEAM_CURRENT_COUNT
 }
 
-public class NetworkManager : Photon.MonoBehaviour {
+public class NetworkManager : Photon.MonoBehaviour
+{
 
     protected string roomName = "I'm hungry";
     protected TypedLobby lobbyName = new TypedLobby("NewLobby", LobbyType.Default);
@@ -34,6 +36,7 @@ public class NetworkManager : Photon.MonoBehaviour {
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         lobbyCamera = GameObject.Find("LobbyCamera");
         IsGameRunning = false;
+        UI_Manager = GameObject.Find("UserInterfaceManager").GetComponent<UserInterfaceManager>();
     }
 
     // TODO NOT IMPLEMENTED
@@ -49,20 +52,20 @@ public class NetworkManager : Photon.MonoBehaviour {
     {
         if (PhotonNetwork.inRoom)
         {
-            if(IsGameRunning)
+            if (IsGameRunning)
             {
                 //    Debug.Log("Inside the room, and running the game ");
                 OnGamePlay();
             }
             else
             {
-           //     Debug.Log("Inside the room lobby ");
+                //     Debug.Log("Inside the room lobby ");
                 OnInsideRoomLobby();
             }
         }
         else if (PhotonNetwork.insideLobby)
         {
-           // Debug.Log("Inside the lobby ");
+            // Debug.Log("Inside the lobby ");
             OnInsideLobby();
 
             // for (int i = 0; i < 2; i++)
@@ -74,15 +77,15 @@ public class NetworkManager : Photon.MonoBehaviour {
         }
         else if (!PhotonNetwork.connected)
         {
-          //  Debug.Log("Not Connected ");
+            //  Debug.Log("Not Connected ");
             OnConnecting();
         }
     }
 
-    public virtual void OnInsideLobby()     {}
-    public virtual void OnGamePlay()       {}
-    public virtual void OnInsideRoomLobby() {}
-    public virtual void OnConnecting()      {}
+    public virtual void OnInsideLobby() { }
+    public virtual void OnGamePlay() { }
+    public virtual void OnInsideRoomLobby() { }
+    public virtual void OnConnecting() { }
 
 
 
@@ -110,21 +113,25 @@ public class NetworkManager : Photon.MonoBehaviour {
     void OnJoinedRoom()
     {
         Debug.Log("Connected to " + "'" + PhotonNetwork.room.Name + "'" + " - Players(" + PhotonNetwork.playerList.Length + ")");
-        //StartGame();
     }
+
 
     public void StartGame()
     {
-        //photonView.RPC("StartTheGame", PhotonTargets.All, null);
-        if (lobbyCamera != null) lobbyCamera.SetActive(false);
-        SetupAndSpawnCharacter();
-        IsGameRunning = true;
+        photonView.RPC("StartTheGame", PhotonTargets.All, null);
     }
 
     [PunRPC] void StartTheGame()
     {
-        GM.LockHideCursor();
-
+        NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GMR.LockHideCursor();
+        GameObject LCMR = GameObject.Find("LobbyCamera");
+        if (LCMR != null) LCMR.SetActive(false);
+        tempNW.SetupAndSpawnCharacter();
+        tempNW.IsGameRunning = true;
+        Debug.Log("GOING TO DISABLE MAIN MENU");
+        UI_Manager.DisableMainMenu();
     }
 
     public void LeaveRoomFromRoomLobby()

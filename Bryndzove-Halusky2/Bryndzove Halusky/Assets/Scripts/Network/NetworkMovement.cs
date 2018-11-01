@@ -55,16 +55,22 @@ public class NetworkMovement : NetworkManager
             // local component sending transform to the network
             stream.SendNext(transform.position);
             stream.SendNext(transform.rotation);
-            stream.SendNext(characterMovement.localVelocity);
-            stream.SendNext(characterMovement.movementSpeed);
+            if (characterMovement)
+            {
+                stream.SendNext(characterMovement.localVelocity);
+                stream.SendNext(characterMovement.movementSpeed);
+            }
         }
         else
         {
             // receiving network players transforms
             networkPosition = (Vector3)stream.ReceiveNext();
             networkRotation = (Quaternion)stream.ReceiveNext();
-            networkVelocity = (Vector3)stream.ReceiveNext();
-            movementSpeed = (float)stream.ReceiveNext();
+            if (characterMovement)
+            {
+                networkVelocity = (Vector3)stream.ReceiveNext();
+                movementSpeed = (float)stream.ReceiveNext();
+            }
 
             lastTimestamp = info.timestamp;
         }

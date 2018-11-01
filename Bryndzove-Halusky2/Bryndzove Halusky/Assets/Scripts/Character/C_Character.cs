@@ -9,6 +9,7 @@ public class C_Character : Photon.MonoBehaviour {
     [Header("Network Attributes")]
     public string loginName;
     public string Team;
+    public int count = 0;
 
     [Header("Attributes")]
     public float Health = 10f;
@@ -59,6 +60,7 @@ public class C_Character : Photon.MonoBehaviour {
                 if (Input.GetMouseButton(0))
                 {
                     leftWeapon.Fire();
+                    photonView.RPC("AddCount", PhotonTargets.All, null);
                 }
             }
             else
@@ -129,6 +131,11 @@ public class C_Character : Photon.MonoBehaviour {
             GameObject.Find("GameManager").GetComponent<GameManager>().redTeamCount = redTeamCount;
             GameObject.Find("GameManager").GetComponent<GameManager>().blueTeamCount = blueTeamCount;
         }
+    }
+
+    [PunRPC]  void AddCount()
+    {
+        transform.root.gameObject.GetComponent<C_Character>().count++;
     }
 
     void MoveToSpawnPoint()

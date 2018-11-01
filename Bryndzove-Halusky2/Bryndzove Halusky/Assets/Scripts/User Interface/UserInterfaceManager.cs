@@ -5,22 +5,24 @@ public class UserInterfaceManager : NetworkManager
 {
     private UI_RoomButton [] m_roomButtonsArray;
     private int m_countOfRoomButtons;
-    protected Canvas CNVS_Lobby;
+    protected Canvas CNVS_MainMenu;
     private Text m_TXT_ConnectingToServer;
 
     // Use this for initialization
     void Start ()
     {
         InitializeRoomButtons();
-        CNVS_Lobby = GameObject.Find("CNV_MainMenu").GetComponent<Canvas>(); ;
-        m_TXT_ConnectingToServer = CNVS_Lobby.GetComponentInChildren<Text>();
-        CNVS_Lobby.transform.GetChild(2).transform.GetChild(4).gameObject.SetActive(false);
-        CNVS_Lobby.transform.GetChild(2).transform.GetChild(5).gameObject.SetActive(false);
-        CNVS_Lobby.transform.GetChild(2).gameObject.SetActive(false);
-        UI_Manager = this;
+        CNVS_MainMenu = GameObject.Find("CNV_MainMenu").GetComponent<Canvas>(); ;
+        m_TXT_ConnectingToServer = CNVS_MainMenu.GetComponentInChildren<Text>();
+        CNVS_MainMenu.transform.GetChild(2).transform.GetChild(4).gameObject.SetActive(false);
+        CNVS_MainMenu.transform.GetChild(2).transform.GetChild(5).gameObject.SetActive(false);
+        CNVS_MainMenu.transform.GetChild(2).gameObject.SetActive(false);
     }
 
-    public Canvas GetMainMenuCanvas() { return CNVS_Lobby; }
+    public void DisableMainMenu()
+    {
+        CNVS_MainMenu.gameObject.SetActive(false);
+    }
 
     // Update is called once per frame
     public override void OnInsideLobby()
@@ -28,7 +30,7 @@ public class UserInterfaceManager : NetworkManager
         if (m_TXT_ConnectingToServer.gameObject.activeSelf)
         {
             m_TXT_ConnectingToServer.gameObject.SetActive(false);
-            CNVS_Lobby.transform.GetChild(2).gameObject.SetActive(true);
+            CNVS_MainMenu.transform.GetChild(2).gameObject.SetActive(true);
         }
 
         if (roomsList != null)
@@ -49,7 +51,7 @@ public class UserInterfaceManager : NetworkManager
         if (!m_TXT_ConnectingToServer.gameObject.activeSelf)
         {
             m_TXT_ConnectingToServer.gameObject.SetActive(true);
-            CNVS_Lobby.transform.GetChild(2).gameObject.SetActive(false);
+            CNVS_MainMenu.transform.GetChild(2).gameObject.SetActive(false);
         }
 
     }
@@ -80,7 +82,7 @@ public class UserInterfaceManager : NetworkManager
     {
         if (roomsList[roomNumber].PlayerCount < roomsList[roomNumber].MaxPlayers)
         {
-            //CNVS_Lobby.gameObject.SetActive(false);
+            //CNVS_MainMenu.gameObject.SetActive(false);
             PhotonNetwork.JoinRoom(roomsList[roomNumber].Name);
         }
         else // Show UI the room is full

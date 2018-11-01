@@ -58,4 +58,5 @@ MonoBehaviour:
   - SetGameManagerReference
   - CreatePaintballRPC
   - StartTheGame
+  - AddCount
   DisableAutoOpenWizard: 1
