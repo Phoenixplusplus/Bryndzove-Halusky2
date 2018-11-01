@@ -6,6 +6,10 @@ public class C_Character : Photon.MonoBehaviour {
 
     private GameManager gameManager;
 
+    // events
+    public delegate void PlayerStart();
+    public static event PlayerStart PlayerReady;
+
     [Header("Network Attributes")]
     public string loginName;
     public string Team;
@@ -42,6 +46,13 @@ public class C_Character : Photon.MonoBehaviour {
 
             MoveToSpawnPoint();
             AttachWeapon();
+
+            // send event to listeners
+            if (PlayerReady != null)
+            {
+                Debug.Log("Finished startup, Player is calling event to listeners");
+                PlayerReady();
+            }
         }
         else
         {
