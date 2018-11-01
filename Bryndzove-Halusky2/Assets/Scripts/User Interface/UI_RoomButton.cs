@@ -10,6 +10,7 @@ public class UI_RoomButton : Photon.MonoBehaviour
     private Text roomName;
     private Text mapName;
     private Text playersCount;
+    private Button m_ThisButton;
 
     void Awake()
     {
@@ -18,7 +19,10 @@ public class UI_RoomButton : Photon.MonoBehaviour
         roomName = this.gameObject.transform.GetChild(2).GetComponent<Text>();
         mapName = this.gameObject.transform.GetChild(3).GetComponent<Text>();
         playersCount = this.gameObject.transform.GetChild(4).GetComponent<Text>();
+
+        m_ThisButton = GetComponent<Button>();
     }
+
 
     public void SetRoomDetails(int newRoomNumber, string newRoomStatus, string newRoomName, string newMapName, int newPlayerCount, int newMaxPlayerCount)
     {
@@ -27,6 +31,7 @@ public class UI_RoomButton : Photon.MonoBehaviour
         roomName.text = newRoomName;
         mapName.text = newMapName;
         playersCount.text = newPlayerCount + "/" + newMaxPlayerCount;
+        m_ThisButton.enabled = true;
     }
 
     public void ResetButton()
@@ -36,6 +41,7 @@ public class UI_RoomButton : Photon.MonoBehaviour
         roomName.text = "";
         mapName.text = "";
         playersCount.text = "";
+        m_ThisButton.enabled = false;
     }
 
 }

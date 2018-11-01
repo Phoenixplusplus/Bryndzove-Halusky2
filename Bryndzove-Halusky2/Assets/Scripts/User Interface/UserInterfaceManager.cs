@@ -14,6 +14,7 @@ public class UserInterfaceManager : NetworkManager
         InitializeRoomButtons();
         CNVS_MainMenu = GameObject.Find("CNV_MainMenu").GetComponent<Canvas>(); ;
         m_TXT_ConnectingToServer = CNVS_MainMenu.GetComponentInChildren<Text>();
+        CNVS_MainMenu.transform.GetChild(2).transform.GetChild(2).gameObject.SetActive(false);
         CNVS_MainMenu.transform.GetChild(2).transform.GetChild(4).gameObject.SetActive(false);
         CNVS_MainMenu.transform.GetChild(2).transform.GetChild(5).gameObject.SetActive(false);
         CNVS_MainMenu.transform.GetChild(2).gameObject.SetActive(false);
@@ -37,12 +38,6 @@ public class UserInterfaceManager : NetworkManager
         {
             // Update rooms button information
             UpdateRooms();
-
-            // Enable new button if is created
-            for (int i = 0; i < roomsList.Length; i++)
-            {
-              if (roomsList[i] != null) m_roomButtonsArray[i].gameObject.SetActive(true);
-            }
         }
     }
 
@@ -82,7 +77,6 @@ public class UserInterfaceManager : NetworkManager
     {
         if (roomsList[roomNumber].PlayerCount < roomsList[roomNumber].MaxPlayers)
         {
-            //CNVS_MainMenu.gameObject.SetActive(false);
             PhotonNetwork.JoinRoom(roomsList[roomNumber].Name);
         }
         else // Show UI the room is full
@@ -117,7 +111,6 @@ public class UserInterfaceManager : NetworkManager
         // Disable all buttons
         for (int i = 0; i < m_countOfRoomButtons; i++)
         {
-            // m_roomButtonsArray[i].gameObject.SetActive(false);
             m_roomButtonsArray[i].ResetButton();
         }
     }

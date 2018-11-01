@@ -54,12 +54,12 @@ public class NetworkManager : Photon.MonoBehaviour
         {
             if (IsGameRunning)
             {
-                //    Debug.Log("Inside the room, and running the game ");
+                //Debug.Log("Inside the room, and running the game ");
                 OnGamePlay();
             }
             else
             {
-                //     Debug.Log("Inside the room lobby ");
+                //Debug.Log("Inside the room lobby ");
                 OnInsideRoomLobby();
             }
         }
@@ -67,25 +67,18 @@ public class NetworkManager : Photon.MonoBehaviour
         {
             // Debug.Log("Inside the lobby ");
             OnInsideLobby();
-
-            // for (int i = 0; i < 2; i++)
-            {
-                //     OnInsideLobby();
-
-                //      Debug.Log("Inside the lobby " + i);
-            }
         }
         else if (!PhotonNetwork.connected)
         {
-            //  Debug.Log("Not Connected ");
+            //Debug.Log("Not Connected ");
             OnConnecting();
         }
     }
 
-    public virtual void OnInsideLobby() { }
-    public virtual void OnGamePlay() { }
-    public virtual void OnInsideRoomLobby() { }
-    public virtual void OnConnecting() { }
+    public virtual void OnInsideLobby()         {}
+    public virtual void OnGamePlay()            {}
+    public virtual void OnInsideRoomLobby()     {}
+    public virtual void OnConnecting()          {}
 
 
 
@@ -118,7 +111,7 @@ public class NetworkManager : Photon.MonoBehaviour
 
     public void StartGame()
     {
-        photonView.RPC("StartTheGame", PhotonTargets.All, null);
+        if (PhotonNetwork.isMasterClient) photonView.RPC("StartTheGame", PhotonTargets.All, null);
     }
 
     [PunRPC] void StartTheGame()
