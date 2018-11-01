@@ -23,17 +23,9 @@ public class UI_CreateGame : MonoBehaviour
         //Text sets your text to say this message
         m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
 
-        // Initialize players count on 4 = 2vs2
-        m_playersCount = 4;
-
-        // Set room to public
-        IsRoomPublic = true;
-
         // Initialize a text component
         m_roomName = this.gameObject.transform.GetChild(2).GetComponent<InputField>();
         m_roomPasword = this.gameObject.transform.GetChild(3).GetComponent<InputField>();
-
-        //this.gameObject.gameObject.GetComponentInChildren<InputField>();
 
         // Get buttons images
         BTN_IMG_1vs1 = this.gameObject.transform.GetChild(4).GetComponent<Image>();
@@ -42,6 +34,9 @@ public class UI_CreateGame : MonoBehaviour
         BTN_IMG_4vs4 = this.gameObject.transform.GetChild(7).GetComponent<Image>();
         BTN_IMG_Public = this.gameObject.transform.GetChild(8).GetComponent<Image>();
         BTN_IMG_Private = this.gameObject.transform.GetChild(9).GetComponent<Image>();
+
+        // Set room details to default
+        SetToDefault();
     }
 
     public void CreateNewRoom()
@@ -100,7 +95,7 @@ public class UI_CreateGame : MonoBehaviour
         IsRoomPublic = true;
 
         // Reset the room name
-        if (m_roomName) m_roomName.text = "";
+        if (m_roomName) m_roomName.text = PhotonNetwork.player.NickName + "'s room";
 
         // Set the buttons colors
         if (BTN_IMG_1vs1) BTN_IMG_1vs1.color = m_colorNotSelected;
