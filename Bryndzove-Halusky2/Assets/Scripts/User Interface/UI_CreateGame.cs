@@ -21,7 +21,7 @@ public class UI_CreateGame : MonoBehaviour
     void Start()
     {
         //Text sets your text to say this message
-        m_UI_manager = GameObject.Find("UserInterfaceManager").GetComponent<UserInterfaceManager>();
+        m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
 
         // Initialize players count on 4 = 2vs2
         m_playersCount = 4;

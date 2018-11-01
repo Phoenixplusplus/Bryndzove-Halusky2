@@ -514,6 +514,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114022404358497458
@@ -579,6 +580,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114071657329961862
@@ -634,6 +636,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114240856650349210
@@ -698,6 +701,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loginName: 
   Team: 
+  count: 0
   Health: 10
   healthRecoverySpeed: 0.1
   movementSpeed: 0
@@ -716,6 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114661086032665050
@@ -729,6 +734,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114703219099459412

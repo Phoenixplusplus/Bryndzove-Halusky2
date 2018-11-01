@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class C_CameraMovement : MonoBehaviour {
+public class C_CameraMovement : Photon.MonoBehaviour {
 
     private C_CharacterMovement characterMovement;
     public float cameraSensitivity, cameraSensitivityDamp = 3f;

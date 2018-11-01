@@ -6,13 +6,14 @@ public class UserInterfaceManager : NetworkManager
     private UI_RoomButton [] m_roomButtonsArray;
     private int m_countOfRoomButtons;
     protected Canvas CNVS_MainMenu;
+    protected Canvas CNVS_Character;
     private Text m_TXT_ConnectingToServer;
 
     // Use this for initialization
     void Start ()
     {
         InitializeRoomButtons();
-        CNVS_MainMenu = GameObject.Find("CNV_MainMenu").GetComponent<Canvas>(); ;
+        CNVS_MainMenu = GameObject.Find("MainMenuUI").GetComponent<Canvas>();
         m_TXT_ConnectingToServer = CNVS_MainMenu.GetComponentInChildren<Text>();
         CNVS_MainMenu.transform.GetChild(2).transform.GetChild(2).gameObject.SetActive(false);
         CNVS_MainMenu.transform.GetChild(2).transform.GetChild(4).gameObject.SetActive(false);

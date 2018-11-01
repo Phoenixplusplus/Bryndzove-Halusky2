@@ -25,7 +25,10 @@ public class NetworkManager : Photon.MonoBehaviour
     protected UserInterfaceManager UI_Manager;
     protected int playersOnline;
     private GameObject lobbyCamera;
+    protected GameObject localCharacter;
     protected bool IsGameRunning;
+
+    // character prefab
     [SerializeField]
     private GameObject Character;
 
@@ -36,7 +39,7 @@ public class NetworkManager : Photon.MonoBehaviour
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         lobbyCamera = GameObject.Find("LobbyCamera");
         IsGameRunning = false;
-        UI_Manager = GameObject.Find("UserInterfaceManager").GetComponent<UserInterfaceManager>();
+        UI_Manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
     }
 
     // TODO NOT IMPLEMENTED
@@ -135,8 +138,6 @@ public class NetworkManager : Photon.MonoBehaviour
 
     void SetupAndSpawnCharacter()
     {
-        GameObject localCharacter;
-
         // note: we are spawning a character from a prefab, which is a 'base', the network character (the one we are controlling)
         // is the localCharacter variable, which needs to have their components enabled
         if (PhotonNetwork.playerList.Length > 1)
@@ -159,5 +160,10 @@ public class NetworkManager : Photon.MonoBehaviour
         localCharacter.GetComponentInChildren<C_RArmTilt>().enabled = true;
         localCharacter.GetComponentInChildren<C_BodyTilt>().enabled = true;
         localCharacter.GetComponentInChildren<C_CameraMovement>().enabled = true;
+
+        // send reference to character UI and initialise it
+        UI_Character UIC = GameObject.Find("CharacterUI").GetComponent<UI_Character>();
+        UIC.localCharacter = localCharacter.GetComponent<C_Character>();
+        UIC.Initialise();
     }
 }

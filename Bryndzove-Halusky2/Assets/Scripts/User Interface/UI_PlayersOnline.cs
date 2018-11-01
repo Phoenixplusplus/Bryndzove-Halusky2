@@ -10,7 +10,7 @@ public class UI_PlayersOnline : MonoBehaviour
     {
         //Text sets your text to say this message
         m_MyText = gameObject.GetComponent<Text>();
-        UI_manager = GameObject.Find("UserInterfaceManager").GetComponent<UserInterfaceManager>();
+        UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
     }
 
     void Update()
