@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114679438378286444}
   - component: {fileID: 114502447727303558}
   - component: {fileID: 114536532667242740}
+  - component: {fileID: 114518400144828364}
   m_Layer: 0
   m_Name: RedPistol
   m_TagString: Untagged
@@ -239,12 +240,25 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114679438378286444}
+  - {fileID: 114518400144828364}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
+--- !u!114 &114518400144828364
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1030686635499024}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 20
+  serializedSendRate: 20
 --- !u!114 &114536532667242740
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -272,10 +286,11 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1030686635499024}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30

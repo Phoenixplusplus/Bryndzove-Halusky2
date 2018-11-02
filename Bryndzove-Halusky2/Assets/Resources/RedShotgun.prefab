@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114100597585262406}
   - component: {fileID: 114699238420039942}
   - component: {fileID: 114178656334525686}
+  - component: {fileID: 114030866211236392}
   m_Layer: 0
   m_Name: RedShotgun
   m_TagString: Untagged
@@ -116,7 +117,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1111206162669652}
   m_Mesh: {fileID: 4300000, guid: d701f25918d605c4381551a22fb54128, type: 3}
---- !u!114 &114100597585262406
+--- !u!114 &114030866211236392
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -124,9 +125,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1111206162669652}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 20
+  serializedSendRate: 20
+--- !u!114 &114100597585262406
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1111206162669652}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114178656334525686
@@ -170,7 +185,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114100597585262406}
+  - {fileID: 114030866211236392}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1

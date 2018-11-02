@@ -121,8 +121,9 @@ public class NetworkManager : Photon.MonoBehaviour
     {
         NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
-        GMR.LockHideCursor();
         GameObject LCMR = GameObject.Find("LobbyCamera");
+        GMR.LockHideCursor();
+        GMR.roundStarted = true;
         if (LCMR != null) LCMR.SetActive(false);
         tempNW.SetupAndSpawnCharacter();
         tempNW.IsGameRunning = true;

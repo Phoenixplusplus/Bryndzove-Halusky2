@@ -5,6 +5,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     [Header("-- Runtime Game Stats --")]
+    [Header("Round")]
+    public float roundTime = 120f;
+    public float currentRoundTime = 0f;
+    public bool roundStarted = false;
+    public bool roundFinished = false;
     [Header("Teams")]
     public int redTeamCount = 0;
     public int blueTeamCount = 0;
@@ -50,7 +55,15 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-
+        if (roundStarted)
+        {
+            currentRoundTime += Time.deltaTime;
+            if (currentRoundTime >= roundTime)
+            {
+                roundStarted = false;
+                roundFinished = true;
+            }
+        }
     }
 
     public void LockHideCursor()

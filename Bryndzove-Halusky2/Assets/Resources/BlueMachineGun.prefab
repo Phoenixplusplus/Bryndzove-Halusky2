@@ -39,6 +39,7 @@ GameObject:
   - component: {fileID: 114698728119704466}
   - component: {fileID: 114083353723056548}
   - component: {fileID: 114805737649266462}
+  - component: {fileID: 114501829867681858}
   m_Layer: 0
   m_Name: BlueMachineGun
   m_TagString: Untagged
@@ -239,13 +240,13 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114698728119704466}
+  - {fileID: 114501829867681858}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114698728119704466
+--- !u!114 &114501829867681858
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -253,9 +254,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 1362689546627228}
   m_Enabled: 1
   m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 20
+  serializedSendRate: 20
+--- !u!114 &114698728119704466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1362689546627228}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
 --- !u!114 &114805737649266462
