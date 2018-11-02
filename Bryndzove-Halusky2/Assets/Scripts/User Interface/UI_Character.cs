@@ -11,6 +11,7 @@ public class UI_Character : MonoBehaviour {
 
     // UI children
     Slider ammoSlider;
+    Slider healthSlider;
     Text roundTime;
 
     bool runUpdate = false;
@@ -32,15 +33,24 @@ public class UI_Character : MonoBehaviour {
         equippedWeapon = localCharacter.leftWeapon;
 
         // enable & set children
+        // ammoslider
         transform.GetChild(0).gameObject.SetActive(true);
         ammoSlider = transform.GetChild(0).GetComponent<Slider>();
+        // healthslider
         transform.GetChild(1).gameObject.SetActive(true);
+        healthSlider = transform.GetChild(1).GetComponent<Slider>();
+        // ammotext
         transform.GetChild(2).gameObject.SetActive(true);
-        roundTime = transform.GetChild(2).GetComponent<Text>();
+        // healthtext
+        transform.GetChild(3).gameObject.SetActive(true);
+        // roundtimetext
+        transform.GetChild(4).gameObject.SetActive(true);
+        roundTime = transform.GetChild(4).GetComponent<Text>();
 
         // set their attributes
         ammoSlider.maxValue = equippedWeapon.clipSize;
         ammoSlider.wholeNumbers = true;
+        healthSlider.maxValue = localCharacter.maxHealth;
 
         runUpdate = true;
     }
@@ -51,6 +61,7 @@ public class UI_Character : MonoBehaviour {
         if (runUpdate)
         {
             ammoSlider.value = equippedWeapon.ammoCount;
+            healthSlider.value = localCharacter.Health;
             roundTime.text = "zostávajúci čas: " + gameManager.roundTime.ToString("0.0");
         }
     }

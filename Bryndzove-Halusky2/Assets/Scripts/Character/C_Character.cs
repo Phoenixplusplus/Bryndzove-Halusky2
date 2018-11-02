@@ -16,7 +16,8 @@ public class C_Character : Photon.MonoBehaviour {
     public int count = 0;
 
     [Header("Attributes")]
-    public float Health = 10f;
+    public float Health;
+    public float maxHealth = 10f;
     public float healthRecoverySpeed = 0.1f;
     public float movementSpeed;
     public Texture headTex, bodyTex;
@@ -46,6 +47,8 @@ public class C_Character : Photon.MonoBehaviour {
 
             MoveToSpawnPoint();
             AttachWeapon();
+
+            Health = maxHealth;
 
             // send event to listeners
             if (PlayerReady != null)
