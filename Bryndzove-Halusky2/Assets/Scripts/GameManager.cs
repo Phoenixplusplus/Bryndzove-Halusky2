@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour {
     [Header("Teams")]
     public int redTeamCount = 0;
     public int blueTeamCount = 0;
+    public TeamInfo redTeam;
+    public TeamInfo blueTeam;
     [Header("Paint")]
     public int redTeamPaintCount = 0;
     public int blueTeamPaintCount = 0;

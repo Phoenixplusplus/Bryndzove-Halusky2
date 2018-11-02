@@ -23,7 +23,6 @@ public class NetworkManager : Photon.MonoBehaviour
     protected string[] additionalRoomsListInfo = new string[4];
     protected GameManager GM;
     protected UserInterfaceManager UI_Manager;
-    protected int playersOnline;
     private GameObject lobbyCamera;
     protected GameObject localCharacter;
     protected bool IsGameRunning;
