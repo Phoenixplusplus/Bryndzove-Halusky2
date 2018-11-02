@@ -58,7 +58,8 @@ public class GameManager : MonoBehaviour {
         if (roundStarted)
         {
             currentRoundTime += Time.deltaTime;
-            if (currentRoundTime >= roundTime)
+            roundTime -= Time.deltaTime;
+            if (roundTime <= 0)
             {
                 roundStarted = false;
                 roundFinished = true;

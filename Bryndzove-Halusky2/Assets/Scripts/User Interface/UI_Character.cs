@@ -35,7 +35,8 @@ public class UI_Character : MonoBehaviour {
         transform.GetChild(0).gameObject.SetActive(true);
         ammoSlider = transform.GetChild(0).GetComponent<Slider>();
         transform.GetChild(1).gameObject.SetActive(true);
-        roundTime = transform.GetChild(1).GetComponent<Text>();
+        transform.GetChild(2).gameObject.SetActive(true);
+        roundTime = transform.GetChild(2).GetComponent<Text>();
 
         // set their attributes
         ammoSlider.maxValue = equippedWeapon.clipSize;
@@ -50,7 +51,7 @@ public class UI_Character : MonoBehaviour {
         if (runUpdate)
         {
             ammoSlider.value = equippedWeapon.ammoCount;
-            roundTime.text = gameManager.currentRoundTime.ToString("0.0");
+            roundTime.text = "zostávajúci čas: " + gameManager.roundTime.ToString("0.0");
         }
     }
 }
