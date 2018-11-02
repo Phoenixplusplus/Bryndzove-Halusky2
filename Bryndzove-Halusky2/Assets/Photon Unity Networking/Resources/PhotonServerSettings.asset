@@ -59,4 +59,5 @@ MonoBehaviour:
   - CreatePaintballRPC
   - StartTheGame
   - AddCount
+  - SendMeTeamsInformations
   DisableAutoOpenWizard: 1
