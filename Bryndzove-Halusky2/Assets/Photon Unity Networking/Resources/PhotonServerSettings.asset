@@ -60,4 +60,7 @@ MonoBehaviour:
   - StartTheGame
   - AddCount
   - SendMeTeamsInformations
+  - SendTeamInformations
+  - MasterIsSendingTeamInformations
+  - AssignMeTeam
   DisableAutoOpenWizard: 1
