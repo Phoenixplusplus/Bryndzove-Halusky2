@@ -63,4 +63,6 @@ MonoBehaviour:
   - SendTeamInformations
   - MasterIsSendingTeamInformations
   - AssignMeTeam
+  - IsMasterKickingMe
+  - PlayerLeft
   DisableAutoOpenWizard: 1

@@ -3,18 +3,15 @@ using UnityEngine.UI;
 
 public class TeamInfo
 {
-    // Private variables
-    //TODO: DO I NEEED HITS VARIABLE? MAYBE I WILL DELETE IT  AT THE MOMENT I DONT REALLY USE IT OUT OF CLASS      
-    //TODO: DO I NEEED HITS VARIABLE? MAYBE I WILL DELETE IT  AT THE MOMENT I DONT REALLY USE IT OUT OF CLASS      
-    //TODO: DO I NEEED HITS VARIABLE? MAYBE I WILL DELETE IT  AT THE MOMENT I DONT REALLY USE IT OUT OF CLASS      
-    //TODO: DO I NEEED HITS VARIABLE? MAYBE I WILL DELETE IT  AT THE MOMENT I DONT REALLY USE IT OUT OF CLASS      
-    public bool[] IsSlotEmptyArray;
-
-
+    // Private variables 
+    private bool[] IsSlotEmptyArray;
     private Button[] buttonsArray;
-    public string[] playersNameArray;
     private int maxPlayersInTeamCount;
     private int curPlayerTeamCount;
+    private int teamColor;
+
+    // Public variables
+    public string[] playersNameArray;
 
     // Getter functions
     // Ask if the slot is empty or not
@@ -44,6 +41,7 @@ public class TeamInfo
             buttonsArray[1] = GO.transform.GetChild(1).GetComponent<Button>();
             buttonsArray[2] = GO.transform.GetChild(2).GetComponent<Button>();
             buttonsArray[3] = GO.transform.GetChild(3).GetComponent<Button>();
+            teamColor = 0;
         }
         else if (blueTeam)
         {
@@ -52,6 +50,7 @@ public class TeamInfo
             buttonsArray[1] = GO.transform.GetChild(1).GetComponent<Button>();
             buttonsArray[2] = GO.transform.GetChild(2).GetComponent<Button>();
             buttonsArray[3] = GO.transform.GetChild(3).GetComponent<Button>();
+            teamColor = 1;
         }
 
         //  maxPlayersInTeamCount
@@ -90,6 +89,17 @@ public class TeamInfo
 
         Debug.Log("ERROR: Function GetPlayerNameByIndex could not find the player, seems like index is out of range!");
         return null;
+    }
+
+    public bool IsPlayerInTeam(string playerName)
+    {
+        for (int i = 0; i < maxPlayersInTeamCount; i++) if (playersNameArray[i] == playerName) return true;
+        return false;
+    }
+
+    public int GetTeamColor()
+    {
+        return teamColor;
     }
 
     public int GetCurPlayersTeamCount()
@@ -159,12 +169,12 @@ public class TeamInfo
             if (playersNameArray[i] != null && playersNameArray[i] == playerNickName)
             {
                 IsSlotEmptyArray[i] = true;
+                playersNameArray[i] = "";
                 buttonsArray[i].enabled = false;
-                playersNameArray[i] = null;
+                buttonsArray[i].GetComponentInChildren<Text>().text = "";
                 curPlayerTeamCount--;
                 return;
             }
-
         }
         // Can not leave team, player is not part of the team
         Debug.Log("Can not leave team, player is not part of the team");

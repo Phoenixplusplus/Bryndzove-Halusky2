@@ -22,10 +22,19 @@ public class NetworkManager : Photon.MonoBehaviour
     // TODO NOT IMPLEMENTED
     protected string[] additionalRoomsListInfo = new string[4];
     protected GameManager GM;
-    protected UserInterfaceManager UI_Manager;
     private GameObject lobbyCamera;
     protected GameObject localCharacter;
-    protected bool IsGameRunning;
+
+
+
+    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
+    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
+    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
+    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
+    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
+
+
+    public bool IsGameRunning;
 
     // character prefab
     [SerializeField]
@@ -38,7 +47,6 @@ public class NetworkManager : Photon.MonoBehaviour
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         lobbyCamera = GameObject.Find("LobbyCamera");
         IsGameRunning = false;
-        UI_Manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
     }
 
     // TODO NOT IMPLEMENTED
@@ -111,32 +119,13 @@ public class NetworkManager : Photon.MonoBehaviour
     }
 
 
-    public void StartGame()
-    {
-        if (PhotonNetwork.isMasterClient) photonView.RPC("StartTheGame", PhotonTargets.All, null);
-    }
-
-    [PunRPC] void StartTheGame()
-    {
-        NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
-        GameObject LCMR = GameObject.Find("LobbyCamera");
-        GMR.LockHideCursor();
-        GMR.roundStarted = true;
-        if (LCMR != null) LCMR.SetActive(false);
-        tempNW.SetupAndSpawnCharacter();
-        tempNW.IsGameRunning = true;
-        Debug.Log("GOING TO DISABLE MAIN MENU");
-        UI_Manager.DisableMainMenu();
-    }
-
     public void LeaveRoomFromRoomLobby()
     {
         PhotonNetwork.LeaveRoom();
         IsGameRunning = false;
     }
 
-    void SetupAndSpawnCharacter()
+    public void SetupAndSpawnCharacter()
     {
         // note: we are spawning a character from a prefab, which is a 'base', the network character (the one we are controlling)
         // is the localCharacter variable, which needs to have their components enabled

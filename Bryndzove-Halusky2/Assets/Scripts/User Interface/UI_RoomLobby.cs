@@ -1,11 +1,21 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+enum enumTeams
+{
+    NO_TEAM = -1,
+    RED_TEAM,
+    BLUE_TEAM
+}
+
 public class UI_RoomLobby : NetworkManager
 {
+    private UserInterfaceManager UI_Manager;
+
     private Button m_BTN_StartGame;
     private Button m_BTN_KickPlayer;
-    private Image[] m_playersButtonsImages = new Image[8];
+    private Image[] m_redTeamPlayersButtonsImages = new Image[4];
+    private Image[] m_blueTeamPlayersButtonsImages = new Image[4];
     private Image BTN_IMG_StartRoom;
     private Image BTN_IMG_KickPlayer;
     private bool HasPickedTeam;
@@ -15,6 +25,8 @@ public class UI_RoomLobby : NetworkManager
     private string m_playerMarkedToKick;
     private int MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM;
     private int m_lastMarkedPlayerToKickButtonIndex;
+    private enumTeams m_lastMarkedPlayerToKickIsFromTeam;
+
 
     void Start()
     {
@@ -23,17 +35,18 @@ public class UI_RoomLobby : NetworkManager
         BTN_IMG_KickPlayer = this.gameObject.transform.GetChild(6).GetComponent<Image>();
         BTN_IMG_StartRoom = this.gameObject.transform.GetChild(7).GetComponent<Image>();
 
-        for (int i = 0; i < m_playersButtonsImages.Length / 2; i++) m_playersButtonsImages[i] = this.transform.GetChild(1).transform.GetChild(i).GetComponent<Image>();
-        for (int i = m_playersButtonsImages.Length / 2; i < m_playersButtonsImages.Length; i++) m_playersButtonsImages[i] = this.transform.GetChild(2).transform.GetChild(i - m_playersButtonsImages.Length / 2).GetComponent<Image>();
+        for (int i = 0; i < m_redTeamPlayersButtonsImages.Length; i++) m_redTeamPlayersButtonsImages[i] = this.transform.GetChild(1).transform.GetChild(i).GetComponent<Image>();
+        for (int i = 0; i < m_blueTeamPlayersButtonsImages.Length; i++) m_blueTeamPlayersButtonsImages[i] = this.transform.GetChild(2).transform.GetChild(i).GetComponent<Image>();
 
         m_lastMarkedPlayerToKickButtonIndex = -1;
         m_playerMarkedToKick = "";
+        m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
 
         HasPickedTeam = false;
         HasNewPlayerJoined = false;
 
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
-
+        UI_Manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
     }
 
     void Update()
@@ -76,23 +89,22 @@ public class UI_RoomLobby : NetworkManager
                         else GM.blueTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
                     }
                 }
-            }            
+            }
 
-            // String array with players name, will be send to another players, the array is divided onto two parts.
-            // From first part to second part are names of red team players, and from second part to end are names of blue team players
-            // If there is no player in the positions between, string will be assigned with text Empty Slot
-            string[] tempStringArray = new string[PhotonNetwork.room.MaxPlayers];
+            // Strings arrays with team players name
+            string[] tempRedTeamStringArray = new string[MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM];
+            string[] tempBlueTeamStringArray = new string[MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM];
 
             // Fill up arrays with red team datas
-            for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM  ; i++)
-                tempStringArray[i] = GM.redTeam.playersNameArray[i];
+            for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i++)
+                tempRedTeamStringArray[i] = GM.redTeam.playersNameArray[i];
 
             // Fill up arrays with blue team datas
-            for (int i = MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i < PhotonNetwork.room.MaxPlayers; i++)        
-                tempStringArray[i] = GM.blueTeam.playersNameArray[i - (MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM )];
+            for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i++)
+                tempBlueTeamStringArray[i] = GM.blueTeam.playersNameArray[i];
 
-            // Send teams to other players
-            photonView.RPC("MasterIsSendingTeamInformations", PhotonTargets.Others, (object)tempStringArray, PhotonNetwork.player.NickName);
+            // Send team information and master nick name to other players in room
+            photonView.RPC("MasterIsSendingTeamInformations", PhotonTargets.Others, (object)tempRedTeamStringArray, (object)tempBlueTeamStringArray, PhotonNetwork.player.NickName);
 
             // Set the variable HasNewPlayerJoined to false, it is true when new player join into room
             HasNewPlayerJoined = false;
@@ -100,7 +112,7 @@ public class UI_RoomLobby : NetworkManager
     }
 
     // MasterClient is sending message to all players in the room except him self
-    [PunRPC] void MasterIsSendingTeamInformations(string[] tempStringArray, string masterClientName)
+    [PunRPC] void MasterIsSendingTeamInformations(string[] tempRedTeamStringArray, string[] tempBlueTeamStringArray, string masterClientName)
     {
         // Get reference to gameManager
         GameManager tempGM = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -109,12 +121,12 @@ public class UI_RoomLobby : NetworkManager
 
         // Assign red team players name into red team name array
         for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i++)
-            tempGM.redTeam.playersNameArray[i] = tempStringArray[i];
+            tempGM.redTeam.playersNameArray[i] = tempRedTeamStringArray[i];
 
         // Assign blue team players name into blue team name array
-        for (int i = MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i < PhotonNetwork.room.MaxPlayers; i++)
-            tempGM.blueTeam.playersNameArray[i - MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM] = tempStringArray[i];
-        
+        for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i++)
+            tempGM.blueTeam.playersNameArray[i] = tempBlueTeamStringArray[i];
+
         // Update team with new teams data, and master client name
         tempGM.redTeam.UpdateTeam(lastAssignedMasterClient);
         tempGM.blueTeam.UpdateTeam(lastAssignedMasterClient);
@@ -156,92 +168,226 @@ public class UI_RoomLobby : NetworkManager
         }
     }
 
-    // Called inside kick player function, reset button variable to default, update teams and inform other players by RPC about the changes,.
-    // This functions is always called only in masterClient
-    private void UpdateAfterKickingPlayer()
-    { 
-        // If the button belong to red team, set the button color to red
-        if (m_lastMarkedPlayerToKickButtonIndex < m_playersButtonsImages.Length / 2)
-            m_playersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
-        // Button belongs to blue team, set the color to blue
-        else m_playersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 158, 121);
-        // Unmark the variable, and set it to -1, invalid index
-        m_lastMarkedPlayerToKickButtonIndex = -1;
+    // Called when player click on leave room or game button
+    public void LeaveRoom()
+    {
+        int tempTeamColor;
+        if (GM.redTeam.IsPlayerInTeam(PhotonNetwork.player.NickName)) tempTeamColor = 0;
+        else tempTeamColor = 1;
 
-
-        // TODO: UPDATE TEAMS, SEND RPC ABOUT THE CHANGES
-        // TODO: UPDATE TEAMS, SEND RPC ABOUT THE CHANGES
-        // TODO: UPDATE TEAMS, SEND RPC ABOUT THE CHANGES
-        // TODO: UPDATE TEAMS, SEND RPC ABOUT THE CHANGES
-        // TODO: UPDATE TEAMS, SEND RPC ABOUT THE CHANGES
-        // TODO: UPDATE TEAMS, SEND RPC ABOUT THE CHANGES
+        photonView.RPC("PlayerLeft", PhotonTargets.Others, PhotonNetwork.player.NickName, tempTeamColor);
+        PhotonNetwork.LeaveRoom();
     }
 
-    // Function called when masterClient player click on any connected player buttons
+    // Called when masterClient player click on button start game, other client can not call this functions until they are not masterClient
+    // Reason why they can not call this function is that their start game button is disabled
+    public void StartGame()
+    {
+        photonView.RPC("StartTheGame", PhotonTargets.Others, null);
+        StartTheGame();
+    }
+
+    // Start the game
+    [PunRPC] void StartTheGame()
+    {
+        NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameObject LCMR = GameObject.Find("LobbyCamera");
+        GMR.LockHideCursor();
+        GMR.roundStarted = true;
+        if (LCMR != null) LCMR.SetActive(false);
+        tempNW.SetupAndSpawnCharacter();
+        tempNW.IsGameRunning = true;
+        Debug.Log("GOING TO DISABLE MAIN MENU");
+        UI_Manager.DisableMainMenu();
+    }
+
+    // These functions are called only when player click on one of the players buttons inside gameplay lobby/idle lobby when player join room and is waiting until masterClient wont start the game
+    // Mark the team which containt player which is going to be kick, because player has always same index as the button which display his name, we can easily find him under buttonIndex.
+    public void MarkRedTeamPlayerToKick()   { m_lastMarkedPlayerToKickIsFromTeam = enumTeams.RED_TEAM; }
+    public void MarkBlueTeamPlayerToKick()  { m_lastMarkedPlayerToKickIsFromTeam = enumTeams.BLUE_TEAM; }
+
+    // Function called when masterClient player click on any connected players's button
     public void MarkOrUnmarkPlayerToKick(int buttonIndex)
     {
         // If the player it not masterClient, assign new target, other clients can not call this function because they have disabled the kick button
-        // If the player has been marked, and function is called again and will be trying to mark same player again, it mean that masterClient player want to unmark player
-        if (buttonIndex < m_playersButtonsImages.Length / 2)
-        {
-            for (int i = 0; i < m_playersButtonsImages.Length / 2; i++)
-            {
+        switch (m_lastMarkedPlayerToKickIsFromTeam)
+        {   // If the player belong to red team, get him and set his name to variable m_playerMarkedToKick, or if he was marked before, unmark him
+            case enumTeams.RED_TEAM:
+                // If selected target is same as last selected targed or its mastterClient, unselect this target
+                if (GM.redTeam.playersNameArray[buttonIndex] == m_playerMarkedToKick || GM.redTeam.playersNameArray[buttonIndex] == PhotonNetwork.player.NickName)
+                {
+                    // Unmark the variable, and set it to -1, invalid index plus update button visualisation
+                    if (m_lastMarkedPlayerToKickButtonIndex > -1)
+                    {
+                        m_playerMarkedToKick = "No Player Selected";
+                        m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
+                        m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
+                        m_lastMarkedPlayerToKickButtonIndex = -1;
+                    }
+                    m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
+                }
+                else // Select new target and update button visualisation
+                {   // Assign the target
+                    m_playerMarkedToKick = GM.redTeam.playersNameArray[buttonIndex];
+                    // We check in both cases if m_lastMarkedPlayerToKickButtonIndex is higher than 0, it might be - 1 if noone was targeted yet.
+                    // If the button belong to red team, set the button color to red
+                    if (m_lastMarkedPlayerToKickButtonIndex > -1)
+                    {
+                        m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
+                        m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
+                    }
+                    m_lastMarkedPlayerToKickButtonIndex = buttonIndex;
+                    m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 255, 0, 170);
+                }
+                break;
 
-                if (GM.redTeam.playersNameArray[i] == m_playerMarkedToKick) m_playerMarkedToKick = "";
-                else m_playerMarkedToKick = GM.redTeam.playersNameArray[buttonIndex];
-            }
-        }
-        else
-        {
-            for (int i = m_playersButtonsImages.Length / 2; i < m_playersButtonsImages.Length; i++)
-            {
-                if (GM.blueTeam.playersNameArray[i - (m_playersButtonsImages.Length / 2)] == m_playerMarkedToKick) m_playerMarkedToKick = "";
-                else m_playerMarkedToKick = GM.blueTeam.playersNameArray[buttonIndex - m_playersButtonsImages.Length / 2];
-            }
-        }
-
-        // Chceck who is our new target, if it masterCleint, clean target, otherwise visualise who is targeted
-        if (m_playerMarkedToKick == PhotonNetwork.player.NickName)
-        {   
-            m_playerMarkedToKick = "";
-        }
-        else
-        { 
-            // MasterClient clicked on different player, or first time on any player, set the button color to yellow, and visualise that player has been selected to kick
-            // These changes can see only masterClient, nobody else can not see who is marked to being kick
-            if (m_lastMarkedPlayerToKickButtonIndex != buttonIndex)
-            {
-                m_playersButtonsImages[buttonIndex].color = new Color32(255, 255, 0, 170);
-                m_lastMarkedPlayerToKickButtonIndex = buttonIndex;
-            }
-            else
-            {   // If the button belong to red team, set the button color to red
-                if (buttonIndex < m_playersButtonsImages.Length / 2)
-                    m_playersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
-                // Button belongs to blue team, set the color to blue
-                else m_playersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 158, 121);
-                // Unmark the variable, and set it to -1, invalid index
-                m_lastMarkedPlayerToKickButtonIndex = -1;
-            }
+            // If the player belong to blue team, get him and set his name to variable m_playerMarkedToKick, or if he was marked before, unmark him
+            case enumTeams.BLUE_TEAM:
+                // If selected target is same as last selected targed or its mastterClient, unselect this target
+                if (GM.blueTeam.playersNameArray[buttonIndex] == m_playerMarkedToKick || GM.blueTeam.playersNameArray[buttonIndex] == PhotonNetwork.player.NickName)
+                {
+                    // Unmark the variable, and set it to -1, invalid index plus update button visualisation
+                    if (m_lastMarkedPlayerToKickButtonIndex > -1)
+                    {
+                        m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
+                        m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
+                        m_playerMarkedToKick = "No Player Selected";
+                        m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
+                    }
+                    m_lastMarkedPlayerToKickButtonIndex = -1;
+                }
+                else // Select new target and update button visualisation
+                {   // Assign the target
+                    m_playerMarkedToKick = GM.blueTeam.playersNameArray[buttonIndex];
+                    // We check in both cases if m_lastMarkedPlayerToKickButtonIndex is higher than 0, it might be - 1 if noone was targeted yet.
+                    // If the button belong to blue team, set the button color to blue
+                    if (m_lastMarkedPlayerToKickButtonIndex > -1)
+                    {
+                        m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
+                        m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
+                    }
+                    m_lastMarkedPlayerToKickButtonIndex = buttonIndex;
+                    m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 255, 0, 170);
+                }
+                break;
         }
     }
 
     // Functions called when masterClient player click on button kick player
     public void KickPlayer()
     {
-        // Loop for the player in the room with the marked player name and kick him out
-        for (int i = 0; i < PhotonNetwork.otherPlayers.Length; i++)
+        photonView.RPC("IsMasterKickingMe", PhotonTargets.Others, m_playerMarkedToKick, m_lastMarkedPlayerToKickButtonIndex, (int)m_lastMarkedPlayerToKickIsFromTeam);
+        UpdateAfterKickingPlayer();
+    }
+
+    // MasterClient kicked player, check who has been kicked
+    // playerToBeKicked store player name
+    // buttonIndex store the index of button which belong to player which is going to be kicked
+    // teamColor help determine in which team player was, 0 is red, 1 is blue
+    [PunRPC] void IsMasterKickingMe(string playerToBeKicked, int buttonIndex, int teamColor)
+    {
+        // Check if masterClient wants to kick me, if not update teams and get out from the function, if yes close connection with this room
+        if (PhotonNetwork.player.NickName != playerToBeKicked)
         {
-            if (PhotonNetwork.otherPlayers[i].NickName == m_playerMarkedToKick)
-            {
-                PhotonNetwork.CloseConnection(PhotonNetwork.otherPlayers[i]);
-                UpdateAfterKickingPlayer();
-                return;
-            }
+            UpdateAfterKickingPlayer(playerToBeKicked, teamColor);
+            return;
         }
 
-        Debug.Log("ERROR: Player " + m_playerMarkedToKick + " could not be kicked out from the room! Player has probably left the game before we could kick him out.");
-        m_playerMarkedToKick = "";
+        Debug.Log("Got kicked !" + playerToBeKicked);
+        PhotonNetwork.LeaveRoom();
+        UI_Manager.EnablePlayerKickedWidget();
+        UI_Manager.EnableRoomSection();
+        this.gameObject.SetActive(false);
+    }
+
+
+    // Called inside kick player function, reset button variable to default and update teams. This functions is always called only in masterClient
+    private void UpdateAfterKickingPlayer()
+    {     
+        switch (m_lastMarkedPlayerToKickIsFromTeam)
+        {
+            case enumTeams.RED_TEAM: // If the button belong to red team, set the button color to red
+                GM.redTeam.LeaveTeam(m_playerMarkedToKick);
+                m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
+                break;
+            case enumTeams.BLUE_TEAM: // Button belongs to blue team, set the color to blue
+                GM.blueTeam.LeaveTeam(m_playerMarkedToKick);
+                m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
+                break;
+        }
+
+        // Unmark the variable, and set it to -1, invalid index
+        m_playerMarkedToKick = "No Player Selected";
+        m_lastMarkedPlayerToKickButtonIndex = -1;
+        m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
+    }
+
+    // Player which is leaving is sends RPC to each players, message contain his name and team color
+    [PunRPC] void PlayerLeft(string tempPlayerLeftName, int tempTeamColor)
+    {
+        switch (tempTeamColor)
+        {
+            case (int)enumTeams.RED_TEAM: // If the button belong to red team, set the button color to red
+                GM.redTeam.LeaveTeam(tempPlayerLeftName);
+                break;
+            case (int)enumTeams.BLUE_TEAM: // Button belongs to blue team, set the color to blue
+                GM.blueTeam.LeaveTeam(tempPlayerLeftName);
+                break;
+        }
+    }
+
+    // Called on other clients when master send RPC
+    private void UpdateAfterKickingPlayer(string tempPlayerMarkedToKick, int tempTeamColor)
+    {
+        switch (tempTeamColor)
+        {
+            case (int)enumTeams.RED_TEAM: // If the button belong to red team, set the button color to red
+                GM.redTeam.LeaveTeam(tempPlayerMarkedToKick);
+                m_redTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(255, 158, 158, 121);
+                break;
+            case (int)enumTeams.BLUE_TEAM: // Button belongs to blue team, set the color to blue
+                GM.blueTeam.LeaveTeam(tempPlayerMarkedToKick);
+                m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
+                break;
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+
+    //  Called when player click on button JoinRedTeam, function check if red team has space, if yes, player will join it and will send RPC to other players about his team change
+    public void JoinRedTeam()
+    {
+
+    }
+
+
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+    // NOT IMPLEMENTED
+
+    //  Called when player click on button JoinBlueTeam, function check if blue team has space, if yes, player will join it and will send RPC to other players about his team change
+    public void JoinBlueTeam()
+    {
+
     }
 
     // NOT IMPLEMENTED
@@ -250,12 +396,22 @@ public class UI_RoomLobby : NetworkManager
     // NOT IMPLEMENTED
     // NOT IMPLEMENTED
 
+    // If this playerr became master client, activate the buttons "Start Game" and "Kick Player"
     void BecameMasterClient()
     {
         m_BTN_StartGame.enabled = true;
         m_BTN_KickPlayer.enabled = true;
         BTN_IMG_StartRoom.color = new Color32(255, 255, 255, 255);
         BTN_IMG_KickPlayer.color = new Color32(255, 255, 255, 255);
+
+
+        // MISSING MORE STUFFS ?????
+        // MISSING MORE STUFFS ?????
+        // MISSING MORE STUFFS ?????
+        // MISSING MORE STUFFS ?????
+        // MISSING MORE STUFFS ?????
+        // MISSING MORE STUFFS ?????
+
     }
 
     // NOT IMPLEMENTED
@@ -267,5 +423,6 @@ public class UI_RoomLobby : NetworkManager
     void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
         // ThisPlayerBecameMasterCleint
+        // BecameMasterClient();
     }
 }
