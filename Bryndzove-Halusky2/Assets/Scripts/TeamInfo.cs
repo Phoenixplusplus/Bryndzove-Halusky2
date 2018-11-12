@@ -13,14 +13,6 @@ public class TeamInfo
     // Public variables
     public string[] playersNameArray;
 
-    // Getter functions
-    // Ask if the slot is empty or not
-    public bool GetSlotStatus(int slotIndex)
-    {
-        if (slotIndex < maxPlayersInTeamCount) return IsSlotEmptyArray[slotIndex];
-        else { Debug.Log("Index out of range, return false"); return false; }
-    }
-
     // Constructor, takes number of players in room, if is the info red team or blue team
     public TeamInfo(int numberOfPlayers, bool redTeam, bool blueTeam)
     {
@@ -31,7 +23,7 @@ public class TeamInfo
 
 
         for (int i = 0; i < playersNameArray.Length; i++) playersNameArray[i] = "Empty Slot";
-  
+
 
         // Initialize buttons
         if (redTeam)
@@ -71,48 +63,44 @@ public class TeamInfo
         }
     }
 
+
+
+
+    // Getter functions
+    // Ask if the slot is empty or not
+    public bool GetSlotStatus(int slotIndex)
+    {
+        if (slotIndex < maxPlayersInTeamCount) return IsSlotEmptyArray[slotIndex];
+        else { Debug.Log("Index is out of range, return false"); return false; }
+    }
+
+    // Find player by name and return him
     public string GetPlayerByName(string requestedPlayer)
     {
-        for (int i = 0; i < maxPlayersInTeamCount; i++)
-        {
-            if (requestedPlayer == playersNameArray[i]) return playersNameArray[i];
-        }
-
+        for (int i = 0; i < maxPlayersInTeamCount; i++) if (requestedPlayer == playersNameArray[i]) return playersNameArray[i];
         Debug.Log("ERROR: Function GetPlayerByName could not find the requested player! Text Empty Slot was returned instead.");
-        return "Empty Slot";
+        return "Slot is empty or player is not in this team";
     }
 
-    public string GetPlayerNameByIndex(int index)
-    {
-        if (index < maxPlayersInTeamCount)
-        return playersNameArray[index];
+    // Return team color
+    public int GetTeamColor()               { return teamColor; }
+    // Return players count in team
+    public int GetCurPlayersTeamCount()     { return curPlayerTeamCount; }
+    // Get maximus size of team
+    public int GetMaxPlayersTeamCount()     { return maxPlayersInTeamCount; }
 
-        Debug.Log("ERROR: Function GetPlayerNameByIndex could not find the player, seems like index is out of range!");
-        return null;
-    }
 
+
+
+    // Utility functions
+    // Check if is player in team
     public bool IsPlayerInTeam(string playerName)
     {
-        for (int i = 0; i < maxPlayersInTeamCount; i++) if (playersNameArray[i] == playerName) return true;
+        for (int i = 0; i < maxPlayersInTeamCount; i++) { if (playersNameArray[i] == playerName) return true; }
         return false;
     }
 
-    public int GetTeamColor()
-    {
-        return teamColor;
-    }
-
-    public int GetCurPlayersTeamCount()
-    {
-        return curPlayerTeamCount;
-    }
-
-    public int GetMaxPlayersTeamCount()
-    {
-        return maxPlayersInTeamCount;
-    }
-
-
+    // Join team, request player nickName
     public void JoinTeam(string playerNickName, bool IsMasterClient = false)
     {
         if (curPlayerTeamCount < maxPlayersInTeamCount)
@@ -149,20 +137,54 @@ public class TeamInfo
             Debug.Log("Can not join team, team is full");
         }
     }
-    public void UpdateTeam(string masterClientName)
+
+    // Find the masterClient in team, and addjust his namy by tag (Master)
+    public void UpdateMaster(string masterClientName)
     {
         for (int i = 0; i < maxPlayersInTeamCount; i++)
         {
-            if (playersNameArray[i] != "Empty Slot")
+            if (playersNameArray[i] == masterClientName)
             {
-                if (playersNameArray[i] == masterClientName) buttonsArray[i].GetComponentInChildren<Text>().text = playersNameArray[i] + " (Master)";
-                else buttonsArray[i].GetComponentInChildren<Text>().text = playersNameArray[i];
+                buttonsArray[i].GetComponentInChildren<Text>().text = playersNameArray[i] + " (Master)";
             }
-            else buttonsArray[i].GetComponentInChildren<Text>().text = "";
         }
     }
 
-    public void LeaveTeam(string playerNickName)
+    // Update team information, request players name in team, and masteClient name
+    public void UpdateTeam(string [] playersNames, string masterClientName)
+    {
+        // Loop through team slots and assignt the data
+        for (int i = 0; i < maxPlayersInTeamCount; i++)
+        {
+            // Assign the name from input, can be player name or "Empty Slot"
+            playersNameArray[i] = playersNames[i];
+
+            // If the player in this slot is master client, assign his name into text component and adjust his name with text (Master), also enable the buttons,
+            // in purpose to make the button clickable, and add option to players select other players and kick him out (Only for Master Client), or add him to friend list
+            if (playersNameArray[i] == masterClientName)
+            {
+                buttonsArray[i].GetComponentInChildren<Text>().text = playersNameArray[i] + " (Master)";
+                IsSlotEmptyArray[i] = false;
+                buttonsArray[i].enabled = true;
+            }
+            // If the slot is empty, disable buttons, and dont assignt any text into text component
+            else if (playersNameArray[i] == "Empty Slot")
+            {
+                buttonsArray[i].GetComponentInChildren<Text>().text = "";
+                IsSlotEmptyArray[i] = true;
+                buttonsArray[i].enabled = false;
+            }
+            // Slot is not empty, assign other players names into text component and unlock buttons
+            else
+            {
+                buttonsArray[i].GetComponentInChildren<Text>().text = playersNameArray[i];
+                IsSlotEmptyArray[i] = false;
+                buttonsArray[i].enabled = true;
+            }
+        }
+    }
+
+    public int LeaveTeam(string playerNickName)
     {
         for (int i = 0; i < maxPlayersInTeamCount; i++)
         {
@@ -173,10 +195,11 @@ public class TeamInfo
                 buttonsArray[i].enabled = false;
                 buttonsArray[i].GetComponentInChildren<Text>().text = "";
                 curPlayerTeamCount--;
-                return;
+                return i;
             }
         }
         // Can not leave team, player is not part of the team
-        Debug.Log("Can not leave team, player is not part of the team");
+        Debug.Log("ERROR: Can not leave team, player is not part of the team");
+        return -1;
     }
 }

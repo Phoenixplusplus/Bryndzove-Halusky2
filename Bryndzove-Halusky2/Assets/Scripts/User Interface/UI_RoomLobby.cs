@@ -111,34 +111,6 @@ public class UI_RoomLobby : NetworkManager
         }
     }
 
-    // MasterClient is sending message to all players in the room except him self
-    [PunRPC] void MasterIsSendingTeamInformations(string[] tempRedTeamStringArray, string[] tempBlueTeamStringArray, string masterClientName)
-    {
-        // Get reference to gameManager
-        GameManager tempGM = GameObject.Find("GameManager").GetComponent<GameManager>();
-        // Keep track of master client NickName
-        lastAssignedMasterClient = masterClientName;
-
-        // Assign red team players name into red team name array
-        for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i++)
-            tempGM.redTeam.playersNameArray[i] = tempRedTeamStringArray[i];
-
-        // Assign blue team players name into blue team name array
-        for (int i = 0; i < MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM; i++)
-            tempGM.blueTeam.playersNameArray[i] = tempBlueTeamStringArray[i];
-
-        // Update team with new teams data, and master client name
-        tempGM.redTeam.UpdateTeam(lastAssignedMasterClient);
-        tempGM.blueTeam.UpdateTeam(lastAssignedMasterClient);
-    }
-
-    // New player in room is asking masterClient for team
-    [PunRPC] void AssignMeTeam(string playerAsking)
-    {
-        HasNewPlayerJoined = true;
-        m_playerRequested = playerAsking;
-    }
-
     // Update is called once per frame
     void OnJoinedRoom()
     {
@@ -175,6 +147,7 @@ public class UI_RoomLobby : NetworkManager
         if (GM.redTeam.IsPlayerInTeam(PhotonNetwork.player.NickName)) tempTeamColor = 0;
         else tempTeamColor = 1;
 
+        // Player which is leaving sends RPC to other players in room, message contain his name and team color
         photonView.RPC("PlayerLeft", PhotonTargets.Others, PhotonNetwork.player.NickName, tempTeamColor);
         PhotonNetwork.LeaveRoom();
     }
@@ -187,25 +160,10 @@ public class UI_RoomLobby : NetworkManager
         StartTheGame();
     }
 
-    // Start the game
-    [PunRPC] void StartTheGame()
-    {
-        NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
-        GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
-        GameObject LCMR = GameObject.Find("LobbyCamera");
-        GMR.LockHideCursor();
-        GMR.roundStarted = true;
-        if (LCMR != null) LCMR.SetActive(false);
-        tempNW.SetupAndSpawnCharacter();
-        tempNW.IsGameRunning = true;
-        Debug.Log("GOING TO DISABLE MAIN MENU");
-        UI_Manager.DisableMainMenu();
-    }
-
     // These functions are called only when player click on one of the players buttons inside gameplay lobby/idle lobby when player join room and is waiting until masterClient wont start the game
     // Mark the team which containt player which is going to be kick, because player has always same index as the button which display his name, we can easily find him under buttonIndex.
-    public void MarkRedTeamPlayerToKick()   { m_lastMarkedPlayerToKickIsFromTeam = enumTeams.RED_TEAM; }
-    public void MarkBlueTeamPlayerToKick()  { m_lastMarkedPlayerToKickIsFromTeam = enumTeams.BLUE_TEAM; }
+    public void MarkRedTeamPlayerToKick() { m_lastMarkedPlayerToKickIsFromTeam = enumTeams.RED_TEAM; }
+    public void MarkBlueTeamPlayerToKick() { m_lastMarkedPlayerToKickIsFromTeam = enumTeams.BLUE_TEAM; }
 
     // Function called when masterClient player click on any connected players's button
     public void MarkOrUnmarkPlayerToKick(int buttonIndex)
@@ -285,7 +243,8 @@ public class UI_RoomLobby : NetworkManager
     // playerToBeKicked store player name
     // buttonIndex store the index of button which belong to player which is going to be kicked
     // teamColor help determine in which team player was, 0 is red, 1 is blue
-    [PunRPC] void IsMasterKickingMe(string playerToBeKicked, int buttonIndex, int teamColor)
+    [PunRPC]
+    void IsMasterKickingMe(string playerToBeKicked, int buttonIndex, int teamColor)
     {
         // Check if masterClient wants to kick me, if not update teams and get out from the function, if yes close connection with this room
         if (PhotonNetwork.player.NickName != playerToBeKicked)
@@ -304,7 +263,7 @@ public class UI_RoomLobby : NetworkManager
 
     // Called inside kick player function, reset button variable to default and update teams. This functions is always called only in masterClient
     private void UpdateAfterKickingPlayer()
-    {     
+    {
         switch (m_lastMarkedPlayerToKickIsFromTeam)
         {
             case enumTeams.RED_TEAM: // If the button belong to red team, set the button color to red
@@ -323,16 +282,70 @@ public class UI_RoomLobby : NetworkManager
         m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
     }
 
-    // Player which is leaving is sends RPC to each players, message contain his name and team color
-    [PunRPC] void PlayerLeft(string tempPlayerLeftName, int tempTeamColor)
+    // Message recieved from leaving player or called by master, containt player name and team color ID.
+    // If he was part of red team, ID = 0, if blue team ID = 1
+    [PunRPC]
+    void PlayerLeft(string tempPlayerLeftName, int tempTeamColor)
+    {
+        switch (tempTeamColor)
+        {
+            case (int)enumTeams.RED_TEAM: // If the button belong to red team, set the button color to red, and ged rid of player from team
+                m_redTeamPlayersButtonsImages[GM.redTeam.LeaveTeam(tempPlayerLeftName)].color = new Color32(255, 158, 158, 121);
+                break;
+            case (int)enumTeams.BLUE_TEAM: // If the button belong to blue team, set the button color to blue, and ged rid of player from team
+                m_blueTeamPlayersButtonsImages[GM.blueTeam.LeaveTeam(tempPlayerLeftName)].color = new Color32(176, 160, 255, 121);
+                break;
+        }
+    }
+
+    // Start the game
+    [PunRPC]
+    void StartTheGame()
+    {
+        NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
+        GameObject LCMR = GameObject.Find("LobbyCamera");
+        GMR.LockHideCursor();
+        GMR.roundStarted = true;
+        if (LCMR != null) LCMR.SetActive(false);
+        tempNW.SetupAndSpawnCharacter();
+        tempNW.IsGameRunning = true;
+        Debug.Log("GOING TO DISABLE MAIN MENU");
+        UI_Manager.DisableMainMenu();
+    }
+
+    // MasterClient is sending message to all players in the room except him self
+    [PunRPC]
+    void MasterIsSendingTeamInformations(string[] tempRedTeamStringArray, string[] tempBlueTeamStringArray, string masterClientName)
+    {
+        // Keep track of master client NickName
+        lastAssignedMasterClient = masterClientName;
+
+        // Update teams with new data, and master client name
+        GM.redTeam.UpdateTeam(tempRedTeamStringArray, masterClientName);
+        GM.blueTeam.UpdateTeam(tempBlueTeamStringArray, masterClientName);
+    }
+
+    // New player in room is asking masterClient for team
+    [PunRPC]
+    void AssignMeTeam(string playerAsking)
+    {
+        HasNewPlayerJoined = true;
+        m_playerRequested = playerAsking;
+    }
+
+    // Message recieved from new masterClient, containt his name and team color ID, depends on observed information, rename his name in lobby
+    // If he was part of red team, ID = 0, if blue team ID = 1
+    [PunRPC]
+    void OnNewMaster(string newMasterName, int tempTeamColor)
     {
         switch (tempTeamColor)
         {
             case (int)enumTeams.RED_TEAM: // If the button belong to red team, set the button color to red
-                GM.redTeam.LeaveTeam(tempPlayerLeftName);
+                GM.redTeam.UpdateMaster(newMasterName);
                 break;
             case (int)enumTeams.BLUE_TEAM: // Button belongs to blue team, set the color to blue
-                GM.blueTeam.LeaveTeam(tempPlayerLeftName);
+                GM.blueTeam.UpdateMaster(newMasterName);
                 break;
         }
     }
@@ -351,78 +364,37 @@ public class UI_RoomLobby : NetworkManager
                 m_blueTeamPlayersButtonsImages[m_lastMarkedPlayerToKickButtonIndex].color = new Color32(176, 160, 255, 121);
                 break;
         }
+
+        // Unmark the variable, and set it to -1, invalid index
+        m_playerMarkedToKick = "No Player Selected";
+        m_lastMarkedPlayerToKickButtonIndex = -1;
+        m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-
-    //  Called when player click on button JoinRedTeam, function check if red team has space, if yes, player will join it and will send RPC to other players about his team change
-    public void JoinRedTeam()
-    {
-
-    }
-
-
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-
-    //  Called when player click on button JoinBlueTeam, function check if blue team has space, if yes, player will join it and will send RPC to other players about his team change
-    public void JoinBlueTeam()
-    {
-
-    }
-
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-
-    // If this playerr became master client, activate the buttons "Start Game" and "Kick Player"
-    void BecameMasterClient()
-    {
-        m_BTN_StartGame.enabled = true;
-        m_BTN_KickPlayer.enabled = true;
-        BTN_IMG_StartRoom.color = new Color32(255, 255, 255, 255);
-        BTN_IMG_KickPlayer.color = new Color32(255, 255, 255, 255);
-
-
-        // MISSING MORE STUFFS ?????
-        // MISSING MORE STUFFS ?????
-        // MISSING MORE STUFFS ?????
-        // MISSING MORE STUFFS ?????
-        // MISSING MORE STUFFS ?????
-        // MISSING MORE STUFFS ?????
-
-    }
-
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-    // NOT IMPLEMENTED
-
+    // Find new masterClient, and assign him his rights
     void OnMasterClientSwitched(PhotonPlayer newMasterClient)
     {
-        // ThisPlayerBecameMasterCleint
-        // BecameMasterClient();
+        // If I am master client, enable me masterClient functionalities
+        if (PhotonNetwork.isMasterClient)
+        {
+            // Activate buttons "Start Game" and "Kick Player"
+            m_BTN_StartGame.enabled = true;
+            m_BTN_KickPlayer.enabled = true;
+            BTN_IMG_StartRoom.color = new Color32(255, 255, 255, 255);
+            BTN_IMG_KickPlayer.color = new Color32(255, 255, 255, 255);
+
+            // If the new master is part of red team, update his name in lobby, send RPC to other players to update his name
+            if (GM.redTeam.IsPlayerInTeam(PhotonNetwork.player.NickName))
+            {
+                GM.redTeam.UpdateMaster(PhotonNetwork.player.NickName);
+                photonView.RPC("OnNewMaster", PhotonTargets.Others, PhotonNetwork.player.NickName, (int)enumTeams.RED_TEAM);
+
+            } // else he is part of blue team, update his name in lobby, send zz to other players to update his name
+            else
+            {
+                GM.blueTeam.UpdateMaster(PhotonNetwork.player.NickName);
+                photonView.RPC("OnNewMaster", PhotonTargets.All, PhotonNetwork.player.NickName, (int)enumTeams.BLUE_TEAM);
+            }
+        }
     }
 }

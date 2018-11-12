@@ -65,4 +65,5 @@ MonoBehaviour:
   - AssignMeTeam
   - IsMasterKickingMe
   - PlayerLeft
+  - OnNewMaster
   DisableAutoOpenWizard: 1
