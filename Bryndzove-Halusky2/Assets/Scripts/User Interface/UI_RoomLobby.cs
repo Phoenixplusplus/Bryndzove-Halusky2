@@ -243,8 +243,7 @@ public class UI_RoomLobby : NetworkManager
     // playerToBeKicked store player name
     // buttonIndex store the index of button which belong to player which is going to be kicked
     // teamColor help determine in which team player was, 0 is red, 1 is blue
-    [PunRPC]
-    void IsMasterKickingMe(string playerToBeKicked, int buttonIndex, int teamColor)
+    [PunRPC] void IsMasterKickingMe(string playerToBeKicked, int buttonIndex, int teamColor)
     {
         // Check if masterClient wants to kick me, if not update teams and get out from the function, if yes close connection with this room
         if (PhotonNetwork.player.NickName != playerToBeKicked)
@@ -284,8 +283,7 @@ public class UI_RoomLobby : NetworkManager
 
     // Message recieved from leaving player or called by master, containt player name and team color ID.
     // If he was part of red team, ID = 0, if blue team ID = 1
-    [PunRPC]
-    void PlayerLeft(string tempPlayerLeftName, int tempTeamColor)
+    [PunRPC] void PlayerLeft(string tempPlayerLeftName, int tempTeamColor)
     {
         switch (tempTeamColor)
         {
@@ -299,8 +297,7 @@ public class UI_RoomLobby : NetworkManager
     }
 
     // Start the game
-    [PunRPC]
-    void StartTheGame()
+    [PunRPC] void StartTheGame()
     {
         NetworkManager tempNW = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
         GameManager GMR = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -315,8 +312,7 @@ public class UI_RoomLobby : NetworkManager
     }
 
     // MasterClient is sending message to all players in the room except him self
-    [PunRPC]
-    void MasterIsSendingTeamInformations(string[] tempRedTeamStringArray, string[] tempBlueTeamStringArray, string masterClientName)
+    [PunRPC] void MasterIsSendingTeamInformations(string[] tempRedTeamStringArray, string[] tempBlueTeamStringArray, string masterClientName)
     {
         // Keep track of master client NickName
         lastAssignedMasterClient = masterClientName;
@@ -327,8 +323,7 @@ public class UI_RoomLobby : NetworkManager
     }
 
     // New player in room is asking masterClient for team
-    [PunRPC]
-    void AssignMeTeam(string playerAsking)
+    [PunRPC] void AssignMeTeam(string playerAsking)
     {
         HasNewPlayerJoined = true;
         m_playerRequested = playerAsking;
@@ -336,8 +331,7 @@ public class UI_RoomLobby : NetworkManager
 
     // Message recieved from new masterClient, containt his name and team color ID, depends on observed information, rename his name in lobby
     // If he was part of red team, ID = 0, if blue team ID = 1
-    [PunRPC]
-    void OnNewMaster(string newMasterName, int tempTeamColor)
+    [PunRPC] void OnNewMaster(string newMasterName, int tempTeamColor)
     {
         switch (tempTeamColor)
         {

@@ -9,7 +9,7 @@ public class NetworkManager : Photon.MonoBehaviour
     protected GameManager GM;
     private GameObject lobbyCamera;
     protected GameObject localCharacter;
-
+    private UserInterfaceManager m_UI_manager;
 
 
     // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
@@ -27,6 +27,7 @@ public class NetworkManager : Photon.MonoBehaviour
     void Start()
     {
         PhotonNetwork.ConnectUsingSettings("v4.2");
+        m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         lobbyCamera = GameObject.Find("LobbyCamera");
         IsGameRunning = false;
@@ -35,35 +36,39 @@ public class NetworkManager : Photon.MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Player is inside the room
         if (PhotonNetwork.inRoom)
         {
+            // Player is playing game
             if (IsGameRunning)
             {
-                //Debug.Log("Inside the room, and running the game ");
-                OnGamePlay();
+
             }
+            // Player is inside the room lobby
             else
             {
-                //Debug.Log("Inside the room lobby ");
-                OnInsideRoomLobby();
+
             }
         }
+        // Player is inside the lobby
         else if (PhotonNetwork.insideLobby)
         {
-            // Debug.Log("Inside the lobby ");
-            OnInsideLobby();
+            if (m_UI_manager.IsConnectingToServerActive())
+            {
+                m_UI_manager.DisableConnectingToServer();
+                m_UI_manager.EnableLobbyUI();
+            }
         }
+        // Player lost connection or is connecting
         else if (!PhotonNetwork.connected)
         {
-            //Debug.Log("Not Connected ");
-            OnConnecting();
+            if (!m_UI_manager.IsConnectingToServerActive())
+            {
+                m_UI_manager.EnableConnectingToServer();
+                m_UI_manager.DisableLobbyUI();
+            }
         }
     }
-
-    public virtual void OnInsideLobby()         {}
-    public virtual void OnGamePlay()            {}
-    public virtual void OnInsideRoomLobby()     {}
-    public virtual void OnConnecting()          {}
 
     void OnConnectedToMaster()
     {
