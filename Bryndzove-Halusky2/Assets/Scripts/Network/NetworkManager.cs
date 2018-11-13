@@ -2,25 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-enum RoomsListInfo
-{
-    STATUS,
-    PASSWORD,
-    BLUE_TEAM_CURRENT_COUNT,
-    RED_TEAM_CURRENT_COUNT
-}
-
 public class NetworkManager : Photon.MonoBehaviour
 {
-
-    protected string roomName = "I'm hungry";
     protected TypedLobby lobbyName = new TypedLobby("NewLobby", LobbyType.Default);
-    protected RoomInfo[] roomsList;
-    // TODO NOT IMPLEMENTED
-    // TODO NOT IMPLEMENTED
-    // TODO NOT IMPLEMENTED
-    protected string[] additionalRoomsListInfo = new string[4];
+    public RoomInfo[] roomsList;
     protected GameManager GM;
     private GameObject lobbyCamera;
     protected GameObject localCharacter;
@@ -32,8 +17,6 @@ public class NetworkManager : Photon.MonoBehaviour
     // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
     // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
     // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
-
-
     public bool IsGameRunning;
 
     // character prefab
@@ -47,14 +30,6 @@ public class NetworkManager : Photon.MonoBehaviour
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         lobbyCamera = GameObject.Find("LobbyCamera");
         IsGameRunning = false;
-    }
-
-    // TODO NOT IMPLEMENTED
-    // TODO NOT IMPLEMENTED
-    // TODO NOT IMPLEMENTED
-    void SetPropertiesListedInLobby(string[] propsListedInLobby)
-    {
-        propsListedInLobby = additionalRoomsListInfo;
     }
 
     // Update is called once per frame
@@ -90,8 +65,6 @@ public class NetworkManager : Photon.MonoBehaviour
     public virtual void OnInsideRoomLobby()     {}
     public virtual void OnConnecting()          {}
 
-
-
     void OnConnectedToMaster()
     {
         PhotonNetwork.JoinLobby(lobbyName);
@@ -110,6 +83,7 @@ public class NetworkManager : Photon.MonoBehaviour
 
     void OnJoinedLobby()
     {
+        roomsList = PhotonNetwork.GetRoomList();
         Debug.Log("Joined lobby");
     }
 
