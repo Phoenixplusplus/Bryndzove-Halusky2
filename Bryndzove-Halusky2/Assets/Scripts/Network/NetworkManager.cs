@@ -97,7 +97,6 @@ public class NetworkManager : Photon.MonoBehaviour
         Debug.Log("Connected to " + "'" + PhotonNetwork.room.Name + "'" + " - Players(" + PhotonNetwork.playerList.Length + ")");
     }
 
-
     public void LeaveRoomFromRoomLobby()
     {
         PhotonNetwork.LeaveRoom();
