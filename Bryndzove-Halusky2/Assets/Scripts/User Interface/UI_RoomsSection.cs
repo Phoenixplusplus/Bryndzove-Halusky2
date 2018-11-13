@@ -2,21 +2,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UI_RoomsSection : NetworkManager
+public class UI_RoomsSection : MonoBehaviour
 {
     private UI_RoomButton[] m_roomButtonsArray;
     private int m_countOfRoomButtons;
+    private NetworkManager m_networkManager;
+    private UserInterfaceManager m_UI_manager;
 
     // Use this for initialization
     void Start()
     {
+        m_networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
+        m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
         InitializeRoomButtons();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (roomsList != null)
+        if (m_networkManager.roomsList != null)
         {
             // Update rooms button information
             UpdateRooms();
@@ -25,14 +29,14 @@ public class UI_RoomsSection : NetworkManager
 
     public void UpdateRooms()
     {
-        for (int i = 0; i < roomsList.Length; i++)
+        for (int i = 0; i < m_networkManager.roomsList.Length; i++)
         {
-            m_roomButtonsArray[i].SetRoomDetails(i, "Status", roomsList[i].Name, "Map", roomsList[i].PlayerCount, roomsList[i].MaxPlayers);
+            m_roomButtonsArray[i].SetRoomDetails(i, "Status", m_networkManager.roomsList[i].Name, "Map", m_networkManager.roomsList[i].PlayerCount, m_networkManager.roomsList[i].MaxPlayers);
         }
 
-        if (roomsList.Length < m_countOfRoomButtons)
+        if (m_networkManager.roomsList.Length < m_countOfRoomButtons)
         {
-            for (int i = roomsList.Length; i < m_countOfRoomButtons; i++)
+            for (int i = m_networkManager.roomsList.Length; i < m_countOfRoomButtons; i++)
             {
                 m_roomButtonsArray[i].ResetButton();
             }
@@ -41,13 +45,15 @@ public class UI_RoomsSection : NetworkManager
 
     public void JoinRoom(int roomNumber)
     {
-        if (roomsList[roomNumber].PlayerCount < roomsList[roomNumber].MaxPlayers)
+        if (m_networkManager.roomsList[roomNumber].PlayerCount < m_networkManager.roomsList[roomNumber].MaxPlayers)
         {
-            PhotonNetwork.JoinRoom(roomsList[roomNumber].Name);
+            PhotonNetwork.JoinRoom(m_networkManager.roomsList[roomNumber].Name);
+            m_UI_manager.DisableRoomSection();
+            m_UI_manager.EnableRoomLobby();
         }
         else // Show UI the room is full
         {
-            Debug.Log("Rooms " + roomsList[roomNumber].Name + " is full.");
+            Debug.Log("Rooms " + m_networkManager.roomsList[roomNumber].Name + " is full.");
         }
     }
 

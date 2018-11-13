@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UI_CreateGame : MonoBehaviour
 {
-    private UserInterfaceManager m_UI_manager;
+    private NetworkManager m_networkManager;
     private byte m_playersCount;
     private int m_mapID;
     private InputField m_roomName;
@@ -21,7 +21,7 @@ public class UI_CreateGame : MonoBehaviour
     void Start()
     {
         //Text sets your text to say this message
-        m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
+        m_networkManager = GameObject.Find("NetworkManager").GetComponent<NetworkManager>();
 
         // Initialize a text component
         m_roomName = this.gameObject.transform.GetChild(2).GetComponent<InputField>();
@@ -43,11 +43,11 @@ public class UI_CreateGame : MonoBehaviour
     {
         if (m_roomName.text != "")
         {
-            PhotonNetwork.CreateRoom(m_roomName.text, new RoomOptions() { MaxPlayers = m_playersCount, IsOpen = true, IsVisible = true }, m_UI_manager.GetLobbyName());
+            PhotonNetwork.CreateRoom(m_roomName.text, new RoomOptions() { MaxPlayers = m_playersCount, IsOpen = true, IsVisible = true }, m_networkManager.GetLobbyName());
         }
         else
         {
-            PhotonNetwork.CreateRoom("Phoenix's Room", new RoomOptions() { MaxPlayers = m_playersCount, IsOpen = true, IsVisible = true }, m_UI_manager.GetLobbyName());
+            PhotonNetwork.CreateRoom("Phoenix's Room", new RoomOptions() { MaxPlayers = m_playersCount, IsOpen = true, IsVisible = true }, m_networkManager.GetLobbyName());
         }
     }
 

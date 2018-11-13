@@ -50,6 +50,7 @@ public class TeamInfo
         {
             buttonsArray[i].enabled = false;
             buttonsArray[i].GetComponentInChildren<Text>().text = "";
+            buttonsArray[i].gameObject.SetActive(true);
             IsSlotEmptyArray[i] = true;
         }
 
