@@ -65,6 +65,7 @@ public class DatabaseManager : MonoBehaviour {
             if (loginReply.Contains("Thanks"))
             {
                 loginBool = true;
+                createAccountBool = false;
                 string[] userInfo = loginReply.Split('|');
                 GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
                 gameManager.username = userInfo[1];

@@ -49,7 +49,7 @@ public class C_Character : Photon.MonoBehaviour {
             transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
             transform.Find("CharacterBody/CharacterLArm").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
             transform.Find("CharacterBody/CharacterRArm").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
-            // weapon values are assigned after team is chosen, as colour of weapon needs to change
+            // (weapon values are assigned after team is chosen, as colour of weapon needs to change)
 
             if (PhotonNetwork.isMasterClient == true)
             {
