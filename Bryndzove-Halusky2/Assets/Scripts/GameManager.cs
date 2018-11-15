@@ -13,12 +13,16 @@ public class GameManager : MonoBehaviour {
 
     // player configuration dictionaries
     public Dictionary<string, Material> characterTexDict;
-    public Material defaultHead;
-    public Material defaultBody;
+    public Material Head1;
+    public Material Head2;
+    public Material Head3;
+    public Material Body1;
+    public Material Body2;
+    public Material Body3;
     public Dictionary<string, GameObject> characterWeaponDict;
-    public GameObject defaultPistol;
-    public GameObject defaultMachineGun;
-    public GameObject defaultShotgun;
+    public GameObject Weapon1; // pistol
+    public GameObject Weapon2; // machinegun
+    public GameObject Weapon3; // shotgun
 
     [Header("-- Runtime Game Stats --")]
     [Header("Round")]
@@ -54,14 +58,18 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        // initialise dictionaries and add values from strings taken from their account in the database
+        // initialise dictionaries and add values linked to strings that must match what could be in database
         characterTexDict = new Dictionary<string, Material>();
-        characterTexDict.Add("defaultHead", defaultHead);
-        characterTexDict.Add("defaultBody", defaultBody);
+        characterTexDict.Add("Head1", Head1);
+        characterTexDict.Add("Head2", Head2);
+        characterTexDict.Add("Head3", Head3);
+        characterTexDict.Add("Body1", Body1);
+        characterTexDict.Add("Body2", Body2);
+        characterTexDict.Add("Body3", Body3);
         characterWeaponDict = new Dictionary<string, GameObject>();
-        characterWeaponDict.Add("defaultPistol", defaultPistol);
-        characterWeaponDict.Add("defaultMachineGun", defaultMachineGun);
-        characterWeaponDict.Add("defaultShotgun", defaultShotgun);
+        characterWeaponDict.Add("Weapon1", Weapon1);
+        characterWeaponDict.Add("Weapon2", Weapon2);
+        characterWeaponDict.Add("Weapon3", Weapon3);
 
         // initialise splat decals pool
         SplatDecals = new GameObject[splatDecalsSize];

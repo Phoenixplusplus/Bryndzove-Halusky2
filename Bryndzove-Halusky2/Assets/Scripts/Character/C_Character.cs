@@ -47,6 +47,8 @@ public class C_Character : Photon.MonoBehaviour {
             // apply values
             transform.Find("CharacterBody").GetComponent<Renderer>().material = gameManager.characterTexDict[bodytex];
             transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
+            transform.Find("CharacterBody/CharacterLArm").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
+            transform.Find("CharacterBody/CharacterRArm").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
             // weapon values are assigned after team is chosen, as colour of weapon needs to change
 
             if (PhotonNetwork.isMasterClient == true)
@@ -199,7 +201,7 @@ public class C_Character : Photon.MonoBehaviour {
 
         leftWeapon = localL_Gun.GetComponent<W_Weapon>();
         leftWeapon.enabled = true;
-        if (leftWeapon.name.Contains("Machine")) autoFire = true;
+        if (leftWeapon.name.Contains("Weapon2")) autoFire = true;
         else autoFire = false;
     }
 }
