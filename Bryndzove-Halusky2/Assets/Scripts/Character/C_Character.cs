@@ -11,16 +11,20 @@ public class C_Character : Photon.MonoBehaviour {
     public static event PlayerStart PlayerReady;
 
     [Header("Network Attributes")]
-    public string loginName;
     public string Team;
-    public int count = 0;
 
     [Header("Attributes")]
     public float Health;
     public float maxHealth = 10f;
     public float healthRecoverySpeed = 0.1f;
     public float movementSpeed;
-    public Texture headTex, bodyTex;
+    public string username;
+    public string userpass;
+    public string headtex;
+    public string bodytex;
+    public string weapon;
+    public Material redMaterial;
+    public Material blueMaterial;
 
     // do not assign these values in editor
     public W_Weapon leftWeapon, rightWeapon;
@@ -33,13 +37,23 @@ public class C_Character : Photon.MonoBehaviour {
         // on spawn from network manager
         if (photonView.isMine)
         {
+            gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            // grab values needed from gamemanager
+            username = gameManager.username;
+            userpass = gameManager.userpass;
+            headtex = gameManager.headtex;
+            bodytex = gameManager.bodytex;
+            weapon = gameManager.weapon;
+            // apply values
+            transform.Find("CharacterBody").GetComponent<Renderer>().material = gameManager.characterTexDict[bodytex];
+            transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
+            // weapon values are assigned after team is chosen, as colour of weapon needs to change
+
             if (PhotonNetwork.isMasterClient == true)
             {
                 Debug.Log("I am master client, setting reference to GameManager");
-                gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
                 Debug.Log("Press V to see how many parts a team has painted");
             }
-            else gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 
             // pick a team based on players in server send as buffed so others that join know
             int rand = Random.Range(0, 3);
@@ -168,15 +182,19 @@ public class C_Character : Photon.MonoBehaviour {
         GameObject localL_Gun;
         Transform L_gunSlot = transform.Find("CharacterBody/CharacterLArm/LGunSlot");
 
+        localL_Gun = (GameObject)PhotonNetwork.Instantiate(weapon, L_gunSlot.transform.position + new Vector3(0, 0.1f, 0), transform.rotation, 0); // weapon = a string taken from the database, which must match the name of the weapon in the resources folder
+        localL_Gun.transform.parent = L_gunSlot;
+
+        // change colour == Team
         if (Team == "Red")
         {
-            localL_Gun = (GameObject)PhotonNetwork.Instantiate("RedMachineGun", L_gunSlot.transform.position + new Vector3(0, 0.1f, 0), transform.rotation, 0);
-            localL_Gun.transform.parent = L_gunSlot;
+            localL_Gun.transform.GetChild(0).GetComponent<Renderer>().material = redMaterial;
+            localL_Gun.transform.GetChild(1).GetComponent<Renderer>().material = redMaterial;
         }
         else
         {
-            localL_Gun = (GameObject)PhotonNetwork.Instantiate("BlueMachineGun", L_gunSlot.transform.position + new Vector3(0, 0.1f, 0), transform.rotation, 0);
-            localL_Gun.transform.parent = L_gunSlot;
+            localL_Gun.transform.GetChild(0).GetComponent<Renderer>().material = blueMaterial;
+            localL_Gun.transform.GetChild(1).GetComponent<Renderer>().material = blueMaterial;
         }
 
         leftWeapon = localL_Gun.GetComponent<W_Weapon>();

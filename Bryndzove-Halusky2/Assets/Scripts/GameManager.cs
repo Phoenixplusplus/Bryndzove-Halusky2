@@ -4,6 +4,22 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    [Header("Player Database Values")]
+    public string username;
+    public string userpass;
+    public string headtex;
+    public string bodytex;
+    public string weapon;
+
+    // player configuration dictionaries
+    public Dictionary<string, Material> characterTexDict;
+    public Material defaultHead;
+    public Material defaultBody;
+    public Dictionary<string, GameObject> characterWeaponDict;
+    public GameObject defaultPistol;
+    public GameObject defaultMachineGun;
+    public GameObject defaultShotgun;
+
     [Header("-- Runtime Game Stats --")]
     [Header("Round")]
     public float roundTime = 120f;
@@ -38,6 +54,15 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        // initialise dictionaries and add values from strings taken from their account in the database
+        characterTexDict = new Dictionary<string, Material>();
+        characterTexDict.Add("defaultHead", defaultHead);
+        characterTexDict.Add("defaultBody", defaultBody);
+        characterWeaponDict = new Dictionary<string, GameObject>();
+        characterWeaponDict.Add("defaultPistol", defaultPistol);
+        characterWeaponDict.Add("defaultMachineGun", defaultMachineGun);
+        characterWeaponDict.Add("defaultShotgun", defaultShotgun);
+
         // initialise splat decals pool
         SplatDecals = new GameObject[splatDecalsSize];
         for (int i = 0; i < splatDecalsSize; i++)
