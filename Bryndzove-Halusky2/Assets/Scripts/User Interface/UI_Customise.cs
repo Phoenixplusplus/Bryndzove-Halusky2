@@ -108,7 +108,7 @@ public class UI_Customise : MonoBehaviour {
     {
         Destroy(sampleDude.transform.Find("CharacterBody/CharacterLArm/LGunSlot").transform.GetChild(0).gameObject);
 
-        if (currentWeapon < 9) currentWeapon++;
+        if (currentWeapon < 3) currentWeapon++;
         else currentWeapon = 1;
 
         GameObject localL_Gun;
