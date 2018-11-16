@@ -17,7 +17,6 @@ public class C_Character : Photon.MonoBehaviour {
     public float Health;
     public float maxHealth = 10f;
     public float healthRecoverySpeed = 0.1f;
-    public float movementSpeed;
     public string username;
     public string userpass;
     public string headtex;

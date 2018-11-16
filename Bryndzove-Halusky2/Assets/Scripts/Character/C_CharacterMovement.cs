@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    public float mouseSensitivity = 3f, movementSpeed = 10f;
+    public float mouseSensitivity = 3f, movementSpeed = 6f;
     public float WS, AD;
     public Vector3 localVelocity;
     bool isJumping = false;
+    Rigidbody rb;
 
     void Awake()
     {
@@ -17,7 +18,7 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-
+        rb = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -25,17 +26,17 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     {
         if (photonView.isMine)
         {
-            Move();
+            Movement();
             RotateWithMouseX();
         }
     }
 
     // local
-    void Move()
+    void Movement()
     {
         // move on keyboard input
-        AD = Input.GetAxis("Horizontal") * Time.deltaTime;
-        WS = Input.GetAxis("Vertical") * Time.deltaTime;
+        AD = Input.GetAxis("Horizontal") * Time.fixedDeltaTime;
+        WS = Input.GetAxis("Vertical") * Time.fixedDeltaTime;
 
         localVelocity = new Vector3(AD, 0, WS);
         transform.Translate(AD * movementSpeed, 0, WS * movementSpeed);

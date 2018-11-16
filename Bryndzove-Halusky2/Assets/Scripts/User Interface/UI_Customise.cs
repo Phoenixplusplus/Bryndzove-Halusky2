@@ -90,7 +90,7 @@ public class UI_Customise : MonoBehaviour {
     // button functions
     public void HeadUp()
     {
-        if (currentHeadTex < 3) currentHeadTex++;
+        if (currentHeadTex < 9) currentHeadTex++;
         else currentHeadTex = 1;
         sampleDude.transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = gameManager.characterTexDict["Head" + currentHeadTex];
         sampleDude.transform.Find("CharacterBody/CharacterLArm").GetComponent<Renderer>().material = gameManager.characterTexDict["Head" + currentHeadTex];
@@ -99,7 +99,7 @@ public class UI_Customise : MonoBehaviour {
 
     public void BodyUp()
     {
-        if (currentBodyTex < 3) currentBodyTex++;
+        if (currentBodyTex < 9) currentBodyTex++;
         else currentBodyTex = 1;
         sampleDude.transform.Find("CharacterBody").GetComponent<Renderer>().material = gameManager.characterTexDict["Body" + currentBodyTex];
     }
@@ -108,7 +108,7 @@ public class UI_Customise : MonoBehaviour {
     {
         Destroy(sampleDude.transform.Find("CharacterBody/CharacterLArm/LGunSlot").transform.GetChild(0).gameObject);
 
-        if (currentWeapon < 3) currentWeapon++;
+        if (currentWeapon < 9) currentWeapon++;
         else currentWeapon = 1;
 
         GameObject localL_Gun;

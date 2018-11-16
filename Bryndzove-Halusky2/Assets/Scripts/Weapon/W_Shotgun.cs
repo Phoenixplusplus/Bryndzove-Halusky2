@@ -10,7 +10,7 @@ public class W_Shotgun : W_Weapon {
         ammoCount = 8;
         shotDelay = 1.0f;
         reloadDelay = 3f;
-        shotSpeed = 30f;
+        shotSpeed = 50f;
     }
 
     // Use this for initialization

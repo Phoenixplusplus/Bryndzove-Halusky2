@@ -16,9 +16,21 @@ public class GameManager : MonoBehaviour {
     public Material Head1;
     public Material Head2;
     public Material Head3;
+    public Material Head4;
+    public Material Head5;
+    public Material Head6;
+    public Material Head7;
+    public Material Head8;
+    public Material Head9;
     public Material Body1;
     public Material Body2;
     public Material Body3;
+    public Material Body4;
+    public Material Body5;
+    public Material Body6;
+    public Material Body7;
+    public Material Body8;
+    public Material Body9;
     public Dictionary<string, GameObject> characterWeaponDict;
     public GameObject Weapon1; // pistol
     public GameObject Weapon2; // machinegun
@@ -63,9 +75,21 @@ public class GameManager : MonoBehaviour {
         characterTexDict.Add("Head1", Head1);
         characterTexDict.Add("Head2", Head2);
         characterTexDict.Add("Head3", Head3);
+        characterTexDict.Add("Head4", Head4);
+        characterTexDict.Add("Head5", Head5);
+        characterTexDict.Add("Head6", Head6);
+        characterTexDict.Add("Head7", Head7);
+        characterTexDict.Add("Head8", Head8);
+        characterTexDict.Add("Head9", Head9);
         characterTexDict.Add("Body1", Body1);
         characterTexDict.Add("Body2", Body2);
         characterTexDict.Add("Body3", Body3);
+        characterTexDict.Add("Body4", Body4);
+        characterTexDict.Add("Body5", Body5);
+        characterTexDict.Add("Body6", Body6);
+        characterTexDict.Add("Body7", Body7);
+        characterTexDict.Add("Body8", Body8);
+        characterTexDict.Add("Body9", Body9);
         characterWeaponDict = new Dictionary<string, GameObject>();
         characterWeaponDict.Add("Weapon1", Weapon1);
         characterWeaponDict.Add("Weapon2", Weapon2);
