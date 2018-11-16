@@ -189,13 +189,21 @@ public class C_Character : Photon.MonoBehaviour {
         // change colour == Team
         if (Team == "Red")
         {
-            localL_Gun.transform.GetChild(0).GetComponent<Renderer>().material = redMaterial;
-            localL_Gun.transform.GetChild(1).GetComponent<Renderer>().material = redMaterial;
+            if (!weapon.Contains("3"))
+            {
+                localL_Gun.transform.GetChild(0).GetComponent<Renderer>().material = redMaterial;
+                localL_Gun.transform.GetChild(1).GetComponent<Renderer>().material = redMaterial;
+            }
+            else localL_Gun.transform.GetComponent<Renderer>().material = redMaterial;
         }
         else
         {
-            localL_Gun.transform.GetChild(0).GetComponent<Renderer>().material = blueMaterial;
-            localL_Gun.transform.GetChild(1).GetComponent<Renderer>().material = blueMaterial;
+            if (!weapon.Contains("3"))
+            {
+                localL_Gun.transform.GetChild(0).GetComponent<Renderer>().material = blueMaterial;
+                localL_Gun.transform.GetChild(1).GetComponent<Renderer>().material = blueMaterial;
+            }
+            else localL_Gun.transform.GetComponent<Renderer>().material = blueMaterial;
         }
 
         leftWeapon = localL_Gun.GetComponent<W_Weapon>();
