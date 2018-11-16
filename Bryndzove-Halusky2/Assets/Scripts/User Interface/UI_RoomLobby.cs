@@ -50,7 +50,7 @@ public class UI_RoomLobby : NetworkManager
 
 
         // Initialize chat, pass in chat input box and chat content
-        m_Chat = new Chat(  this.gameObject.transform.GetChild(11).GetComponent<InputField>(), this.gameObject.transform.GetChild(10).transform.GetChild(0).transform.GetChild(0).gameObject);
+        m_Chat = new Chat(  this.gameObject.transform.GetChild(11).GetComponent<InputField>(), this.gameObject.transform.GetChild(10).transform.GetChild(0).transform.GetChild(0).gameObject, photonView);
     }
 
     void Update()
@@ -123,6 +123,9 @@ public class UI_RoomLobby : NetworkManager
     {
         GM.redTeam = new TeamInfo(PhotonNetwork.room.MaxPlayers, true, false);
         GM.blueTeam = new TeamInfo(PhotonNetwork.room.MaxPlayers, false, true);
+
+
+        m_Chat.PlayerJoinedRoomSendMessage(PhotonNetwork.player.NickName);
 
         // Assign maximum count of players in one team
         MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM = PhotonNetwork.room.MaxPlayers / 2;

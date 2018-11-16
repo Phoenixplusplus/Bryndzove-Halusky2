@@ -66,4 +66,5 @@ MonoBehaviour:
   - IsMasterKickingMe
   - PlayerLeft
   - OnNewMaster
+  - PlayerJoinedRoom
   DisableAutoOpenWizard: 1
