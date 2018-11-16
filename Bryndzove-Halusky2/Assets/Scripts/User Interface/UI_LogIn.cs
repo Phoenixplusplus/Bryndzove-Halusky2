@@ -22,14 +22,26 @@ public class UI_LogIn : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void Update ()
+    void Update()
     {
         if (Database.loginBool == true) { LoginFinished(); }
         else { loginReply.text = Database.loginReply; }
 
-        if (Input.GetKeyDown(KeyCode.Return) && gameObject.transform.GetChild(1).gameObject.activeInHierarchy == true)
+        if ((Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter)) && gameObject.transform.GetChild(1).gameObject.activeInHierarchy == true)
         {
             Database.Login(m_NickName.text, m_PassName.text);
+        }
+
+        // If player is typing down his login or password and press tab, change focus to other input field
+        if (m_NickName.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            m_NickName.DeactivateInputField();
+            m_PassName.ActivateInputField();
+        }
+        else if (m_PassName.isFocused && Input.GetKeyDown(KeyCode.Tab))
+        {
+            m_NickName.ActivateInputField();
+            m_PassName.DeactivateInputField();
         }
     }
 
@@ -37,12 +49,10 @@ public class UI_LogIn : MonoBehaviour {
     private void LoginFinished()
     {
         loginReply.text = Database.createAccountReply;
-
         PhotonNetwork.player.NickName = m_NickName.text;
         this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
         this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
         this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
-
         enabled = false;
     }
 }
