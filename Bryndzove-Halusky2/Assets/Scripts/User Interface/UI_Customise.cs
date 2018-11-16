@@ -68,6 +68,8 @@ public class UI_Customise : MonoBehaviour {
         RoomsSelection.SetActive(true);
         MainButtonsSelection.SetActive(true);
         CustomiseMenu.SetActive(false);
+
+        Destroy(sampleDude.transform.Find("CharacterBody/CharacterLArm/LGunSlot").transform.GetChild(0).gameObject);
     }
 
     public void SetupDude()
