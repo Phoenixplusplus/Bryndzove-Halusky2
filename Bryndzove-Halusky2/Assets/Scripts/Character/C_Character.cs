@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
@@ -27,7 +28,6 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
     // do not assign these values in editor
     public W_Weapon leftWeapon, rightWeapon;
-
     private bool autoFire;
 
     // Use this for initialization
@@ -212,8 +212,105 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         else autoFire = false;
     }
 
-    public void OnPickUp()
+    // interace function on picking up pickup item
+    public void OnPickUp(PickupType pickupType)
     {
-        Debug.Log("lol");
+        switch (pickupType)
+        {
+            case PickupType.AmmoUp:
+                {
+                    Debug.Log(username + " got ammo box");
+                    StartCoroutine(OnAmmoPickup(leftWeapon.ammoCount, 5f));
+                    return;
+                }
+            case PickupType.HealthUp:
+                {
+                    Debug.Log(username + " got health box");
+                    StartCoroutine(OnHealthPickup(1f));
+                    return;
+                }
+            case PickupType.SpeedUp:
+                {
+                    Debug.Log(username + " got speed box");
+                    StartCoroutine(OnSpeedPickup(this.GetComponent<C_CharacterMovement>().movementSpeed, 5f));
+                    return;
+                }
+        }
+    }
+
+    // on ammo pickup, set players ammo to basically infinite for a short period of time
+    IEnumerator OnAmmoPickup(int currentAmmo, float time)
+    {
+        GameObject AmmoUpObj = GameObject.Find("_UI/CharacterUI/AmmoUpText");
+        Text AmmoUpText = AmmoUpObj.GetComponent<Text>();
+        AmmoUpObj.SetActive(true);
+
+        float ammoTime = 0f;
+
+        if (leftWeapon.ammoCount != 100) // check to see if they haven't got the effect already
+        {
+
+            while (ammoTime < time)
+            {
+                ammoTime += Time.deltaTime;
+                leftWeapon.ammoCount = 100;
+                AmmoUpText.text = "INFINITE AMMO! : " + (time - ammoTime).ToString("0.0");
+                yield return null;
+            }
+
+            AmmoUpObj.SetActive(false);
+            leftWeapon.ammoCount = currentAmmo;
+            yield break;
+        }
+        else yield break;
+    }
+
+    // on speed pickup, set players speed to + 5 for a short period of time
+    IEnumerator OnSpeedPickup(float currentSpeed, float time)
+    {
+        C_CharacterMovement characterMovement;
+        characterMovement = this.GetComponent<C_CharacterMovement>();
+        GameObject SpeedUpObj = GameObject.Find("_UI/CharacterUI/SpeedUpText");
+        Text SpeedUpText = SpeedUpObj.GetComponent<Text>();
+        SpeedUpObj.SetActive(true);
+
+        if (characterMovement.movementSpeed != 13f) // check to see if they haven't got the effect already
+        {
+
+            float speedTime = 0f;
+            while (speedTime < time)
+            {
+                speedTime += Time.deltaTime;
+                characterMovement.movementSpeed = 13f;
+                SpeedUpText.text = "SPEED UP! : " + (time - speedTime).ToString("0.0");
+                yield return null;
+            }
+
+            SpeedUpObj.SetActive(false);
+            characterMovement.movementSpeed = currentSpeed;
+            yield break;
+        }
+        else yield break;
+    }
+
+    // on health pickup, set players health to max, no coroutine needed
+    IEnumerator OnHealthPickup(float time)
+    {
+        GameObject HealthUpObj = GameObject.Find("_UI/CharacterUI/HealthUpText");
+        Text HealthUpText = HealthUpObj.GetComponent<Text>();
+        HealthUpObj.SetActive(true);
+
+        Health = maxHealth;
+
+        float healthTime = 0f;
+        while (healthTime < time)
+        {
+            healthTime += Time.deltaTime;
+            HealthUpText.text = "HEALTH RECOVERED!";
+            yield return null;
+        }
+
+        HealthUpObj.SetActive(false);
+        yield break;
     }
 }

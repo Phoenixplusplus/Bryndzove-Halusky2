@@ -8,8 +8,8 @@ public class W_Shotgun : W_Weapon {
     {
         clipSize = 8;
         ammoCount = 8;
-        shotDelay = 1.0f;
-        reloadDelay = 3f;
+        shotDelay = 0.2f;
+        reloadDelay = 2f;
         shotSpeed = 50f;
     }
 
@@ -52,10 +52,12 @@ public class W_Shotgun : W_Weapon {
     [PunRPC]
     public void CreatePaintballRPC(Vector3 position, Quaternion rotation, Vector3 colour, float speed, string team)
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().SetPaintball(position, rotation, colour, speed, team);
-        if (!base.photonView.isMine)
+        for (int i = 0; i < 6; i++)
         {
-            Debug.Log("Other player fired");
+            Quaternion originalRot = rotation;
+            rotation.eulerAngles += new Vector3(Random.Range(-5f, 5f), Random.Range(-5f, 5f), 0);
+            GameObject.Find("GameManager").GetComponent<GameManager>().SetPaintball(position, rotation, colour, speed, team);
+            rotation = originalRot;
         }
     }
 }

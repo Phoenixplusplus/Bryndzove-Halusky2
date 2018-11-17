@@ -53,9 +53,5 @@ public class W_Pistol : W_Weapon {
     public void CreatePaintballRPC(Vector3 position, Quaternion rotation, Vector3 colour, float speed, string team)
     {
         GameObject.Find("GameManager").GetComponent<GameManager>().SetPaintball(position, rotation, colour, speed, team);
-        if (!base.photonView.isMine)
-        {
-            Debug.Log("Other player fired");
-        }
     }
 }

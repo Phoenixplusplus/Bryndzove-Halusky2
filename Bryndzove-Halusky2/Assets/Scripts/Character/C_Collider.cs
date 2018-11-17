@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class C_Collider : MonoBehaviour, ICanPickup {
 
-    public void OnPickUp() { }
+    public void OnPickUp(PickupType pickupType) { }
 
 }

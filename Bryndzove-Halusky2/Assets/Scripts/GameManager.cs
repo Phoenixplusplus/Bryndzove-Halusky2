@@ -57,13 +57,13 @@ public class GameManager : MonoBehaviour {
     [Tooltip("This must be assigned a value, or shader will complain :'(")]
     public Material defaultMaterial;
     private GameObject[] SplatDecals;
-    public int splatDecalsSize = 5;
+    public int splatDecalsSize = 200;
     public Vector3 decalsStartPosition = new Vector3(0, -10, 0);
     private int currentDecal = 0;
     [Header("Paintballs")]
     public GameObject Paintball;
     private GameObject[] Paintballs;
-    public int paintballsSize = 5;
+    public int paintballsSize = 100;
     public Vector3 paintballsStartPosition = new Vector3(0, -10, 0);
     private int currentPaintball = 0;
 

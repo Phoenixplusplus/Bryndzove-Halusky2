@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface ICanPickup
 {
-    void OnPickUp();
+    void OnPickUp(PickupType pickupType);
 }

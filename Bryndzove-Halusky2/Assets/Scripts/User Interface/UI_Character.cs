@@ -13,6 +13,7 @@ public class UI_Character : MonoBehaviour {
     Slider ammoSlider;
     Slider healthSlider;
     Text roundTime;
+    public Text AmmoUpText, SpeedUpText, HealthUpText;
 
     bool runUpdate = false;
 

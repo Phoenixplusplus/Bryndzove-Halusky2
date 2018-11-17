@@ -61,28 +61,6 @@ public class Pickup : MonoBehaviour {
         Bounce(bounceHeight);
 	}
 
-    public virtual void PickupEffect(GameObject other)
-    {
-        switch (pickUpType)
-        {
-            case PickupType.AmmoUp:
-                {
-                    Debug.Log(other.GetComponent<C_Character>().username + " got ammo box");
-                    return;
-                }
-            case PickupType.HealthUp:
-                {
-                    Debug.Log(other.GetComponent<C_Character>().username + " got health box");
-                    return;
-                }
-            case PickupType.SpeedUp:
-                {
-                    Debug.Log(other.GetComponent<C_Character>().username + " got speed box");
-                    return;
-                }
-        }
-    }
-
     void Bounce(float distance)
     {
         if (movingUp == true)
@@ -97,14 +75,14 @@ public class Pickup : MonoBehaviour {
         }
     }
 
-    // when any player collides, start coroutine to hide for a amount of time, and do an effect to player
+    // when any player with ICanPickup Interface collides, start coroutine to hide for a amount of time, and do an effect to player
     void OnTriggerEnter(Collider other)
     {
         ICanPickup something = other.GetComponent<ICanPickup>();
         if (something != null)
         {
-            //something.OnPickUp();
-            PickupEffect(other.gameObject.transform.parent.gameObject);
+            // because there is a collider that actually detects the interface collision, we must get the parent transform that has the real function we want to call
+            other.transform.parent.GetComponent<ICanPickup>().OnPickUp(pickUpType);
             StartCoroutine(HidePickUp());
         }
     }
