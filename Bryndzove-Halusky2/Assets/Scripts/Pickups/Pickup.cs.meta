@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: ad8fa9754a2bcbf4ea289aa2a6c21f8f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - baseMaterial: {instanceID: 0}
+  - secondaryMaterial1: {instanceID: 0}
+  - secondaryMaterial2: {instanceID: 0}
+  - secondaryMaterial3: {instanceID: 0}
+  - secondaryMaterial4: {instanceID: 0}
+  - secondaryMaterial5: {instanceID: 0}
+  - ammoUp: {instanceID: 0}
+  - speedUp: {instanceID: 0}
+  - healthUp: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

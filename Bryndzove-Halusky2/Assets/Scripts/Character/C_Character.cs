@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class C_Character : Photon.MonoBehaviour {
+public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
     private GameManager gameManager;
 
@@ -210,5 +210,10 @@ public class C_Character : Photon.MonoBehaviour {
         leftWeapon.enabled = true;
         if (leftWeapon.name.Contains("Weapon2")) autoFire = true;
         else autoFire = false;
+    }
+
+    public void OnPickUp()
+    {
+        Debug.Log("lol");
     }
 }

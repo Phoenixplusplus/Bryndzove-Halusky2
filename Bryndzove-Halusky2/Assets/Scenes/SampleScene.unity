@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824833, g: 0.49827534, b: 0.57558256, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824868, g: 0.49827552, b: 0.5755828, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2482,7 +2482,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2015930738}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99957734
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -5487,7 +5487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000018088125, y: -0.000029463683}
+  m_AnchoredPosition: {x: 0.0000018088125, y: 0.000021620956}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &397679362
@@ -6897,7 +6897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   IsGameRunning: 0
-  Character: {fileID: 1396422644663516, guid: bfe21ac75eb76a146b625d8e959a0433, type: 2}
+  Character: {fileID: 1161968217463036, guid: 235e8c857c7cba14bbccc09c1ae5708c, type: 2}
 --- !u!114 &491140184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7896,7 +7896,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 371148418}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -9763,6 +9763,53 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 671127553}
   m_CullTransparentMesh: 0
+--- !u!1001 &689500177
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4751501461695880, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 114160953849157910, guid: ab309d7a78c19db4a99bca57c14f5790,
+        type: 2}
+      propertyPath: pickUpType
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ab309d7a78c19db4a99bca57c14f5790, type: 2}
+  m_IsPrefabAsset: 0
 --- !u!1 &690664552
 GameObject:
   m_ObjectHideFlags: 0
@@ -10786,7 +10833,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4991726362896746, guid: 476c43b51e6a36244bc3419821989317, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 114616935030843188, guid: 476c43b51e6a36244bc3419821989317,
         type: 2}
@@ -14025,7 +14072,7 @@ Transform:
   - {fileID: 170076735}
   - {fileID: 1469319415}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975456786
 GameObject:
@@ -24503,7 +24550,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1567187854
