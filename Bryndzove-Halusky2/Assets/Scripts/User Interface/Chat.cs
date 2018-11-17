@@ -44,7 +44,7 @@ public class Chat : Photon.MonoBehaviour
         // Assign chat content
         m_content = newContent;
         // Load text prefab from memory
-        m_textObject = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Chat_Text.prefab", typeof(GameObject));
+        //m_textObject = (GameObject)AssetDatabase.LoadAssetAtPath("Assets/Prefabs/Chat_Text.prefab", typeof(GameObject));
         // Decide what chat type is it
         m_chatType = 0;
 

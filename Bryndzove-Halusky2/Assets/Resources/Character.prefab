@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 3
-  movementSpeed: 6
+  movementSpeed: 5
   WS: 0
   AD: 0
   localVelocity: {x: 0, y: 0, z: 0}

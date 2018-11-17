@@ -245,7 +245,7 @@ MonoBehaviour:
   pickUpType: 1
   bounceHeight: 0.5
   rotateRate: 90
-  hideTime: 5
+  hideTime: 10
   baseMaterial: {fileID: 2100000, guid: 8c4c658d27d1d4c40bb329599e3ddcd0, type: 2}
   secondaryMaterial1: {fileID: 2100000, guid: 63ea7443ba134a64d8793c32ac23b28a, type: 2}
   secondaryMaterial2: {fileID: 2100000, guid: 4a4d8858cb03423498956c7e6511d4fc, type: 2}

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    public float mouseSensitivity = 3f, movementSpeed = 6f;
+    public float mouseSensitivity = 3f, movementSpeed = 5f;
     public float WS, AD;
     public Vector3 localVelocity;
     bool isJumping = false;

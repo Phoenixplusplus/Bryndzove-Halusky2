@@ -8,6 +8,7 @@ public class W_Weapon : Photon.MonoBehaviour {
     public GameObject Paintball;
 
     [Header("Attributes")]
+    public string Owner;
     public int clipSize;
     public int ammoCount;
     public float reloadDelay;
@@ -88,6 +89,11 @@ public class W_Weapon : Photon.MonoBehaviour {
         ammoCount = clipSize;
         Debug.Log("Ammo now " + ammoCount);
         yield break;
+    }
+
+    [PunRPC] public void SetOwner(string name)
+    {
+        Owner = name;
     }
 
 }

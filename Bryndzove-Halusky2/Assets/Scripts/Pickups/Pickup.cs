@@ -10,7 +10,7 @@ public class Pickup : MonoBehaviour {
     public PickupType pickUpType;
     public float bounceHeight = 0.5f;
     public float rotateRate = 90f;
-    public float hideTime = 5f;
+    public float hideTime = 10f;
 
     [Header("Materials")]
     public Material baseMaterial;

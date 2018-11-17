@@ -67,4 +67,6 @@ MonoBehaviour:
   - PlayerLeft
   - OnNewMaster
   - PlayerJoinedRoom
+  - SendPlayerInfo
+  - SetOwner
   DisableAutoOpenWizard: 1

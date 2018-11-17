@@ -61,7 +61,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             photonView.RPC("PickTeam", PhotonTargets.AllBuffered, rand);
 
             MoveToSpawnPoint();
-            AttachWeapon();
+            AttachWeapon(gameObject, weapon);
+            photonView.RPC("SendPlayerInfo", PhotonTargets.OthersBuffered, new object[] { username, userpass, headtex, bodytex, weapon });
 
             Health = maxHealth;
 
@@ -161,6 +162,62 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         }
     }
 
+    // main function to send a users data to all other users, so they can texture them and attach their weapon, on start
+    [PunRPC] void SendPlayerInfo(string RPCusername, string RPCuserpass, string RPCheadtex, string RPCbodytex, string RPCweapon)
+    {
+        username = RPCusername;
+        userpass = RPCuserpass;
+        headtex = RPCheadtex;
+        bodytex = RPCbodytex;
+        weapon = RPCweapon;
+
+        // loop through all characters
+        GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
+
+        for (int i = 0; i < playerRefs.Length; i++)
+        {
+            if (playerRefs[i].GetComponent<C_Character>().username == RPCusername)
+            {
+                // if their username is the same as on one recieved in RPC, change their materials based on strings that was send in rpc too
+                playerRefs[i].transform.Find("CharacterBody").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCbodytex];
+                playerRefs[i].transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCheadtex];
+                playerRefs[i].transform.Find("CharacterBody/CharacterLArm").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCheadtex];
+                playerRefs[i].transform.Find("CharacterBody/CharacterRArm").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCheadtex];
+
+                // now find the weapon that belongs to the found player and attach/material it
+                GameObject[] weaponRefs = GameObject.FindGameObjectsWithTag("Weapon");
+
+                for (int w = 0; w < weaponRefs.Length; w++)
+                {
+                    if (weaponRefs[w].GetComponent<W_Weapon>().Owner == RPCusername)
+                    {
+                        // change colour == Team
+                        if (playerRefs[i].GetComponent<C_Character>().Team == "Red")
+                        {
+                            if (!weaponRefs[w].name.Contains("3"))
+                            {
+                                weaponRefs[w].transform.GetChild(0).GetComponent<Renderer>().material = redMaterial;
+                                weaponRefs[w].transform.GetChild(1).GetComponent<Renderer>().material = redMaterial;
+                            }
+                            else weaponRefs[w].transform.GetComponent<Renderer>().material = redMaterial;
+                        }
+                        else
+                        {
+                            if (!weaponRefs[w].name.Contains("3"))
+                            {
+                                weaponRefs[w].transform.GetChild(0).GetComponent<Renderer>().material = blueMaterial;
+                                weaponRefs[w].transform.GetChild(1).GetComponent<Renderer>().material = blueMaterial;
+                            }
+                            else weaponRefs[w].transform.GetComponent<Renderer>().material = blueMaterial;
+                        }
+                        weaponRefs[w].transform.parent = playerRefs[i].transform.Find("CharacterBody/CharacterLArm/LGunSlot");
+                        weaponRefs[w].transform.localScale = new Vector3(3.33f, 2.5f, 1.66f); // do not forget to set the scale of other peoples weapons or they will scale strangely when being childed to something. This value is uniform for all weapons anyway
+                    }
+                }
+            }
+        }
+    }
+
     void MoveToSpawnPoint()
     {
         // move to spawn point
@@ -177,7 +234,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         }
     }
 
-    void AttachWeapon()
+    void AttachWeapon(GameObject root, string weapon)
     {
         // spawn weapon
         GameObject localL_Gun;
@@ -185,6 +242,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
         localL_Gun = (GameObject)PhotonNetwork.Instantiate(weapon, L_gunSlot.transform.position + new Vector3(0, 0.1f, 0), transform.rotation, 0); // weapon = a string taken from the database, which must match the name of the weapon in the resources folder
         localL_Gun.transform.parent = L_gunSlot;
+        localL_Gun.GetPhotonView().RPC("SetOwner", PhotonTargets.AllBuffered, username);
 
         // change colour == Team
         if (Team == "Red")
@@ -215,26 +273,29 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     // interace function on picking up pickup item
     public void OnPickUp(PickupType pickupType)
     {
-        switch (pickupType)
+        if (photonView.isMine)
         {
-            case PickupType.AmmoUp:
-                {
-                    Debug.Log(username + " got ammo box");
-                    StartCoroutine(OnAmmoPickup(leftWeapon.ammoCount, 5f));
-                    return;
-                }
-            case PickupType.HealthUp:
-                {
-                    Debug.Log(username + " got health box");
-                    StartCoroutine(OnHealthPickup(1f));
-                    return;
-                }
-            case PickupType.SpeedUp:
-                {
-                    Debug.Log(username + " got speed box");
-                    StartCoroutine(OnSpeedPickup(this.GetComponent<C_CharacterMovement>().movementSpeed, 5f));
-                    return;
-                }
+            switch (pickupType)
+            {
+                case PickupType.AmmoUp:
+                    {
+                        Debug.Log(username + " got ammo box");
+                        StartCoroutine(OnAmmoPickup(leftWeapon.ammoCount, 5f));
+                        return;
+                    }
+                case PickupType.HealthUp:
+                    {
+                        Debug.Log(username + " got health box");
+                        StartCoroutine(OnHealthPickup(1f));
+                        return;
+                    }
+                case PickupType.SpeedUp:
+                    {
+                        Debug.Log(username + " got speed box");
+                        StartCoroutine(OnSpeedPickup(this.GetComponent<C_CharacterMovement>().movementSpeed, 5f));
+                        return;
+                    }
+            }
         }
     }
 
@@ -281,7 +342,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             while (speedTime < time)
             {
                 speedTime += Time.deltaTime;
-                characterMovement.movementSpeed = 13f;
+                characterMovement.movementSpeed = 8f;
                 SpeedUpText.text = "SPEED UP! : " + (time - speedTime).ToString("0.0");
                 yield return null;
             }

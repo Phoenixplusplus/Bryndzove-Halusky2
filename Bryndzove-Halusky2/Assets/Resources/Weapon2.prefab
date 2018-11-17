@@ -74,7 +74,7 @@ GameObject:
   - component: {fileID: 114420889334983134}
   m_Layer: 0
   m_Name: Weapon2
-  m_TagString: Untagged
+  m_TagString: Weapon
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -233,6 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Character: {fileID: 0}
   Paintball: {fileID: 1456266222574426, guid: ccc79cfab293de049af0f6a4a4f82dd1, type: 2}
+  Owner: 
   clipSize: 30
   ammoCount: 30
   reloadDelay: 1.5
@@ -247,7 +248,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1627549125480468}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
   m_Name: 
@@ -274,7 +275,7 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114420889334983134}
+  - {fileID: 4258491258053710}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
