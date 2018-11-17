@@ -923,6 +923,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Team: 
+  killedBy: 
   Health: 10
   maxHealth: 10
   healthRecoverySpeed: 0.1
@@ -933,6 +934,8 @@ MonoBehaviour:
   weapon: 
   redMaterial: {fileID: 2100000, guid: 1d0612589fe40004f87d05a155c7daf7, type: 2}
   blueMaterial: {fileID: 2100000, guid: 4b555349d3129c34388991639adb26bb, type: 2}
+  isDead: 0
+  deathSound: {fileID: 8300000, guid: b1426535ee0658f4187a97baaf65ceaf, type: 3}
   leftWeapon: {fileID: 0}
   rightWeapon: {fileID: 0}
 --- !u!136 &136264376085599844

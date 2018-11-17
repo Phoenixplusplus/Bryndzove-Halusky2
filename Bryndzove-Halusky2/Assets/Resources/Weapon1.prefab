@@ -277,7 +277,7 @@ MonoBehaviour:
   ammoCount: 12
   reloadDelay: 0.8
   shotDelay: 0.01
-  shotSound: {fileID: 0}
+  shotSound: {fileID: 8300000, guid: 454671ebe469ca64b8078666a33c990d, type: 3}
   shotSpeed: 50
   Muzzle: {fileID: 0}
   paintballColour: {x: 0, y: 0, z: 0}

@@ -21,14 +21,18 @@ public class P_Paintball : MonoBehaviour {
     public Material[] SplatMaterials;
 
     [Header("Ray Attributes")]
-    private Vector3 hitNormal;
-    private Vector3 hitPosition;
     public LayerMask layerMask;
     public float rayLength = 1000f;
+    private Vector3 hitNormal;
+    private Vector3 hitPosition;
     private GameObject hitObject;
     // ray debugging
     private Vector3 startPosition;
     private Vector3 startForwardPosition;
+
+    [Header("Sound Attributes")]
+    public AudioSource sourceSplats;
+    public AudioClip[] audioSplats;
 
     // Use this for initialization
     void Start ()
@@ -52,6 +56,7 @@ public class P_Paintball : MonoBehaviour {
             // with this, we can store that position and just tell the paintball to splat when we get close enough (by again getting the game manager to position a splay decal from pool)
             if (Vector3.Distance(transform.position, hitPosition) <= 1)
             {
+                AudioSource.PlayClipAtPoint(audioSplats[Random.Range(0, 4)], transform.position);
                 if (Team == "Red")
                 {
                     // red

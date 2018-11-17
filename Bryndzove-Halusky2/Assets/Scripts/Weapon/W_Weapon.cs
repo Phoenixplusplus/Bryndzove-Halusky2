@@ -13,7 +13,7 @@ public class W_Weapon : Photon.MonoBehaviour {
     public int ammoCount;
     public float reloadDelay;
     public float shotDelay;
-    public AudioSource shotSound;
+    public AudioClip shotSound;
     public float shotSpeed;
     public Transform Muzzle;
     public Vector3 paintballColour;
@@ -40,6 +40,7 @@ public class W_Weapon : Photon.MonoBehaviour {
         if (ammoCount <= 0 || isFiring == true || isReloading == true) return false;
 
         ammoCount = ammoCount - 1;
+        AudioSource.PlayClipAtPoint(shotSound, transform.position);
         StartCoroutine(RunShotDelay());
         Debug.Log("Shooting.. Delay of " + shotDelay + " seconds - Paintball colour is " + Paintball.GetComponent<Renderer>().sharedMaterial);
         CreatePaintball();

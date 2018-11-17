@@ -115,6 +115,7 @@ MonoBehaviour:
   Position: {x: 0, y: 0, z: 0}
   Rotation: {x: 0, y: 0, z: 0, w: 0}
   Team: 
+  Owner: 
   Speed: 1
   Timeout: 0
   maxTimeout: 5
@@ -144,6 +145,13 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 311
+  rayLength: 1000
+  sourceSplats: {fileID: 0}
+  audioSplats:
+  - {fileID: 8300000, guid: 24a52a4ebc1014c44a64646aabb01772, type: 3}
+  - {fileID: 8300000, guid: 14cf9e14635dd3e48a24a76f15fdc22c, type: 3}
+  - {fileID: 8300000, guid: 2f0e8a9d0e7321849b7be1d39447e3fe, type: 3}
+  - {fileID: 8300000, guid: 44a8b89f67c1f9545b2561ef8d190209, type: 3}
 --- !u!135 &135945300615241768
 SphereCollider:
   m_ObjectHideFlags: 1

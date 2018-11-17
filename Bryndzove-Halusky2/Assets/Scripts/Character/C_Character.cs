@@ -27,6 +27,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public Material redMaterial;
     public Material blueMaterial;
     public bool isDead = false;
+    public AudioClip deathSound;
     bool isDying = false;
 
     C_CameraMovement localCamera;
@@ -398,6 +399,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         isDead = true;
+        AudioSource.PlayClipAtPoint(deathSound, transform.position);
 
         // enabling death cam to focus on player that killed us
         GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
