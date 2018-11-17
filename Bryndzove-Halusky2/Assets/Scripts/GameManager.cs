@@ -134,7 +134,7 @@ public class GameManager : MonoBehaviour {
     }
 
     // called by any weapon that fires, grab one from the pool and just position it where needed
-    public void SetPaintball(Vector3 position, Quaternion rotation, Vector3 colour, float speed, string team)
+    public void SetPaintball(Vector3 position, Quaternion rotation, Vector3 colour, float speed, string team, string owner)
     {
         Paintballs[currentPaintball].transform.position = position;
         Paintballs[currentPaintball].transform.rotation = rotation;
@@ -142,6 +142,7 @@ public class GameManager : MonoBehaviour {
         P_Paintball pp = Paintballs[currentPaintball].GetComponent<P_Paintball>();
         pp.Speed = speed;
         pp.Team = team;
+        pp.Owner = owner;
         pp.isInit = false;
         pp.PaintballRaycast();
 

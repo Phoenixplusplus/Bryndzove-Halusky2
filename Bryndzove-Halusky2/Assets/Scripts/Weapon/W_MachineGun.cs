@@ -46,12 +46,12 @@ public class W_MachineGun : W_Weapon {
         else paintballColour = new Vector3(0, 0, 1);
 
         photonView.RPC("CreatePaintballRPC", PhotonTargets.All, new object[] 
-        { Muzzle.transform.position, Muzzle.transform.rotation, paintballColour, shotSpeed, Character.Team});
+        { Muzzle.transform.position, Muzzle.transform.rotation, paintballColour, shotSpeed, Character.Team, Owner});
     }
 
     [PunRPC]
-    public void CreatePaintballRPC(Vector3 position, Quaternion rotation, Vector3 colour, float speed, string team)
+    public void CreatePaintballRPC(Vector3 position, Quaternion rotation, Vector3 colour, float speed, string team, string owner)
     {
-        GameObject.Find("GameManager").GetComponent<GameManager>().SetPaintball(position, rotation, colour, speed, team);
+        GameObject.Find("GameManager").GetComponent<GameManager>().SetPaintball(position, rotation, colour, speed, team, owner);
     }
 }

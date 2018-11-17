@@ -8,8 +8,6 @@ public class SpawnPoint : Photon.MonoBehaviour {
     public string Team;
     public bool Occupied = false;
 
-    public int health = 10;
-
 	// Use this for initialization
 	void Start ()
     {
@@ -48,7 +46,6 @@ public class SpawnPoint : Photon.MonoBehaviour {
     {
         Occupied = true;
         Debug.Log(Occupied);
-        if (PhotonNetwork.isMasterClient) health = health - 1;
     }
 
     [PunRPC] void TriggerExit()

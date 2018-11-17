@@ -4,9 +4,13 @@ using UnityEngine;
 
 public class C_CameraMovement : Photon.MonoBehaviour {
 
-    private C_CharacterMovement characterMovement;
     public float cameraSensitivity, cameraSensitivityDamp = 3f;
-    private Vector3 mouseRotation;
+    C_CharacterMovement characterMovement;
+    Vector3 mouseRotation;
+    Vector3 initialPos;
+    Quaternion initialRot;
+    Transform parent;
+    C_Character character;
 
     void Awake()
     {
@@ -18,12 +22,22 @@ public class C_CameraMovement : Photon.MonoBehaviour {
     {
         characterMovement = transform.parent.GetComponent<C_CharacterMovement>();
         cameraSensitivity = characterMovement.mouseSensitivity / cameraSensitivityDamp;
+        initialPos = transform.localPosition;
+        initialRot = transform.localRotation;
+        parent = transform.parent;
+        character = parent.GetComponent<C_Character>();
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
         RotatePitch(355f, 40f); // default =  RotatePitch(355f, 20f);
+
+        if (character.isDead == true)
+        {
+            transform.parent = null;
+            transform.LookAt(parent.transform.position + new Vector3(0f, 1f, 0f));
+        }
     }
 
     // rotate camera only on x axis
@@ -50,5 +64,14 @@ public class C_CameraMovement : Photon.MonoBehaviour {
             Vector3 fixAngle = new Vector3(lowerClamp - 0.01f, transform.localEulerAngles.y, transform.localEulerAngles.z);
             transform.localEulerAngles = fixAngle;
         }
+    }
+
+    public void ResetCamera()
+    {
+        transform.rotation = Quaternion.identity;
+        transform.position = Vector3.zero;
+        transform.parent = parent;
+        transform.localPosition = initialPos;
+        transform.localRotation = initialRot;
     }
 }

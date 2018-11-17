@@ -1637,7 +1637,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2015930738}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99979055
+  m_Size: 0.99982965
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3856,7 +3856,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000018088125, y: 0.023575256}
+  m_AnchoredPosition: {x: 0.0000018088125, y: -0.000010576695}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &397679362
@@ -5871,7 +5871,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371148419}
   m_HandleRect: {fileID: 371148418}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -7297,7 +7297,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: roundTime
+  m_Text: speedText
 --- !u!222 &653758034
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8234,7 +8234,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: roundTime
+  m_Text: ammoText
 --- !u!222 &736334891
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10172,7 +10172,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: roundTime
+  m_Text: healthText
 --- !u!222 &913076170
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14241,6 +14241,81 @@ CanvasRenderer:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1304390457}
+  m_CullTransparentMesh: 0
+--- !u!1 &1306848594
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1306848595}
+  - component: {fileID: 1306848597}
+  - component: {fileID: 1306848596}
+  m_Layer: 5
+  m_Name: DeathText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &1306848595
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306848594}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2124327652}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 1.5, y: 3}
+  m_SizeDelta: {x: 458.59, y: 109.33}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1306848596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306848594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0.16981131, g: 0.16981131, b: 0.16981131, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 42
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 2
+    m_MaxSize: 42
+    m_Alignment: 1
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: deathText
+--- !u!222 &1306848597
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1306848594}
   m_CullTransparentMesh: 0
 --- !u!1 &1324872496
 GameObject:
@@ -18326,7 +18401,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1567187854
@@ -24534,6 +24609,7 @@ RectTransform:
   - {fileID: 736334889}
   - {fileID: 653758032}
   - {fileID: 913076168}
+  - {fileID: 1306848595}
   m_Father: {fileID: 914668983}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -24618,6 +24694,7 @@ MonoBehaviour:
   AmmoUpText: {fileID: 736334890}
   SpeedUpText: {fileID: 653758033}
   HealthUpText: {fileID: 913076169}
+  DeathText: {fileID: 1306848596}
 --- !u!1 &2130705166
 GameObject:
   m_ObjectHideFlags: 0

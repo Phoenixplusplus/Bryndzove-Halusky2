@@ -13,6 +13,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
     [Header("Network Attributes")]
     public string Team;
+    public string killedBy;
 
     [Header("Attributes")]
     public float Health;
@@ -25,6 +26,10 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public string weapon;
     public Material redMaterial;
     public Material blueMaterial;
+    public bool isDead = false;
+    bool isDying = false;
+
+    C_CameraMovement localCamera;
 
     // do not assign these values in editor
     public W_Weapon leftWeapon, rightWeapon;
@@ -65,6 +70,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             photonView.RPC("SendPlayerInfo", PhotonTargets.OthersBuffered, new object[] { username, userpass, headtex, bodytex, weapon });
 
             Health = maxHealth;
+            localCamera = transform.GetChild(1).GetComponent<C_CameraMovement>();
 
             // send event to listeners
             if (PlayerReady != null)
@@ -85,31 +91,38 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         // keyboard input
         if (photonView.isMine)
         {
-            if (autoFire == true)
+            if (!isDead)
             {
-                if (Input.GetMouseButton(0))
+                if (autoFire == true)
                 {
-                    leftWeapon.Fire();
+                    if (Input.GetMouseButton(0))
+                    {
+                        leftWeapon.Fire();
+                    }
                 }
-            }
-            else
-            {
-                if (Input.GetMouseButtonDown(0))
+                else
                 {
-                    leftWeapon.Fire();
+                    if (Input.GetMouseButtonDown(0))
+                    {
+                        leftWeapon.Fire();
+                    }
                 }
-            }
-            if (Input.GetKeyDown(KeyCode.R))
-            {
-                leftWeapon.Reload();
-            }
-            if (Input.GetKeyDown(KeyCode.V))
-            {
-                // debug to check team paint count
-                if (PhotonNetwork.isMasterClient)
+                if (Input.GetKeyDown(KeyCode.R))
                 {
-                    Debug.Log("Red team has painted " + gameManager.redTeamPaintCount + " parts!");
-                    Debug.Log("Blue team has painted " + gameManager.blueTeamPaintCount + " parts!");
+                    leftWeapon.Reload();
+                }
+                if (Input.GetKeyDown(KeyCode.V))
+                {
+                    // debug to check team paint count
+                    if (PhotonNetwork.isMasterClient)
+                    {
+                        Debug.Log("Red team has painted " + gameManager.redTeamPaintCount + " parts!");
+                        Debug.Log("Blue team has painted " + gameManager.blueTeamPaintCount + " parts!");
+                    }
+                }
+                if (Health <= 0)
+                {
+                    CallDeath(3f);
                 }
             }
         }
@@ -374,4 +387,34 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         HealthUpObj.SetActive(false);
         yield break;
     }
+
+    // death coroutine
+    // this is called by the paintball itself when it collides with the player and checks its health
+    public IEnumerator OnDeath(float time)
+    {
+        GameObject DeathTextObj = GameObject.Find("_UI/CharacterUI/DeathText");
+        Text DeathText = DeathTextObj.GetComponent<Text>();
+        DeathTextObj.SetActive(true);
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
+        isDead = true;
+
+        float deathTime = 0f;
+        while (deathTime < time)
+        {
+            deathTime += Time.deltaTime;
+            DeathText.text = "Killed by " + killedBy + " Respawning...";
+            yield return null;
+        }
+
+        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
+        Health = maxHealth;
+        isDead = false;
+        DeathTextObj.SetActive(false);
+        if (photonView.isMine) localCamera.ResetCamera();
+        MoveToSpawnPoint();
+        yield break;
+    }
+
+    public void CallDeath(float time) { StartCoroutine(OnDeath(time)); }
 }

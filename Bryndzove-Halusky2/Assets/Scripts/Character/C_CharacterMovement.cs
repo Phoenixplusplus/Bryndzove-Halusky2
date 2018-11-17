@@ -8,7 +8,7 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     public float WS, AD;
     public Vector3 localVelocity;
     bool isJumping = false;
-    Rigidbody rb;
+    C_Character characterRoot;
 
     void Awake()
     {
@@ -18,7 +18,7 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
+        characterRoot = transform.root.GetComponent<C_Character>();
     }
 
     // Update is called once per frame
@@ -26,8 +26,11 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     {
         if (photonView.isMine)
         {
-            Movement();
-            RotateWithMouseX();
+            if (characterRoot.isDead == false)
+            {
+                Movement();
+                RotateWithMouseX();
+            }
         }
     }
 

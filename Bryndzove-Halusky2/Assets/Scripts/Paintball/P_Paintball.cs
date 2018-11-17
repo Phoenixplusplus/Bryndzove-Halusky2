@@ -10,6 +10,7 @@ public class P_Paintball : MonoBehaviour {
     public Vector3 Position;
     public Quaternion Rotation;
     public string Team;
+    public string Owner;
     public float Speed = 1f;
     public float Timeout = 0f;
     public float maxTimeout = 4f;
@@ -94,6 +95,7 @@ public class P_Paintball : MonoBehaviour {
             C_Character character = other.transform.root.GetComponent<C_Character>();
             if (character.Team != Team)
             {
+                if (character.Health == 1) character.killedBy = Owner;
                 character.Health--;
                 ResetPainball();
             }
