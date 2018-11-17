@@ -33,11 +33,11 @@ public class C_CameraMovement : Photon.MonoBehaviour {
     {
         RotatePitch(355f, 40f); // default =  RotatePitch(355f, 20f);
 
-        if (character.isDead == true)
-        {
-            transform.parent = null;
-            transform.LookAt(parent.transform.position + new Vector3(0f, 1f, 0f));
-        }
+        //if (character.isDead == true)
+        //{
+        //    transform.parent = null;
+        //    transform.LookAt(parent.transform.position + new Vector3(0f, 1f, 0f));
+        //}
     }
 
     // rotate camera only on x axis
@@ -73,5 +73,24 @@ public class C_CameraMovement : Photon.MonoBehaviour {
         transform.parent = parent;
         transform.localPosition = initialPos;
         transform.localRotation = initialRot;
+    }
+
+    public void CallDeathCam(float time, GameObject killedByPlayer)
+    {
+        transform.parent = null;
+        StartCoroutine(EnableDeathCam(time, killedByPlayer));
+    }
+
+    IEnumerator EnableDeathCam(float time, GameObject killedByPlayer)
+    {
+        float deathTime = 0f;
+        while (deathTime < time)
+        {
+            deathTime += Time.deltaTime;
+            transform.LookAt(killedByPlayer.transform.position + new Vector3(0f, 1f, 0f));
+            transform.position = Vector3.Lerp(transform.position, killedByPlayer.transform.position + new Vector3(0, 15f, 0), Time.fixedDeltaTime);
+            yield return null;
+        }
+        yield break;
     }
 }

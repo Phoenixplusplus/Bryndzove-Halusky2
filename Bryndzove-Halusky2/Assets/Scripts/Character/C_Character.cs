@@ -399,6 +399,17 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         isDead = true;
 
+        // enabling death cam to focus on player that killed us
+        GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
+        for (int i = 0; i < playerRefs.Length; i++)
+        {
+            if (playerRefs[i].GetComponent<C_Character>().username == killedBy)
+            {
+                localCamera.CallDeathCam(time, playerRefs[i]);
+                break;
+            }
+        }
+
         float deathTime = 0f;
         while (deathTime < time)
         {
