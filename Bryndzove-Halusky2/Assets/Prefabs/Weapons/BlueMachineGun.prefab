@@ -9,36 +9,18 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1015128890757758}
+  m_RootGameObject: {fileID: 1362689546627228}
   m_IsPrefabAsset: 1
---- !u!1 &1015128890757758
+--- !u!1 &1236948289227798
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4784897472546842}
-  - component: {fileID: 114639686811244688}
-  - component: {fileID: 114598034910289336}
-  - component: {fileID: 114242807285298740}
-  m_Layer: 0
-  m_Name: BlueMachineGun
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!1 &1066788482413068
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4554650317527244}
-  - component: {fileID: 33085204036242928}
-  - component: {fileID: 23346510532564126}
+  - component: {fileID: 4538809881214766}
+  - component: {fileID: 33986266865057216}
+  - component: {fileID: 23236332592930362}
   m_Layer: 0
   m_Name: Clip
   m_TagString: Untagged
@@ -46,31 +28,33 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1528774056438554
+--- !u!1 &1362689546627228
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4120191696641754}
-  - component: {fileID: 33752099990640618}
-  - component: {fileID: 23157394390505680}
+  - component: {fileID: 4529794965959690}
+  - component: {fileID: 114698728119704466}
+  - component: {fileID: 114083353723056548}
+  - component: {fileID: 114805737649266462}
+  - component: {fileID: 114501829867681858}
   m_Layer: 0
-  m_Name: Weapon
+  m_Name: BlueMachineGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!1 &1784979785076034
+--- !u!1 &1677793483063966
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4937229744496300}
+  - component: {fileID: 4834682625488372}
   m_Layer: 0
   m_Name: Muzzle
   m_TagString: Untagged
@@ -78,67 +62,84 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4120191696641754
+--- !u!1 &1819886835214770
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4710386827340788}
+  - component: {fileID: 33937043084778734}
+  - component: {fileID: 23039172303048380}
+  m_Layer: 0
+  m_Name: Weapon
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4529794965959690
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1528774056438554}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -0, y: -0.4316126, z: -0.000000018866388}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4784897472546842}
-  m_RootOrder: 1
+  m_GameObject: {fileID: 1362689546627228}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
+  m_Children:
+  - {fileID: 4538809881214766}
+  - {fileID: 4710386827340788}
+  - {fileID: 4834682625488372}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4554650317527244
+--- !u!4 &4538809881214766
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1066788482413068}
+  m_GameObject: {fileID: 1236948289227798}
   m_LocalRotation: {x: 0.93365085, y: 0, z: 0, w: -0.35818446}
   m_LocalPosition: {x: -0.0000013661243, y: 10.790501, z: -21.24038}
   m_LocalScale: {x: 0.928206, y: 0.928206, z: 1.464862}
   m_Children: []
-  m_Father: {fileID: 4784897472546842}
+  m_Father: {fileID: 4529794965959690}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4784897472546842
+--- !u!4 &4710386827340788
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015128890757758}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.4732513, y: 0.85, z: -1.3295084}
-  m_LocalScale: {x: 0.015, y: 0.015, z: 0.015}
-  m_Children:
-  - {fileID: 4554650317527244}
-  - {fileID: 4120191696641754}
-  - {fileID: 4937229744496300}
-  m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_GameObject: {fileID: 1819886835214770}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -0, y: -0.4316126, z: -0.000000018866388}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4529794965959690}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &4937229744496300
+--- !u!4 &4834682625488372
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1784979785076034}
+  m_GameObject: {fileID: 1677793483063966}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: -0.94, y: 1.0449966, z: 84.7}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 4784897472546842}
+  m_Father: {fileID: 4529794965959690}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!23 &23157394390505680
+--- !u!23 &23039172303048380
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1528774056438554}
+  m_GameObject: {fileID: 1819886835214770}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -170,12 +171,12 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!23 &23346510532564126
+--- !u!23 &23236332592930362
 MeshRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1066788482413068}
+  m_GameObject: {fileID: 1236948289227798}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -205,47 +206,26 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!33 &33085204036242928
+--- !u!33 &33937043084778734
 MeshFilter:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1066788482413068}
-  m_Mesh: {fileID: 4300002, guid: 506b169277ba1804c8f53d01ffd6f646, type: 3}
---- !u!33 &33752099990640618
-MeshFilter:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1528774056438554}
+  m_GameObject: {fileID: 1819886835214770}
   m_Mesh: {fileID: 4300000, guid: 506b169277ba1804c8f53d01ffd6f646, type: 3}
---- !u!114 &114242807285298740
+--- !u!33 &33986266865057216
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1236948289227798}
+  m_Mesh: {fileID: 4300002, guid: 506b169277ba1804c8f53d01ffd6f646, type: 3}
+--- !u!114 &114083353723056548
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015128890757758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a4fa88040a51696468418371350ecfdd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Character: {fileID: 0}
-  Paintball: {fileID: 1456266222574426, guid: ccc79cfab293de049af0f6a4a4f82dd1, type: 2}
-  clipSize: 30
-  ammoCount: 30
-  reloadDelay: 1.5
-  shotDelay: 0.2
-  shotSound: {fileID: 0}
-  shotSpeed: 1
-  Muzzle: {fileID: 0}
-  paintballColour: {x: 0, y: 0, z: 0}
---- !u!114 &114598034910289336
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015128890757758}
+  m_GameObject: {fileID: 1362689546627228}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
@@ -260,22 +240,59 @@ MonoBehaviour:
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
   ObservedComponents:
-  - {fileID: 114639686811244688}
+  - {fileID: 114501829867681858}
   ObservedComponentsFoldoutOpen: 1
   viewIdField: 0
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114639686811244688
+--- !u!114 &114501829867681858
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1015128890757758}
+  m_GameObject: {fileID: 1362689546627228}
   m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sendRate: 20
+  serializedSendRate: 20
+--- !u!114 &114698728119704466
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1362689546627228}
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  IsGameRunning: 0
+  Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
+--- !u!114 &114805737649266462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1362689546627228}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4fa88040a51696468418371350ecfdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Character: {fileID: 0}
+  Paintball: {fileID: 1456266222574426, guid: ccc79cfab293de049af0f6a4a4f82dd1, type: 2}
+  Owner: 
+  clipSize: 30
+  ammoCount: 30
+  reloadDelay: 1.5
+  shotDelay: 0.05
+  shotSound: {fileID: 0}
+  shotSpeed: 30
+  Muzzle: {fileID: 0}
+  paintballColour: {x: 0, y: 0, z: 0}
