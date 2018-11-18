@@ -37,7 +37,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     private bool autoFire;
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         // on spawn from network manager
         if (photonView.isMine)
@@ -84,10 +84,10 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         {
 
         }
-	}
-	
-	// Update is called once per frame
-	void Update ()
+    }
+
+    // Update is called once per frame
+    void Update()
     {
         // keyboard input
         if (photonView.isMine)
@@ -128,7 +128,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             }
         }
     }
-    
+
     [PunRPC] void PickTeam(int rand)
     {
         int redTeamCount = 0;
@@ -318,7 +318,9 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     {
         GameObject AmmoUpObj = GameObject.Find("_UI/CharacterUI/AmmoUpText");
         Text AmmoUpText = AmmoUpObj.GetComponent<Text>();
+        GameObject InfiniteAmmoObj = GameObject.Find("_UI/CharacterUI/InfiniteAmmoIMG");
         AmmoUpObj.SetActive(true);
+        InfiniteAmmoObj.SetActive(true);
 
         float ammoTime = 0f;
 
@@ -329,11 +331,12 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             {
                 ammoTime += Time.deltaTime;
                 leftWeapon.ammoCount = 100;
-                AmmoUpText.text = "INFINITE AMMO! : " + (time - ammoTime).ToString("0.0");
+                AmmoUpText.text = (time - ammoTime).ToString("0.0");
                 yield return null;
             }
 
             AmmoUpObj.SetActive(false);
+            InfiniteAmmoObj.SetActive(false);
             leftWeapon.ammoCount = currentAmmo;
             yield break;
         }
@@ -347,6 +350,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         characterMovement = this.GetComponent<C_CharacterMovement>();
         GameObject SpeedUpObj = GameObject.Find("_UI/CharacterUI/SpeedUpText");
         Text SpeedUpText = SpeedUpObj.GetComponent<Text>();
+        GameObject speedUpObj2 = GameObject.Find("_UI/CharacterUI/SpeedUpIMG");
+        speedUpObj2.SetActive(true);
         SpeedUpObj.SetActive(true);
 
         if (characterMovement.movementSpeed != 13f) // check to see if they haven't got the effect already
@@ -357,10 +362,11 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             {
                 speedTime += Time.deltaTime;
                 characterMovement.movementSpeed = 8f;
-                SpeedUpText.text = "SPEED UP! : " + (time - speedTime).ToString("0.0");
+                SpeedUpText.text = (time - speedTime).ToString("0.0");
                 yield return null;
             }
 
+            speedUpObj2.SetActive(false);
             SpeedUpObj.SetActive(false);
             characterMovement.movementSpeed = currentSpeed;
             yield break;
@@ -371,8 +377,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     // on health pickup, set players health to max, no coroutine needed
     IEnumerator OnHealthPickup(float time)
     {
-        GameObject HealthUpObj = GameObject.Find("_UI/CharacterUI/HealthUpText");
-        Text HealthUpText = HealthUpObj.GetComponent<Text>();
+        GameObject HealthUpObj = GameObject.Find("_UI/CharacterUI/HealthRecoveredIMG");
         HealthUpObj.SetActive(true);
 
         Health = maxHealth;
@@ -381,7 +386,6 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         while (healthTime < time)
         {
             healthTime += Time.deltaTime;
-            HealthUpText.text = "HEALTH RECOVERED!";
             yield return null;
         }
 
@@ -393,13 +397,16 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     // this is called by the paintball itself when it collides with the player and checks its health
     public IEnumerator OnDeath(float time)
     {
-        GameObject DeathTextObj = GameObject.Find("_UI/CharacterUI/DeathText");
-        Text DeathText = DeathTextObj.GetComponent<Text>();
-        DeathTextObj.SetActive(true);
+        GameObject RespawningObj = GameObject.Find("_UI/CharacterUI/RespawningIMG");
+        RespawningObj.SetActive(true);
 
+        // death stuff
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         isDead = true;
         AudioSource.PlayClipAtPoint(deathSound, transform.position);
+
+        // also send RPC to everyone and notify them of death
+        photonView.RPC("NotifyKill", PhotonTargets.All, new object[] { killedBy, username, 2f });
 
         // enabling death cam to focus on player that killed us
         GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
@@ -416,18 +423,41 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         while (deathTime < time)
         {
             deathTime += Time.deltaTime;
-            DeathText.text = "Killed by " + killedBy + " Respawning...";
             yield return null;
         }
 
         GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         Health = maxHealth;
         isDead = false;
-        DeathTextObj.SetActive(false);
+        RespawningObj.SetActive(false);
         if (photonView.isMine) localCamera.ResetCamera();
         MoveToSpawnPoint();
         yield break;
     }
 
     public void CallDeath(float time) { StartCoroutine(OnDeath(time)); }
+
+    // notify players of kill
+    IEnumerator NotifyOfKill(string owner, string killedCharacter, float time)
+    {
+        GameObject KillNotifyObj = GameObject.Find("_UI/CharacterUI/KillNotificationText");
+        Text KillNotifyText = KillNotifyObj.GetComponent<Text>();
+        KillNotifyObj.SetActive(true);
+        GameObject KillNotifyObj2 = GameObject.Find("_UI/CharacterUI/KillNotificationBackIMG");
+        KillNotifyObj2.SetActive(true);
+
+        float deathTime = 0f;
+        while (deathTime < time)
+        {
+            deathTime += Time.deltaTime;
+            KillNotifyText.text = killedCharacter + " was killed by " + owner;
+            yield return null;
+        }
+
+        KillNotifyObj2.SetActive(false);
+        KillNotifyObj.SetActive(false);
+        yield break;
+    }
+
+    [PunRPC] public void NotifyKill(string owner, string killedCharacter, float time) { StartCoroutine(NotifyOfKill(owner, killedCharacter, time)); }
 }

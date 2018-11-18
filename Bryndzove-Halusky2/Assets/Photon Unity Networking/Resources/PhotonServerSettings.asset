@@ -69,4 +69,5 @@ MonoBehaviour:
   - PlayerJoinedRoom
   - SendPlayerInfo
   - SetOwner
+  - NotifyKill
   DisableAutoOpenWizard: 1

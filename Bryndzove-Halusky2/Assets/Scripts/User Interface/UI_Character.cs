@@ -10,10 +10,9 @@ public class UI_Character : MonoBehaviour {
     private W_Weapon equippedWeapon;
 
     // UI children
-    Slider ammoSlider;
-    Slider healthSlider;
-    Text roundTime;
-    public Text AmmoUpText, SpeedUpText, HealthUpText, DeathText;
+    public Slider ammoSlider, healthSlider;
+    public Text AmmoUpText, SpeedUpText, DeathText, roundTime;
+    public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG;
 
     bool runUpdate = false;
 
@@ -34,19 +33,12 @@ public class UI_Character : MonoBehaviour {
         equippedWeapon = localCharacter.leftWeapon;
 
         // enable & set children
-        // ammoslider
-        transform.GetChild(0).gameObject.SetActive(true);
-        ammoSlider = transform.GetChild(0).GetComponent<Slider>();
-        // healthslider
-        transform.GetChild(1).gameObject.SetActive(true);
-        healthSlider = transform.GetChild(1).GetComponent<Slider>();
-        // ammotext
-        transform.GetChild(2).gameObject.SetActive(true);
-        // healthtext
-        transform.GetChild(3).gameObject.SetActive(true);
-        // roundtimetext
-        transform.GetChild(4).gameObject.SetActive(true);
-        roundTime = transform.GetChild(4).GetComponent<Text>();
+        ammoSlider.gameObject.SetActive(true);
+        healthSlider.gameObject.SetActive(true);
+        roundTime.gameObject.SetActive(true);
+        TimeleftIMG.gameObject.SetActive(true);
+        HealthAmmoIMG.gameObject.SetActive(true);
+        TimeleftBackIMG.gameObject.SetActive(true);
 
         // set their attributes
         ammoSlider.maxValue = equippedWeapon.clipSize;
@@ -63,7 +55,7 @@ public class UI_Character : MonoBehaviour {
         {
             ammoSlider.value = equippedWeapon.ammoCount;
             healthSlider.value = localCharacter.Health;
-            roundTime.text = "zostávajúci čas: " + gameManager.roundTime.ToString("0.0");
+            roundTime.text = gameManager.roundTime.ToString("0.0");
         }
     }
 }
