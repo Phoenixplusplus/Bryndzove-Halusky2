@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
+    GameManager gameManager;
     public float mouseSensitivity = 3f, movementSpeed = 5f;
     public float WS, AD;
     public Vector3 localVelocity;
@@ -18,6 +19,7 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     // Use this for initialization
     void Start()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         characterRoot = transform.root.GetComponent<C_Character>();
     }
 
@@ -26,10 +28,13 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     {
         if (photonView.isMine)
         {
-            if (characterRoot.isDead == false)
+            if (!gameManager.roundFinished)
             {
-                Movement();
-                RotateWithMouseX();
+                if (characterRoot.isDead == false)
+                {
+                    Movement();
+                    RotateWithMouseX();
+                }
             }
         }
     }

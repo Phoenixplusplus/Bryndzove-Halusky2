@@ -12,7 +12,7 @@ public class UI_Character : MonoBehaviour {
     // UI children
     public Slider ammoSlider, healthSlider;
     public Text AmmoUpText, SpeedUpText, DeathText, roundTime;
-    public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG;
+    public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG, TimeUpIMG;
 
     bool runUpdate = false;
 
@@ -56,6 +56,18 @@ public class UI_Character : MonoBehaviour {
             ammoSlider.value = equippedWeapon.ammoCount;
             healthSlider.value = localCharacter.Health;
             roundTime.text = gameManager.roundTime.ToString("0.0");
+            if (gameManager.roundFinished) OnRoundEnd();
         }
+    }
+
+    void OnRoundEnd()
+    {
+        if (ammoSlider.isActiveAndEnabled) ammoSlider.gameObject.SetActive(false);
+        if (healthSlider.isActiveAndEnabled) healthSlider.gameObject.SetActive(false);
+        if (roundTime.isActiveAndEnabled) roundTime.gameObject.SetActive(false);
+        if (TimeleftIMG.isActiveAndEnabled) TimeleftIMG.gameObject.SetActive(false);
+        if (HealthAmmoIMG.isActiveAndEnabled) HealthAmmoIMG.gameObject.SetActive(false);
+        if (TimeleftBackIMG.isActiveAndEnabled) TimeleftBackIMG.gameObject.SetActive(false);
+        if (!TimeUpIMG.isActiveAndEnabled) TimeUpIMG.gameObject.SetActive(true);
     }
 }

@@ -26,9 +26,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public string weapon;
     public Material redMaterial;
     public Material blueMaterial;
-    public bool isDead = false;
     public AudioClip deathSound;
-    bool isDying = false;
+    public bool isDead = false;
 
     C_CameraMovement localCamera;
 
@@ -92,38 +91,41 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         // keyboard input
         if (photonView.isMine)
         {
-            if (!isDead)
+            if (!gameManager.roundFinished)
             {
-                if (autoFire == true)
+                if (!isDead)
                 {
-                    if (Input.GetMouseButton(0))
+                    if (autoFire == true)
                     {
-                        leftWeapon.Fire();
+                        if (Input.GetMouseButton(0))
+                        {
+                            leftWeapon.Fire();
+                        }
                     }
-                }
-                else
-                {
-                    if (Input.GetMouseButtonDown(0))
+                    else
                     {
-                        leftWeapon.Fire();
+                        if (Input.GetMouseButtonDown(0))
+                        {
+                            leftWeapon.Fire();
+                        }
                     }
-                }
-                if (Input.GetKeyDown(KeyCode.R))
-                {
-                    leftWeapon.Reload();
-                }
-                if (Input.GetKeyDown(KeyCode.V))
-                {
-                    // debug to check team paint count
-                    if (PhotonNetwork.isMasterClient)
+                    if (Input.GetKeyDown(KeyCode.R))
                     {
-                        Debug.Log("Red team has painted " + gameManager.redTeamPaintCount + " parts!");
-                        Debug.Log("Blue team has painted " + gameManager.blueTeamPaintCount + " parts!");
+                        leftWeapon.Reload();
                     }
-                }
-                if (Health <= 0)
-                {
-                    CallDeath(3f);
+                    if (Input.GetKeyDown(KeyCode.V))
+                    {
+                        // debug to check team paint count
+                        if (PhotonNetwork.isMasterClient)
+                        {
+                            Debug.Log("Red team has painted " + gameManager.redTeamPaintCount + " parts!");
+                            Debug.Log("Blue team has painted " + gameManager.blueTeamPaintCount + " parts!");
+                        }
+                    }
+                    if (Health <= 0)
+                    {
+                        CallDeath(3f);
+                    }
                 }
             }
         }
@@ -438,12 +440,13 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public void CallDeath(float time) { StartCoroutine(OnDeath(time)); }
 
     // notify players of kill
+    // this coroutine is triggers by the RPC function below
     IEnumerator NotifyOfKill(string owner, string killedCharacter, float time)
     {
         GameObject KillNotifyObj = GameObject.Find("_UI/CharacterUI/KillNotificationText");
         Text KillNotifyText = KillNotifyObj.GetComponent<Text>();
-        KillNotifyObj.SetActive(true);
         GameObject KillNotifyObj2 = GameObject.Find("_UI/CharacterUI/KillNotificationBackIMG");
+        KillNotifyObj.SetActive(true);
         KillNotifyObj2.SetActive(true);
 
         float deathTime = 0f;

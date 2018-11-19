@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour {
 
     [Header("-- Runtime Game Stats --")]
     [Header("Round")]
-    public float roundTime = 120f;
+    public float roundTime = 60f;
     public float currentRoundTime = 0f;
     public bool roundStarted = false;
     public bool roundFinished = false;
@@ -122,6 +122,8 @@ public class GameManager : MonoBehaviour {
             {
                 roundStarted = false;
                 roundFinished = true;
+                if (Cursor.lockState == CursorLockMode.Locked) Cursor.lockState = CursorLockMode.None;
+                if (!Cursor.visible) Cursor.visible = true;
             }
         }
     }

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class C_CameraMovement : Photon.MonoBehaviour {
 
+    GameManager gameManager;
     public float cameraSensitivity, cameraSensitivityDamp = 3f;
     C_CharacterMovement characterMovement;
     Vector3 mouseRotation;
@@ -20,6 +21,7 @@ public class C_CameraMovement : Photon.MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         characterMovement = transform.parent.GetComponent<C_CharacterMovement>();
         cameraSensitivity = characterMovement.mouseSensitivity / cameraSensitivityDamp;
         initialPos = transform.localPosition;
@@ -31,13 +33,7 @@ public class C_CameraMovement : Photon.MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        RotatePitch(355f, 40f); // default =  RotatePitch(355f, 20f);
-
-        //if (character.isDead == true)
-        //{
-        //    transform.parent = null;
-        //    transform.LookAt(parent.transform.position + new Vector3(0f, 1f, 0f));
-        //}
+        if (!gameManager.roundFinished) RotatePitch(355f, 40f); // default =  RotatePitch(355f, 20f);
     }
 
     // rotate camera only on x axis
