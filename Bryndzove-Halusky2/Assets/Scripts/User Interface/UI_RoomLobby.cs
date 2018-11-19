@@ -26,7 +26,6 @@ public class UI_RoomLobby : NetworkManager
     private int MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM;
     private int m_lastMarkedPlayerToKickButtonIndex;
     private enumTeams m_lastMarkedPlayerToKickIsFromTeam;
-    private Chat m_Chat;
 
     void Start()
     {
@@ -47,17 +46,10 @@ public class UI_RoomLobby : NetworkManager
 
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
         UI_Manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
-
-
-        // Initialize chat, pass in chat input box and chat content
-        m_Chat = new Chat(  this.gameObject.transform.GetChild(11).GetComponent<InputField>(), this.gameObject.transform.GetChild(10).transform.GetChild(0).transform.GetChild(0).gameObject, photonView);
     }
 
     void Update()
     {
-        // Update chat, check for inputs
-        m_Chat.UpdateChat();
-
         // If has new player joined room Lobby, and I am master client, assign a team to new player
         if (HasNewPlayerJoined && PhotonNetwork.isMasterClient)
         {
@@ -124,9 +116,6 @@ public class UI_RoomLobby : NetworkManager
         GM.redTeam = new TeamInfo(PhotonNetwork.room.MaxPlayers, true, false);
         GM.blueTeam = new TeamInfo(PhotonNetwork.room.MaxPlayers, false, true);
 
-
-        m_Chat.PlayerJoinedRoomSendMessage(PhotonNetwork.player.NickName);
-
         // Assign maximum count of players in one team
         MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM = PhotonNetwork.room.MaxPlayers / 2;
 
@@ -159,6 +148,7 @@ public class UI_RoomLobby : NetworkManager
 
         // Player which is leaving sends RPC to other players in room, message contain his name and team color
         photonView.RPC("PlayerLeft", PhotonTargets.Others, PhotonNetwork.player.NickName, tempTeamColor);
+        photonView.RPC("SendMessagePlayerLeft", PhotonTargets.All, PhotonNetwork.player.NickName);
         PhotonNetwork.LeaveRoom();
     }
 
@@ -263,6 +253,7 @@ public class UI_RoomLobby : NetworkManager
         }
 
         Debug.Log("Got kicked !" + playerToBeKicked);
+        photonView.RPC("SendMessagePlayerHasBeenKicked", PhotonTargets.All, PhotonNetwork.player.NickName);
         PhotonNetwork.LeaveRoom();
         UI_Manager.EnablePlayerKickedWidget();
         UI_Manager.EnableRoomSection();
