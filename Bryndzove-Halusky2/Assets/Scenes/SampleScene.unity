@@ -1637,7 +1637,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 2015930738}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.99795085
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -2325,6 +2325,7 @@ GameObject:
   - component: {fileID: 234762489}
   - component: {fileID: 234762491}
   - component: {fileID: 234762490}
+  - component: {fileID: 234762492}
   m_Layer: 5
   m_Name: GO_CreateAccount
   m_TagString: Untagged
@@ -2393,6 +2394,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 234762488}
   m_CullTransparentMesh: 0
+--- !u!114 &234762492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 234762488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5c2010db9cc13443addd0050025b1cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  createAccountReply: {fileID: 2026832233}
 --- !u!1 &235069736
 GameObject:
   m_ObjectHideFlags: 0
@@ -3856,7 +3869,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.0000018088125, y: 0.00035977492}
+  m_AnchoredPosition: {x: 0.0000018088125, y: -0.000021296984}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &397679362
@@ -5872,7 +5885,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 371148418}
   m_Direction: 2
   m_Value: 0
-  m_Size: 0.9999999
+  m_Size: 1
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -12623,8 +12636,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1157538068}
   m_TextComponent: {fileID: 1376903690}
   m_Placeholder: {fileID: 1767946351}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0
@@ -20329,6 +20342,7 @@ GameObject:
   - component: {fileID: 1737043370}
   - component: {fileID: 1737043372}
   - component: {fileID: 1737043371}
+  - component: {fileID: 1737043373}
   m_Layer: 5
   m_Name: GO_LoginMenu
   m_TagString: Untagged
@@ -20397,6 +20411,18 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1737043369}
   m_CullTransparentMesh: 0
+--- !u!114 &1737043373
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1737043369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9af749d79769f6e4c8c1c17ac7ba252e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loginReply: {fileID: 1519022391}
 --- !u!1 &1737803882
 GameObject:
   m_ObjectHideFlags: 0
@@ -23545,8 +23571,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2036120553}
-  - component: {fileID: 2036120554}
-  - component: {fileID: 2036120555}
   - component: {fileID: 2036120556}
   m_Layer: 5
   m_Name: GO_Connected
@@ -23582,33 +23606,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &2036120554
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2036120552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9af749d79769f6e4c8c1c17ac7ba252e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DBM: {fileID: 1501459399}
-  loginReply: {fileID: 1519022391}
---- !u!114 &2036120555
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2036120552}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5c2010db9cc13443addd0050025b1cf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  DBM: {fileID: 1501459399}
-  LoginMenu: {fileID: 1737043369}
-  createAccountReply: {fileID: 2026832233}
 --- !u!114 &2036120556
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25343,8 +25340,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2143180566}
   m_TextComponent: {fileID: 1493418181}
   m_Placeholder: {fileID: 1167726224}
-  m_ContentType: 0
-  m_InputType: 0
+  m_ContentType: 7
+  m_InputType: 2
   m_AsteriskChar: 42
   m_KeyboardType: 0
   m_LineType: 0

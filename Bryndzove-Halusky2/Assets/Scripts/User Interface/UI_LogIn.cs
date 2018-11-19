@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_LogIn : MonoBehaviour {
+public class UI_LogIn : MonoBehaviour
+{
 
     private InputField m_NickName;
     private InputField m_PassName;
-    public GameObject DBM;
     private DatabaseManager Database;
+    private UserInterfaceManager m_UI_manager;
 
     // variables that need DB replies
     [Header("Database Reply Variables")]
@@ -16,9 +17,13 @@ public class UI_LogIn : MonoBehaviour {
 
     void Start()
     {
-        m_NickName = this.gameObject.transform.GetChild(1).gameObject.transform.GetChild(0).GetComponent<InputField>();
-        m_PassName = this.gameObject.transform.GetChild(1).gameObject.transform.GetChild(1).GetComponent<InputField>();
-        Database = DBM.GetComponent<DatabaseManager>();
+        // Find nickname and password input field
+        m_NickName = this.gameObject.transform.GetChild(0).GetComponent<InputField>();
+        m_PassName = this.gameObject.transform.GetChild(1).GetComponent<InputField>();
+        // Find Database reference
+        Database = GameObject.Find("DatabaseManager").GetComponent<DatabaseManager>();
+        // Find UI manager reference
+        m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
     }
 
     // Update is called once per frame
@@ -45,14 +50,22 @@ public class UI_LogIn : MonoBehaviour {
         }
     }
 
-    // button functions
+    // Clear input fields
+    public void ClearInputFields()
+    {
+        m_NickName.text = "";
+        m_PassName.text = "";
+    }
+
     private void LoginFinished()
     {
         loginReply.text = Database.createAccountReply;
+        // Assign player name from database data
         PhotonNetwork.player.NickName = m_NickName.text;
-        this.gameObject.transform.GetChild(1).gameObject.SetActive(false);
-        this.gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        this.gameObject.transform.GetChild(4).gameObject.SetActive(true);
-        enabled = false;
+
+        // Enable/Disable UI
+        m_UI_manager.DisableLoginMenu();
+        m_UI_manager.EnableRoomSection();
+        m_UI_manager.EnableLobbyButtons();
     }
 }
