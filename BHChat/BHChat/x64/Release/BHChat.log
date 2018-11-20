@@ -1,0 +1,11 @@
+﻿  ChatMain.cpp
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(17): warning C4190: 'GetTextColor' has C-linkage specified, but returns UDT 'Color' which is incompatible with C
+  d:\c++\dll\bhchat\bhchat\bhchat\color.h(4): note: see declaration of 'Color'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(64): warning C4190: 'GetTextColor' has C-linkage specified, but returns UDT 'Color' which is incompatible with C
+  d:\c++\dll\bhchat\bhchat\bhchat\color.h(4): note: see declaration of 'Color'
+  Color.cpp
+     Creating library D:\C++\DLL\BHChat\BHChat\x64\Release\BHChat.lib and object D:\C++\DLL\BHChat\BHChat\x64\Release\BHChat.exp
+  Generating code
+  All 116 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  BHChat.vcxproj -> D:\C++\DLL\BHChat\BHChat\x64\Release\BHChat.dll

@@ -1,0 +1,31 @@
+﻿  ChatMain.cpp
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(9): warning C4190: 'GetJoke' has C-linkage specified, but returns UDT 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' which is incompatible with C
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xstring(4347): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(10): warning C4190: 'GetRandomJoke' has C-linkage specified, but returns UDT 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' which is incompatible with C
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xstring(4347): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(11): warning C4190: 'GetError' has C-linkage specified, but returns UDT 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' which is incompatible with C
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xstring(4347): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(13): warning C4190: 'GetTextColor' has C-linkage specified, but returns UDT 'Color' which is incompatible with C
+  d:\c++\dll\bhchat\bhchat\bhchat\color.h(5): note: see declaration of 'Color'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(39): warning C4190: 'GetError' has C-linkage specified, but returns UDT 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' which is incompatible with C
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xstring(4347): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(39): warning C4273: 'GetError': inconsistent dll linkage
+  d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(11): note: see previous definition of 'GetError'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(41): warning C4273: 'IsAnyError': inconsistent dll linkage
+  d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(12): note: see previous definition of 'IsAnyError'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(44): warning C4190: 'GetJoke' has C-linkage specified, but returns UDT 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' which is incompatible with C
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xstring(4347): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(44): warning C4273: 'GetJoke': inconsistent dll linkage
+  d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(9): note: see previous definition of 'GetJoke'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(60): warning C4190: 'GetRandomJoke' has C-linkage specified, but returns UDT 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>' which is incompatible with C
+  c:\program files (x86)\microsoft visual studio\2017\community\vc\tools\msvc\14.14.26428\include\xstring(4347): note: see declaration of 'std::basic_string<char,std::char_traits<char>,std::allocator<char>>'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(60): warning C4273: 'GetRandomJoke': inconsistent dll linkage
+  d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(10): note: see previous definition of 'GetRandomJoke'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(63): warning C4190: 'GetTextColor' has C-linkage specified, but returns UDT 'Color' which is incompatible with C
+  d:\c++\dll\bhchat\bhchat\bhchat\color.h(5): note: see declaration of 'Color'
+d:\c++\dll\bhchat\bhchat\bhchat\chatmain.cpp(63): warning C4273: 'GetTextColor': inconsistent dll linkage
+  d:\c++\dll\bhchat\bhchat\bhchat\chatmain.h(13): note: see previous definition of 'GetTextColor'
+  Color.cpp
+  Generating Code...
+     Creating library D:\C++\DLL\BHChat\BHChat\x64\Debug\BHChat.lib and object D:\C++\DLL\BHChat\BHChat\x64\Debug\BHChat.exp
+  BHChat.vcxproj -> D:\C++\DLL\BHChat\BHChat\x64\Debug\BHChat.dll
