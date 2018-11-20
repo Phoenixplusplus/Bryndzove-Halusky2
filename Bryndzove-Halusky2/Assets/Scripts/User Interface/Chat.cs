@@ -49,9 +49,6 @@ public class Chat : Photon.MonoBehaviour
     // Called when player join room
     void OnJoinedRoom()
     {
-        // Clear chat if it cointain any messages
-        if (messagesList.Count > 0) ResetChat();
-
         // Send message to the chat
         if (PhotonNetwork.isMasterClient) SendMessage("Room has been created", MessageType.PLAYER_JOINED);
         else photonView.RPC("SendMessagePlayerJoined", PhotonTargets.All, PhotonNetwork.player.NickName);
@@ -98,14 +95,15 @@ public class Chat : Photon.MonoBehaviour
     }
 
     // Reset the chat
-    private void ResetChat()
+    public void ResetChat()
     {
-        // Check if the chat has not cross the maximum count of messages
+        // Check if the chat has not cross the maximum count of 
         for (int i = 0; i < messagesList.Count; i++)
         {
             Destroy(messagesList[i].textObject.gameObject);
-            messagesList.Remove(messagesList[i]);
         }
+
+        messagesList.Clear();
     }
 
     // RPC messages
