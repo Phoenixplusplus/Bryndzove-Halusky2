@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class P_Paintball : MonoBehaviour {
 
-    private GameManager gameManager;
+    GameManager gameManager;
 
     [Header("Attributes")]
     public Vector3 Position;

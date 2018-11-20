@@ -8,11 +8,18 @@ public class UI_Character : MonoBehaviour {
     public GameManager gameManager;
     public C_Character localCharacter;
     private W_Weapon equippedWeapon;
+    bool endTrigger = false;
+    float totalPaint = 0f;
+    float redRatio = 0f;
+    float blueRatio = 0f;
+    float redLerp = 0f;
+    float blueLerp = 0f;
 
     // UI children
     public Slider ammoSlider, healthSlider;
-    public Text AmmoUpText, SpeedUpText, DeathText, roundTime;
-    public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG, TimeUpIMG;
+    public Text AmmoUpText, SpeedUpText, roundTime, redWinPercent, blueWinPercent;
+    public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG, TimeUpIMG, WinBackgroundIMG, RedWinIMG, BlueWinIMG, WeWinIMG, WeLoseIMG;
+    public Button BackToLobbyBTN;
 
     bool runUpdate = false;
 
@@ -29,7 +36,6 @@ public class UI_Character : MonoBehaviour {
 	public void Initialise()
     {
         Debug.Log("I heard from EventManager player has finished startup. Initialising..");
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         equippedWeapon = localCharacter.leftWeapon;
 
         // enable & set children
@@ -46,6 +52,7 @@ public class UI_Character : MonoBehaviour {
         healthSlider.maxValue = localCharacter.maxHealth;
 
         runUpdate = true;
+        endTrigger = false;
     }
 	
 	// Update is called once per frame
@@ -56,12 +63,13 @@ public class UI_Character : MonoBehaviour {
             ammoSlider.value = equippedWeapon.ammoCount;
             healthSlider.value = localCharacter.Health;
             roundTime.text = gameManager.roundTime.ToString("0.0");
-            if (gameManager.roundFinished) OnRoundEnd();
+            if (gameManager.roundFinished && endTrigger == false) OnRoundEnd();
         }
     }
 
     void OnRoundEnd()
     {
+        endTrigger = true;
         if (ammoSlider.isActiveAndEnabled) ammoSlider.gameObject.SetActive(false);
         if (healthSlider.isActiveAndEnabled) healthSlider.gameObject.SetActive(false);
         if (roundTime.isActiveAndEnabled) roundTime.gameObject.SetActive(false);
@@ -69,5 +77,69 @@ public class UI_Character : MonoBehaviour {
         if (HealthAmmoIMG.isActiveAndEnabled) HealthAmmoIMG.gameObject.SetActive(false);
         if (TimeleftBackIMG.isActiveAndEnabled) TimeleftBackIMG.gameObject.SetActive(false);
         if (!TimeUpIMG.isActiveAndEnabled) TimeUpIMG.gameObject.SetActive(true);
+        StartCoroutine(RoundEnd(2f, 5f));
+    }
+
+    // round end coroutine for UI and calculation
+    public IEnumerator RoundEnd(float time, float timeMultiplier)
+    {
+        yield return new WaitForSeconds(2f);
+
+        float firstTime = 0f;
+        float secondTime = 0f;
+
+        TimeUpIMG.gameObject.SetActive(false);
+        WinBackgroundIMG.gameObject.SetActive(true);
+        RedWinIMG.gameObject.SetActive(true);
+        BlueWinIMG.gameObject.SetActive(true);
+
+        totalPaint = gameManager.redTeamPaintCount + gameManager.blueTeamPaintCount;
+        redRatio = gameManager.redTeamPaintCount / totalPaint;
+        blueRatio = gameManager.blueTeamPaintCount / totalPaint;
+
+        while (firstTime < time + 0.1f)
+        {
+            redLerp = Mathf.Lerp(0f, 0.5f, firstTime / time);
+            blueLerp = Mathf.Lerp(0f, 0.5f, firstTime / time);
+            RedWinIMG.fillAmount = redLerp;
+            BlueWinIMG.fillAmount = blueLerp;
+            firstTime += Time.deltaTime;
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        while (secondTime <= (time / timeMultiplier) + 0.1f)
+        {
+            float finalRedLerp = Mathf.Lerp(0.5f, redRatio, secondTime / (time / timeMultiplier));
+            float finalBlueLerp = Mathf.Lerp(0.5f, blueRatio, secondTime / (time / timeMultiplier));
+            RedWinIMG.fillAmount = finalRedLerp;
+            BlueWinIMG.fillAmount = finalBlueLerp;
+            secondTime += Time.deltaTime;
+            yield return null;
+        }
+
+        if (redRatio > blueRatio)
+        {
+            if (localCharacter.Team == "Red") WeWinIMG.gameObject.SetActive(true);
+            else WeLoseIMG.gameObject.SetActive(true);
+        }
+        else
+        {
+            if (localCharacter.Team == "Blue") WeWinIMG.gameObject.SetActive(true);
+            else WeLoseIMG.gameObject.SetActive(true);
+        }
+
+        redWinPercent.gameObject.SetActive(true);
+        blueWinPercent.gameObject.SetActive(true);
+        redWinPercent.text = (redRatio * 100).ToString("0.00") + "%";
+        blueWinPercent.text = (blueRatio * 100).ToString("0.00") + "%";
+
+        yield return new WaitForSeconds(1f);
+
+        BackToLobbyBTN.gameObject.SetActive(true);
+
+        Debug.Log("Breaking");
+        yield break;
     }
 }
