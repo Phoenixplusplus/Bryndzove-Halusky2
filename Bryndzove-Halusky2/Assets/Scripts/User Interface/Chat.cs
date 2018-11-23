@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 
 class Message
 {
-    public string text;
     public Text textObject;
 }
 
@@ -106,6 +105,14 @@ public class Chat : Photon.MonoBehaviour
                 SendMessage(PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text, MessageType.PLAYER_INPUT);
                 photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text);
             }
+
+
+
+            else if (m_inputBox.text == "sr")
+            {
+                SendMessage(PhotonNetwork.player.NickName + ": " + Screen.width, MessageType.PLAYER_INPUT);
+            }
+
             // Send standard message to other players - standard message is what has player typed
             else
             {
@@ -137,12 +144,15 @@ public class Chat : Photon.MonoBehaviour
         }
 
         Message newMessage = new Message();
-        newMessage.text = newText;
 
         // Instantiate new text object and push him into array
         GameObject newTextObject = Instantiate(m_textObject, m_content.transform);
+
+        newTextObject.GetComponent<Chat_TextBlockSizer>().UpdateWidth();
+
+
         newMessage.textObject = newTextObject.GetComponent<Text>();
-        newMessage.textObject.text = newMessage.text;
+        newMessage.textObject.text = newText;
 
         // Assign color to text, depends on message type
         switch (messageType)
