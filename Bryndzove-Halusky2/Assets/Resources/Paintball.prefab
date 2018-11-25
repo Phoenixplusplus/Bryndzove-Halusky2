@@ -152,6 +152,12 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 14cf9e14635dd3e48a24a76f15fdc22c, type: 3}
   - {fileID: 8300000, guid: 2f0e8a9d0e7321849b7be1d39447e3fe, type: 3}
   - {fileID: 8300000, guid: 44a8b89f67c1f9545b2561ef8d190209, type: 3}
+  playerHits:
+  - {fileID: 8300000, guid: 804c25ea86682d342b56a4596de335e3, type: 3}
+  - {fileID: 8300000, guid: 5f70dfa93b142c4408f468adf4b847b0, type: 3}
+  - {fileID: 8300000, guid: dd47d1c93416ade4db4cb0e7dfd027e3, type: 3}
+  - {fileID: 8300000, guid: 8c20cce2f1d3db34192645c7b20c3051, type: 3}
+  - {fileID: 8300000, guid: 5d3fec0654281c44782ac3a92eeb6ba6, type: 3}
 --- !u!135 &135945300615241768
 SphereCollider:
   m_ObjectHideFlags: 1

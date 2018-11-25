@@ -161,7 +161,7 @@ MonoBehaviour:
   Owner: 
   clipSize: 8
   ammoCount: 8
-  reloadDelay: 2
+  reloadDelay: 1
   shotDelay: 0.2
   shotSound: {fileID: 8300000, guid: 454671ebe469ca64b8078666a33c990d, type: 3}
   shotSpeed: 50

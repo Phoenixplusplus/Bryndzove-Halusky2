@@ -5,6 +5,11 @@ using UnityEngine.UI;
 
 public class DatabaseManager : MonoBehaviour {
 
+    [Header("Sounds")]
+    public AudioClip loggedInSound;
+    public AudioClip loginFailedSound;
+    Vector3 soundPosition;
+
     string createAccountURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/CreateAccount.php";
     string loginURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/Login.php";
     string loadPlayerDataURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/LoadPlayerData.php";
@@ -29,6 +34,11 @@ public class DatabaseManager : MonoBehaviour {
     public void Login(string username, string userpass) { StartCoroutine(DB_Login(username, userpass)); }
     public void LoadPlayerData(string username, string userpass) { StartCoroutine(DB_LoadPlayerData(username, userpass)); }
     public void SavePlayerData(string username, string userpass, string headtex, string bodytex, string weapon) { StartCoroutine(DB_SavePlayerData(username, userpass, headtex, bodytex, weapon)); }
+
+    void Start()
+    {
+        soundPosition = GameObject.Find("LobbyCamera").transform.position;
+    }
 
     // coroutines
     // (if a stop delay is needed for a reply, fabricate one, it isn't done here)
@@ -65,6 +75,7 @@ public class DatabaseManager : MonoBehaviour {
             if (loginReply.Contains("Thanks"))
             {
                 loginBool = true;
+                AudioSource.PlayClipAtPoint(loggedInSound, soundPosition);
                 createAccountBool = false;
                 string[] userInfo = loginReply.Split('|');
                 GameManager gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -75,6 +86,7 @@ public class DatabaseManager : MonoBehaviour {
                 gameManager.weapon = userInfo[5];
                 LoggedInto.text = "Logged into: " + userInfo[1];
             }
+            else AudioSource.PlayClipAtPoint(loginFailedSound, soundPosition);
         }
     }
 

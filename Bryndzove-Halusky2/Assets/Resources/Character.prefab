@@ -934,8 +934,9 @@ MonoBehaviour:
   weapon: 
   redMaterial: {fileID: 2100000, guid: 1d0612589fe40004f87d05a155c7daf7, type: 2}
   blueMaterial: {fileID: 2100000, guid: 4b555349d3129c34388991639adb26bb, type: 2}
-  isDead: 0
   deathSound: {fileID: 8300000, guid: b1426535ee0658f4187a97baaf65ceaf, type: 3}
+  goSound: {fileID: 8300000, guid: 1b7a7fb27488a16498e7b9e196e0866a, type: 3}
+  isDead: 0
   leftWeapon: {fileID: 0}
   rightWeapon: {fileID: 0}
 --- !u!136 &136264376085599844

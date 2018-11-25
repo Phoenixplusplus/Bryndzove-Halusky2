@@ -27,6 +27,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public Material redMaterial;
     public Material blueMaterial;
     public AudioClip deathSound;
+    public AudioClip goSound;
     public bool isDead = false;
 
     C_CameraMovement localCamera;
@@ -73,6 +74,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
             Health = maxHealth;
             localCamera = transform.GetChild(1).GetComponent<C_CameraMovement>();
+
+            AudioSource.PlayClipAtPoint(goSound, localCamera.transform.position);
 
             // send event to listeners
             if (PlayerReady != null)

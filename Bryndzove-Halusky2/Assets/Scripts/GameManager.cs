@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public AudioClip buttonPressSound;
     [Header("Player Database Values")]
     public string username;
     public string userpass;
@@ -69,6 +70,8 @@ public class GameManager : MonoBehaviour {
     public Vector3 paintballsStartPosition = new Vector3(0, -10, 0);
     private int currentPaintball = 0;
 
+    Vector3 soundPosition;
+
     void OnEnable()
     {
         UI_Character.PlayerBackToLobbyStatus += ResetMatchValues;
@@ -82,6 +85,7 @@ public class GameManager : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
+        soundPosition = GameObject.Find("LobbyCamera").transform.position;
         // initialise dictionaries and add values linked to strings that must match what could be in database
         characterTexDict = new Dictionary<string, Material>();
         characterTexDict.Add("Head1", Head1);
@@ -139,6 +143,8 @@ public class GameManager : MonoBehaviour {
             }
         }
     }
+
+    public void PlayButtonPressSoundUI() { AudioSource.PlayClipAtPoint(buttonPressSound, soundPosition); }
 
     public void LockHideCursor()
     {

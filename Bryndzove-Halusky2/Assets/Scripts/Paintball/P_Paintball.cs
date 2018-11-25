@@ -34,6 +34,7 @@ public class P_Paintball : MonoBehaviour {
     [Header("Sound Attributes")]
     public AudioSource sourceSplats;
     public AudioClip[] audioSplats;
+    public AudioClip[] playerHits;
 
     // Use this for initialization
     void Start ()
@@ -101,6 +102,7 @@ public class P_Paintball : MonoBehaviour {
             C_Character character = other.transform.root.GetComponent<C_Character>();
             if (character.Team != Team)
             {
+                AudioSource.PlayClipAtPoint(playerHits[Random.Range(0, 5)], other.gameObject.transform.position);
                 if (character.Health == 1) character.killedBy = Owner;
                 character.Health--;
                 ResetPainball();

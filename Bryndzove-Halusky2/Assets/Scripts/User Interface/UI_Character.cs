@@ -27,6 +27,11 @@ public class UI_Character : MonoBehaviour {
     public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG, TimeUpIMG, WinBackgroundIMG, RedWinIMG, BlueWinIMG, WeWinIMG, WeLoseIMG;
     public Button BackToLobbyBTN;
 
+    [Header("Sounds")]
+    public AudioClip Yeah;
+    public AudioClip No;
+    public AudioClip TimeUp;
+
     bool runUpdate = false;
 
     void OnEnable()
@@ -76,6 +81,7 @@ public class UI_Character : MonoBehaviour {
     void OnRoundEnd()
     {
         endTrigger = true;
+        AudioSource.PlayClipAtPoint(TimeUp, localCharacter.transform.position);
         if (ammoSlider.isActiveAndEnabled) ammoSlider.gameObject.SetActive(false);
         if (healthSlider.isActiveAndEnabled) healthSlider.gameObject.SetActive(false);
         if (roundTime.isActiveAndEnabled) roundTime.gameObject.SetActive(false);
@@ -137,13 +143,29 @@ public class UI_Character : MonoBehaviour {
 
         if (redRatio > blueRatio)
         {
-            if (localCharacter.Team == "Red") WeWinIMG.gameObject.SetActive(true);
-            else WeLoseIMG.gameObject.SetActive(true);
+            if (localCharacter.Team == "Red")
+            {
+                WeWinIMG.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(Yeah, localCharacter.transform.position);
+            }
+            else
+            {
+                WeLoseIMG.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(No, localCharacter.transform.position);
+            }
         }
         else
         {
-            if (localCharacter.Team == "Blue") WeWinIMG.gameObject.SetActive(true);
-            else WeLoseIMG.gameObject.SetActive(true);
+            if (localCharacter.Team == "Blue")
+            {
+                WeWinIMG.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(Yeah, localCharacter.transform.position);
+            }
+            else
+            {
+                WeLoseIMG.gameObject.SetActive(true);
+                AudioSource.PlayClipAtPoint(No, localCharacter.transform.position);
+            }
         }
 
         redWinPercent.gameObject.SetActive(true);

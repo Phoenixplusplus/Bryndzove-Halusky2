@@ -9,7 +9,7 @@ public class W_Shotgun : W_Weapon {
         clipSize = 8;
         ammoCount = 8;
         shotDelay = 0.2f;
-        reloadDelay = 2f;
+        reloadDelay = 1f;
         shotSpeed = 50f;
     }
 
