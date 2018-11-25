@@ -1223,7 +1223,7 @@ MonoBehaviour:
   Weapon1: {fileID: 1193513322684640, guid: 6ae70897c5cb4e14091dec832604ae6f, type: 2}
   Weapon2: {fileID: 1627549125480468, guid: e7c8437cde1aa2e4aa67c5ef9481565e, type: 2}
   Weapon3: {fileID: 1765035922047158, guid: bf1af447d07c45c49932d38d468e2d2e, type: 2}
-  roundTime: 5
+  roundTime: 60
   currentRoundTime: 0
   roundStarted: 0
   roundFinished: 0
@@ -3951,7 +3951,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.000026770274, y: 0.000011550019}
+  m_AnchoredPosition: {x: -0.000026770274, y: 0.000021489132}
   m_SizeDelta: {x: 0, y: 300}
   m_Pivot: {x: 0, y: 1}
 --- !u!1 &397679362
@@ -5988,8 +5988,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371148419}
   m_HandleRect: {fileID: 371148418}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 1
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -19185,7 +19185,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1567187854

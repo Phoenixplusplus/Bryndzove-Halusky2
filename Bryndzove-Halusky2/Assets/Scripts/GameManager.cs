@@ -149,7 +149,7 @@ public class GameManager : MonoBehaviour {
 
     void ResetMatchValues()
     {
-        roundTime = 5f;
+        roundTime = 60f;
         currentRoundTime = 0f;
         roundStarted = false;
         roundFinished = false;
