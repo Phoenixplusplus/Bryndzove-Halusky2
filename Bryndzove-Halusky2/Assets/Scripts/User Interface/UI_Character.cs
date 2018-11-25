@@ -5,9 +5,15 @@ using UnityEngine.UI;
 
 public class UI_Character : MonoBehaviour {
 
+    // events
+    public delegate void PlayerBackToLobby();
+    public static event PlayerBackToLobby PlayerBackToLobbyStatus;
+
     public GameManager gameManager;
+    public UserInterfaceManager UI_Manager;
     public C_Character localCharacter;
     private W_Weapon equippedWeapon;
+    public Camera lobbyCamera;
     bool endTrigger = false;
     float totalPaint = 0f;
     float redRatio = 0f;
@@ -78,6 +84,16 @@ public class UI_Character : MonoBehaviour {
         if (TimeleftBackIMG.isActiveAndEnabled) TimeleftBackIMG.gameObject.SetActive(false);
         if (!TimeUpIMG.isActiveAndEnabled) TimeUpIMG.gameObject.SetActive(true);
         StartCoroutine(RoundEnd(2f, 5f));
+    }
+
+    public void BackToLobby()
+    {
+        localCharacter.DestroySelf();
+        lobbyCamera.gameObject.SetActive(true);
+        PhotonNetwork.LeaveRoom();
+        for (int i = 0; i < transform.childCount; i++) { transform.GetChild(i).gameObject.SetActive(false); }
+        // send event to any components that need to know about reseting values/enabling UI when player goes back to lobby
+        if (PlayerBackToLobbyStatus != null) { PlayerBackToLobbyStatus(); }
     }
 
     // round end coroutine for UI and calculation

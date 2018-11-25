@@ -48,6 +48,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             headtex = gameManager.headtex;
             bodytex = gameManager.bodytex;
             weapon = gameManager.weapon;
+            if (gameManager.isRedTeam) Team = "Red";
+            else Team = "Blue";
             // apply values
             transform.Find("CharacterBody").GetComponent<Renderer>().material = gameManager.characterTexDict[bodytex];
             transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
@@ -67,7 +69,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
             MoveToSpawnPoint();
             AttachWeapon(gameObject, weapon);
-            photonView.RPC("SendPlayerInfo", PhotonTargets.OthersBuffered, new object[] { username, userpass, headtex, bodytex, weapon });
+            photonView.RPC("SendPlayerInfo", PhotonTargets.OthersBuffered, new object[] { username, userpass, headtex, bodytex, weapon, Team });
 
             Health = maxHealth;
             localCamera = transform.GetChild(1).GetComponent<C_CameraMovement>();
@@ -133,59 +135,62 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
     [PunRPC] void PickTeam(int rand)
     {
-        int redTeamCount = 0;
-        int blueTeamCount = 0;
+        //Debug.Log("red = " + gameManager.redTeam.GetTeamColor());
+        //Debug.Log("blue = " + gameManager.blueTeam.GetTeamColor());
+        //int redTeamCount = 0;
+        //int blueTeamCount = 0;
 
-        // find all characters in the server currently as see which team they're on
-        GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
+        //// find all characters in the server currently as see which team they're on
+        //GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
 
-        for (int i = 0; i < playerRefs.Length; i++)
-        {
-            if (playerRefs[i].GetComponent<C_Character>().Team == "Red") redTeamCount++;
-            if (playerRefs[i].GetComponent<C_Character>().Team == "Blue") blueTeamCount++;
-        }
+        //for (int i = 0; i < playerRefs.Length; i++)
+        //{
+        //    if (playerRefs[i].GetComponent<C_Character>().Team == "Red") redTeamCount++;
+        //    if (playerRefs[i].GetComponent<C_Character>().Team == "Blue") blueTeamCount++;
+        //}
 
-        // pick a team based on teamcount
-        if (redTeamCount > blueTeamCount)
-        {
-            Team = "Blue";
-            blueTeamCount++;
-        }
-        else if (blueTeamCount > redTeamCount)
-        {
-            Team = "Red";
-            redTeamCount++;
-        }
-        else
-        {
-            if (rand == 1)
-            {
-                Team = "Blue";
-                blueTeamCount++;
-            }
-            else
-            {
-                Team = "Red";
-                redTeamCount++;
-            }
-        }
+        //// pick a team based on teamcount
+        //if (redTeamCount > blueTeamCount)
+        //{
+        //    Team = "Blue";
+        //    blueTeamCount++;
+        //}
+        //else if (blueTeamCount > redTeamCount)
+        //{
+        //    Team = "Red";
+        //    redTeamCount++;
+        //}
+        //else
+        //{
+        //    if (rand == 1)
+        //    {
+        //        Team = "Blue";
+        //        blueTeamCount++;
+        //    }
+        //    else
+        //    {
+        //        Team = "Red";
+        //        redTeamCount++;
+        //    }
+        //}
 
-        // if this client happens to be master, find and update GameManager
-        if (PhotonNetwork.isMasterClient == true)
-        {
-            GameObject.Find("GameManager").GetComponent<GameManager>().redTeamCount = redTeamCount;
-            GameObject.Find("GameManager").GetComponent<GameManager>().blueTeamCount = blueTeamCount;
-        }
+        //// if this client happens to be master, find and update GameManager
+        //if (PhotonNetwork.isMasterClient == true)
+        //{
+        //    GameObject.Find("GameManager").GetComponent<GameManager>().redTeamCount = redTeamCount;
+        //    GameObject.Find("GameManager").GetComponent<GameManager>().blueTeamCount = blueTeamCount;
+        //}
     }
 
     // main function to send a users data to all other users, so they can texture them and attach their weapon, on start
-    [PunRPC] void SendPlayerInfo(string RPCusername, string RPCuserpass, string RPCheadtex, string RPCbodytex, string RPCweapon)
+    [PunRPC] void SendPlayerInfo(string RPCusername, string RPCuserpass, string RPCheadtex, string RPCbodytex, string RPCweapon, string RPCteam)
     {
         username = RPCusername;
         userpass = RPCuserpass;
         headtex = RPCheadtex;
         bodytex = RPCbodytex;
         weapon = RPCweapon;
+        Team = RPCteam;
 
         // loop through all characters
         GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
@@ -314,6 +319,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             }
         }
     }
+
+    public void DestroySelf() { Destroy(this); }
 
     // on ammo pickup, set players ammo to basically infinite for a short period of time
     IEnumerator OnAmmoPickup(int currentAmmo, float time)

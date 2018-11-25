@@ -38,6 +38,16 @@ public class UserInterfaceManager : MonoBehaviour
         CNVS_MainMenu.transform.GetChild(2).gameObject.SetActive(false);
     }
 
+    void OnEnable()
+    {
+        UI_Character.PlayerBackToLobbyStatus += ResetUI;
+    }
+
+    void OnDisable()
+    {
+        UI_Character.PlayerBackToLobbyStatus -= ResetUI;
+    }
+
     public void EnableMainMenu()                { CNVS_MainMenu.gameObject.SetActive(true); }
     public void DisableMainMenu()               { CNVS_MainMenu.gameObject.SetActive(false); }
 
@@ -69,4 +79,14 @@ public class UserInterfaceManager : MonoBehaviour
 
     // Return the count of players connected in master server and rooms together
     public int GetPlayersInMasterServer()       { return PhotonNetwork.countOfPlayersOnMaster + PhotonNetwork.countOfPlayersInRooms; }
+
+    // Return the UI back to how it was when player first launched game
+    void ResetUI()
+    {
+        EnableMainMenu();
+        EnableLobbyUI();
+        EnableLobbyButtons();
+        DisableRoomLobby();
+        EnableRoomSection();
+    }
 }

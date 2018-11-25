@@ -63,7 +63,9 @@ public class UI_RoomLobby : NetworkManager
                 {
                     if (PhotonNetwork.otherPlayers[i].NickName == m_playerRequested)
                     {
+                        photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Red" });
                         GM.redTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
+                        //GM.isRedTeam = true;
                     }
                 }
             } // The second statemnt will assign player into blue team if blue team has less players in team than red team
@@ -73,7 +75,9 @@ public class UI_RoomLobby : NetworkManager
                 {
                     if (PhotonNetwork.otherPlayers[i].NickName == m_playerRequested)
                     {
+                        photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Blue" });
                         GM.blueTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
+                        //GM.isBlueTeam = true;
                     }
                 }
             }
@@ -84,8 +88,18 @@ public class UI_RoomLobby : NetworkManager
                 {
                     if (PhotonNetwork.otherPlayers[i].NickName == m_playerRequested)
                     {
-                        if (randNumb == 0) GM.redTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
-                        else GM.blueTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
+                        if (randNumb == 0)
+                        {
+                            photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Red" });
+                            GM.redTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
+                            //GM.isRedTeam = true;
+                        }
+                        else
+                        {
+                            photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Blue" });
+                            GM.blueTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
+                            //GM.isBlueTeam = true;
+                        }
                     }
                 }
             }
@@ -132,11 +146,27 @@ public class UI_RoomLobby : NetworkManager
         }
         else
         {   // I am a masterClient and have just created this room, so I dont have to ask anyone for team
+
+            // this must be reset because players that were not master in 1 room, could be master when they finish game and make a room
+            m_BTN_StartGame.enabled = true;
+            m_BTN_KickPlayer.enabled = true;
+            BTN_IMG_StartRoom.color = new Color32(255, 255, 255, 255);
+            BTN_IMG_KickPlayer.color = new Color32(255, 255, 255, 255);
+
             // Randomly choose team for masterClient
             int randNumb = Random.Range(0, 2);
-            if (randNumb == 0) GM.redTeam.JoinTeam(PhotonNetwork.player.NickName, true);
-            else GM.blueTeam.JoinTeam(PhotonNetwork.player.NickName, true);
+            if (randNumb == 0)
+            {
+                GM.redTeam.JoinTeam(PhotonNetwork.player.NickName, true);
+                GM.isRedTeam = true;
+            }
+            else
+            {
+                GM.blueTeam.JoinTeam(PhotonNetwork.player.NickName, true);
+                GM.isBlueTeam = true;
+            }
         }
+        Debug.Log("Master client of this room: " + PhotonNetwork.masterClient);
     }
 
     // Called when player click on leave room or game button
@@ -391,5 +421,14 @@ public class UI_RoomLobby : NetworkManager
                 photonView.RPC("OnNewMaster", PhotonTargets.All, PhotonNetwork.player.NickName, (int)enumTeams.BLUE_TEAM);
             }
         }
+    }
+
+    [PunRPC] void SendTeamToGameManager(string name, string team)
+    {
+        GM = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (GM.username == name)
+            if (team == "Red")
+                GM.isRedTeam = true;
+            else GM.isBlueTeam = true;
     }
 }

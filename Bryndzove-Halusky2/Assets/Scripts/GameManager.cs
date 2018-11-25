@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour {
     public int blueTeamCount = 0;
     public TeamInfo redTeam;
     public TeamInfo blueTeam;
+    public bool isRedTeam = false;
+    public bool isBlueTeam = false;
     [Header("Paint")]
     public int redTeamPaintCount = 0;
     public int blueTeamPaintCount = 0;
@@ -66,6 +68,16 @@ public class GameManager : MonoBehaviour {
     public int paintballsSize = 100;
     public Vector3 paintballsStartPosition = new Vector3(0, -10, 0);
     private int currentPaintball = 0;
+
+    void OnEnable()
+    {
+        UI_Character.PlayerBackToLobbyStatus += ResetMatchValues;
+    }
+
+    void OnDisable()
+    {
+        UI_Character.PlayerBackToLobbyStatus -= ResetMatchValues;
+    }
 
     // Use this for initialization
     void Start ()
@@ -133,6 +145,31 @@ public class GameManager : MonoBehaviour {
         // lock and hide mouse cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+    }
+
+    void ResetMatchValues()
+    {
+        roundTime = 5f;
+        currentRoundTime = 0f;
+        roundStarted = false;
+        roundFinished = false;
+        redTeamCount = 0;
+        blueTeamCount = 0;
+        redTeamPaintCount = 0;
+        blueTeamPaintCount = 0;
+        isRedTeam = false;
+        isBlueTeam = false;
+
+        // and decals/paintballs
+        foreach (GameObject p in Paintballs)
+        {
+            p.transform.position = paintballsStartPosition;
+        }
+
+        foreach (GameObject d in SplatDecals)
+        {
+            d.transform.position = decalsStartPosition;
+        }
     }
 
     // called by any weapon that fires, grab one from the pool and just position it where needed
