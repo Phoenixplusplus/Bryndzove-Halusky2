@@ -45,8 +45,6 @@ public class UI_RoomsSection : MonoBehaviour
 
     public void JoinRoom(int roomNumber)
     {
-        PhotonNetwork.room.IsOpen = false;
-
         if (m_networkManager.roomsList[roomNumber].IsOpen)
         {
             if (m_networkManager.roomsList[roomNumber].PlayerCount < m_networkManager.roomsList[roomNumber].MaxPlayers)
