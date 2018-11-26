@@ -12,13 +12,6 @@ public class NetworkManager : Photon.MonoBehaviour
     private UserInterfaceManager m_UI_manager;
 
 
-    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
-    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
-    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
-    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
-    // TODO MOVE THIS ONE TO GAME MANAGER !!!! AND MAKE IT PRIVATE AND MAKE FUNCTION TO GAME HAS STARTED OR SOMETHING LIKE THAT
-    public bool IsGameRunning;
-
     // character prefab
     [SerializeField]
     private GameObject Character;
@@ -29,29 +22,13 @@ public class NetworkManager : Photon.MonoBehaviour
         PhotonNetwork.ConnectUsingSettings("v4.2");
         m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
-        lobbyCamera = GameObject.Find("LobbyCamera");
-        IsGameRunning = false;
-    }
+        lobbyCamera = GameObject.Find("LobbyCamera");    }
 
     // Update is called once per frame
     void Update()
     {
-        // Player is inside the room
-        if (PhotonNetwork.inRoom)
-        {
-            // Player is playing game
-            if (IsGameRunning)
-            {
-
-            }
-            // Player is inside the room lobby
-            else
-            {
-
-            }
-        }
         // Player is inside the lobby
-        else if (PhotonNetwork.insideLobby)
+        if (PhotonNetwork.insideLobby)
         {
             if (m_UI_manager.IsConnectingToServerActive())
             {
@@ -100,7 +77,6 @@ public class NetworkManager : Photon.MonoBehaviour
     public void LeaveRoomFromRoomLobby()
     {
         PhotonNetwork.LeaveRoom();
-        IsGameRunning = false;
     }
 
     public void SetupAndSpawnCharacter()

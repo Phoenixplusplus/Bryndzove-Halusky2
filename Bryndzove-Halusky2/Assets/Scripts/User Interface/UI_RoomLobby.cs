@@ -187,6 +187,7 @@ public class UI_RoomLobby : NetworkManager
     public void StartGame()
     {
         photonView.RPC("StartTheGame", PhotonTargets.Others, null);
+        PhotonNetwork.room.IsOpen = false;
         StartTheGame();
     }
 
@@ -337,7 +338,6 @@ public class UI_RoomLobby : NetworkManager
         GMR.roundStarted = true;
         if (LCMR != null) LCMR.SetActive(false);
         tempNW.SetupAndSpawnCharacter();
-        tempNW.IsGameRunning = true;
         Debug.Log("GOING TO DISABLE MAIN MENU");
         UI_Manager.DisableMainMenu();
     }

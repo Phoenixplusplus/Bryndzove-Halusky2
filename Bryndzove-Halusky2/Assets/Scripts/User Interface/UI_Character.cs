@@ -26,6 +26,7 @@ public class UI_Character : MonoBehaviour {
     public Text AmmoUpText, SpeedUpText, roundTime, redWinPercent, blueWinPercent;
     public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG, TimeUpIMG, WinBackgroundIMG, RedWinIMG, BlueWinIMG, WeWinIMG, WeLoseIMG;
     public Button BackToLobbyBTN;
+    public GameObject chat;
 
     [Header("Sounds")]
     public AudioClip Yeah;
@@ -56,6 +57,7 @@ public class UI_Character : MonoBehaviour {
         TimeleftIMG.gameObject.SetActive(true);
         HealthAmmoIMG.gameObject.SetActive(true);
         TimeleftBackIMG.gameObject.SetActive(true);
+        chat.SetActive(true);
 
         // set their attributes
         ammoSlider.maxValue = equippedWeapon.clipSize;

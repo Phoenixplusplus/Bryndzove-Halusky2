@@ -31,7 +31,7 @@ public class UI_RoomsSection : MonoBehaviour
     {
         for (int i = 0; i < m_networkManager.roomsList.Length; i++)
         {
-            m_roomButtonsArray[i].SetRoomDetails(i, "Status", m_networkManager.roomsList[i].Name, "Map", m_networkManager.roomsList[i].PlayerCount, m_networkManager.roomsList[i].MaxPlayers);
+            m_roomButtonsArray[i].SetRoomDetails(i, m_networkManager.roomsList[i].IsOpen, m_networkManager.roomsList[i].Name, "Map", m_networkManager.roomsList[i].PlayerCount, m_networkManager.roomsList[i].MaxPlayers);
         }
 
         if (m_networkManager.roomsList.Length < m_countOfRoomButtons)
@@ -45,15 +45,20 @@ public class UI_RoomsSection : MonoBehaviour
 
     public void JoinRoom(int roomNumber)
     {
-        if (m_networkManager.roomsList[roomNumber].PlayerCount < m_networkManager.roomsList[roomNumber].MaxPlayers)
+        PhotonNetwork.room.IsOpen = false;
+
+        if (m_networkManager.roomsList[roomNumber].IsOpen)
         {
-            PhotonNetwork.JoinRoom(m_networkManager.roomsList[roomNumber].Name);
-            m_UI_manager.DisableRoomSection();
-            m_UI_manager.EnableRoomLobby();
-        }
-        else // Show UI the room is full
-        {
-            Debug.Log("Rooms " + m_networkManager.roomsList[roomNumber].Name + " is full.");
+            if (m_networkManager.roomsList[roomNumber].PlayerCount < m_networkManager.roomsList[roomNumber].MaxPlayers)
+            {
+                PhotonNetwork.JoinRoom(m_networkManager.roomsList[roomNumber].Name);
+                m_UI_manager.DisableRoomSection();
+                m_UI_manager.EnableRoomLobby();
+            }
+            else // Show UI the room is full
+            {
+                Debug.Log("Rooms " + m_networkManager.roomsList[roomNumber].Name + " is full.");
+            }
         }
     }
 

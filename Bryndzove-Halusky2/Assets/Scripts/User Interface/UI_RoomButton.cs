@@ -24,10 +24,20 @@ public class UI_RoomButton : Photon.MonoBehaviour
     }
 
 
-    public void SetRoomDetails(int newRoomNumber, string newRoomStatus, string newRoomName, string newMapName, int newPlayerCount, int newMaxPlayerCount)
+    public void SetRoomDetails(int newRoomNumber, bool newRoomStatus, string newRoomName, string newMapName, int newPlayerCount, int newMaxPlayerCount)
     {
         roomNumber.text = "" + newRoomNumber;
-        roomStatus.text = newRoomStatus;
+        if (newRoomStatus)
+        {
+            roomStatus.text = "Waitng";
+            roomStatus.color = new Color(0, 255, 0);
+        }
+        else
+        {
+            roomStatus.text = "Playing";
+            roomStatus.color = new Color(255, 0, 0);
+        }
+        
         roomName.text = newRoomName;
         mapName.text = newMapName;
         playersCount.text = newPlayerCount + "/" + newMaxPlayerCount;

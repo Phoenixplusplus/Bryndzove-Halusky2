@@ -36,6 +36,9 @@ public class Chat : Photon.MonoBehaviour
     public GameObject m_content;
     public InputField m_inputBox;
     public GameObject m_textObject;
+    public bool IsLobbyChat = false;
+
+    private bool m_IsFocues = false;
 
     void Start()
     {
@@ -54,6 +57,14 @@ public class Chat : Photon.MonoBehaviour
         m_colorKicked = new Color(colorVector.x, colorVector.y, colorVector.z);
         // Limit maximal length of message to 255 characters
         m_inputBox.characterLimit = 255;
+
+        // Hide chat on begin play
+        if (!IsLobbyChat)
+        {
+            m_IsFocues = false;
+            m_inputBox.gameObject.SetActive(false);
+            m_inputBox.DeactivateInputField();
+        }
     }
 
     // Check if joke string containt only digits
@@ -74,55 +85,94 @@ public class Chat : Photon.MonoBehaviour
     // Check if is player sending nex message
     void Update()
     {
-        // Check if has player typed anything and pressed enter
-        if (m_inputBox.text != "" && Input.GetKeyDown(KeyCode.Return))
+        // Lobby Chat
+        if (IsLobbyChat)
         {
-            // If typed text is joke macro for example "/1", it will send message containing joke in first position of jokes array from DLL.Library
-            // Check if text containt only digits and once "/"
-            if (IsStringJoke(m_inputBox.text))
+            // Check if has player typed anything and pressed enter
+            if (m_inputBox.text != "" && Input.GetKeyDown(KeyCode.Return))
             {
-                // Remove "/" from string
-                m_inputBox.text = m_inputBox.text.Substring(1);
-                // Check if the numbers is not higher than count of jokes, if is not, send a joke
-                if (int.Parse(m_inputBox.text) < GetJokesCount())
+                // If typed text is joke macro for example "/1", it will send message containing joke in first position of jokes array from DLL.Library
+                // Check if text containt only digits and once "/"
+                if (IsStringJoke(m_inputBox.text))
                 {
-                    m_inputBox.text = Marshal.PtrToStringAnsi(GetJokeByID(int.Parse(m_inputBox.text)));
+                    // Remove "/" from string
+                    m_inputBox.text = m_inputBox.text.Substring(1);
+                    // Check if the numbers is not higher than count of jokes, if is not, send a joke
+                    if (int.Parse(m_inputBox.text) < GetJokesCount())
+                    {
+                        m_inputBox.text = Marshal.PtrToStringAnsi(GetJokeByID(int.Parse(m_inputBox.text)));
+                        SendMessage(PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text, MessageType.PLAYER_INPUT);
+                        photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text);
+                    }
+                    // Send standard message to other players - standard message is what has player typed
+                    else
+                    {
+                        m_inputBox.text = "/" + m_inputBox.text;
+                        SendMessage(PhotonNetwork.player.NickName + ": " + m_inputBox.text, MessageType.PLAYER_INPUT);
+                        photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + ": " + m_inputBox.text);
+                    }
+                }
+                // If typed text is joke macro "/rj", it will send message containing random joke from DLL.Library
+                else if (m_inputBox.text == "/rj")
+                {
+                    m_inputBox.text = Marshal.PtrToStringAnsi(GetRandomJoke());
                     SendMessage(PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text, MessageType.PLAYER_INPUT);
                     photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text);
+                }
+
+                else if (m_inputBox.text == "sr")
+                {
+                    SendMessage(PhotonNetwork.player.NickName + ": " + Screen.width, MessageType.PLAYER_INPUT);
                 }
                 // Send standard message to other players - standard message is what has player typed
                 else
                 {
-                    m_inputBox.text = "/" + m_inputBox.text;
                     SendMessage(PhotonNetwork.player.NickName + ": " + m_inputBox.text, MessageType.PLAYER_INPUT);
                     photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + ": " + m_inputBox.text);
                 }
+
+                // Activate input field again
+                m_inputBox.ActivateInputField();
+                m_inputBox.text = "";
             }
-            // If typed text is joke macro "/rj", it will send message containing random joke from DLL.Library
-            else if (m_inputBox.text == "/rj")
+        }
+        // Gameplay Chat
+        else
+        {
+            if (!m_IsFocues && Input.GetKeyUp(KeyCode.Return))
             {
-                m_inputBox.text = Marshal.PtrToStringAnsi(GetRandomJoke());
-                SendMessage(PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text, MessageType.PLAYER_INPUT);
-                photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + " said joke: " + m_inputBox.text);
+
+                Debug.Log("INPUT IS NOT FOCUSED ------ INPUT STATUS = " + m_IsFocues);
+
+
+                m_IsFocues = true;
+                m_inputBox.gameObject.SetActive(true);
+                m_inputBox.ActivateInputField();
             }
 
 
 
-            else if (m_inputBox.text == "sr")
+            else if (m_IsFocues && Input.GetKeyUp(KeyCode.Return))
             {
-                SendMessage(PhotonNetwork.player.NickName + ": " + Screen.width, MessageType.PLAYER_INPUT);
-            }
+                if (m_inputBox.text != "")
+                {
+                    Debug.Log("SENDING MESSAGE");
+                    // Send standard message to other players - standard message is what has player typed
+                    SendMessage(PhotonNetwork.player.NickName + ": " + m_inputBox.text, MessageType.PLAYER_INPUT);
+                    photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + ": " + m_inputBox.text);
+                    Debug.Log("MESSAGE SHOULD BE SENT");
+                }
 
-            // Send standard message to other players - standard message is what has player typed
-            else
-            {
-                SendMessage(PhotonNetwork.player.NickName + ": " + m_inputBox.text, MessageType.PLAYER_INPUT);
-                photonView.RPC("SendMessagePlayerMessage", PhotonTargets.Others, PhotonNetwork.player.NickName + ": " + m_inputBox.text);
-            }
 
-            // Activate input field again
-            m_inputBox.ActivateInputField();
-            m_inputBox.text = "";
+
+                Debug.Log("INPUT IS FOCUSED ------ INPUT STATUS = " + m_IsFocues);
+
+
+                m_inputBox.text = "";
+                m_IsFocues = false;
+                m_inputBox.gameObject.SetActive(false);
+                m_inputBox.DeactivateInputField();
+            }           
         }
     }
 
@@ -147,8 +197,8 @@ public class Chat : Photon.MonoBehaviour
 
         // Instantiate new text object and push him into array
         GameObject newTextObject = Instantiate(m_textObject, m_content.transform);
-
-        newTextObject.GetComponent<Chat_TextBlockSizer>().UpdateWidth();
+        // Set the text width, depends on what kind of chat it is, and what resolutuins is set
+        newTextObject.GetComponent<Chat_TextBlockSizer>().UpdateWidth(IsLobbyChat);
 
 
         newMessage.textObject = newTextObject.GetComponent<Text>();
