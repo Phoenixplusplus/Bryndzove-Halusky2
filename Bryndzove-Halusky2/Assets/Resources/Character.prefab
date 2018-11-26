@@ -627,7 +627,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGameRunning: 0
   Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
@@ -672,7 +671,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 2
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -733,7 +732,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGameRunning: 0
   Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
@@ -790,7 +788,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGameRunning: 0
   Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
@@ -818,7 +815,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGameRunning: 0
   Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30
@@ -850,7 +846,7 @@ MonoBehaviour:
   group: 0
   OwnerShipWasTransfered: 0
   prefixBackup: -1
-  synchronization: 2
+  synchronization: 3
   onSerializeTransformOption: 3
   onSerializeRigidBodyOption: 2
   ownershipTransfer: 0
@@ -894,7 +890,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsGameRunning: 0
   Character: {fileID: 0}
   sendRate: 30
   serializedSendRate: 30

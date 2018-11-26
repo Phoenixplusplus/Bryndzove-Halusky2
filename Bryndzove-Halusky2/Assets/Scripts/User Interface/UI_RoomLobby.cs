@@ -53,7 +53,7 @@ public class UI_RoomLobby : NetworkManager
         // If has new player joined room Lobby, and I am master client, assign a team to new player
         if (HasNewPlayerJoined && PhotonNetwork.isMasterClient)
         {
-            Debug.Log("Nudes request recieved");
+            //Debug.Log("Nudes request recieved");
 
             // Pick up team for new player, 
             // The first statemnt will assign player into red team if red team has less players in team than blue team
@@ -159,11 +159,13 @@ public class UI_RoomLobby : NetworkManager
             {
                 GM.redTeam.JoinTeam(PhotonNetwork.player.NickName, true);
                 GM.isRedTeam = true;
+                GM.redTeamCount++;
             }
             else
             {
                 GM.blueTeam.JoinTeam(PhotonNetwork.player.NickName, true);
                 GM.isBlueTeam = true;
+                GM.blueTeamCount++;
             }
         }
         Debug.Log("Master client of this room: " + PhotonNetwork.masterClient);

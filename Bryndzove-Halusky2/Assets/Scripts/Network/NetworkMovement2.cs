@@ -17,6 +17,10 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
 
     void Awake()
     {
+        // grab a reference to the root class (returns self if class == root)
+        pCharacter = transform.root.gameObject;
+        characterMovement = pCharacter.GetComponent<C_CharacterMovement>();
+
         lastSyncTime = Time.time;
     }
 
@@ -26,10 +30,6 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
         // set network send rates
         PhotonNetwork.sendRate = sendRate;
         PhotonNetwork.sendRateOnSerialize = serializedSendRate;
-
-        // grab a reference to the root class (returns self if class == root)
-        pCharacter = transform.root.gameObject;
-        characterMovement = pCharacter.GetComponent<C_CharacterMovement>();
     }
 	
 	// Update is called once per frame
@@ -47,31 +47,37 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
 
     void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
-        if (stream.isWriting)
+        if (pCharacter != null)
         {
-            stream.SendNext(transform.position);
-            stream.SendNext(characterMovement.localVelocity);
-            stream.SendNext(transform.rotation);
-        }
-        else
-        {
-            Vector3 syncPosition = (Vector3)stream.ReceiveNext();
-            Vector3 syncVelocity = (Vector3)stream.ReceiveNext();
-            Quaternion syncRotation = (Quaternion)stream.ReceiveNext();
-            syncTime = 0f;
-            syncDelay = Time.time - lastSyncTime;
-            lastSyncTime = Time.time;
-            syncEndPosition = syncPosition + syncVelocity * syncDelay;
-            syncStartPosition = transform.position;
-            syncEndRotation = syncRotation;
-            syncStartRotation = transform.rotation;
+            if (stream.isWriting)
+            {
+                stream.SendNext(transform.position);
+                stream.SendNext(characterMovement.localVelocity);
+                stream.SendNext(transform.rotation);
+            }
+            else
+            {
+                Vector3 syncPosition = (Vector3)stream.ReceiveNext();
+                Vector3 syncVelocity = (Vector3)stream.ReceiveNext();
+                Quaternion syncRotation = (Quaternion)stream.ReceiveNext();
+                syncTime = 0f;
+                syncDelay = Time.time - lastSyncTime;
+                lastSyncTime = Time.time;
+                syncEndPosition = syncPosition + syncVelocity * syncDelay;
+                syncStartPosition = transform.position;
+                syncEndRotation = syncRotation;
+                syncStartRotation = transform.rotation;
+            }
         }
     }
 
     void SyncMovement()
     {
-        syncTime += Time.deltaTime;
-        transform.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
-        transform.rotation = Quaternion.Lerp(syncStartRotation, syncEndRotation, 180f * sendRate * Time.deltaTime);
+        if (pCharacter != null)
+        {
+            syncTime += Time.deltaTime;
+            transform.position = Vector3.Lerp(syncStartPosition, syncEndPosition, syncTime / syncDelay);
+            transform.rotation = Quaternion.Lerp(syncStartRotation, syncEndRotation, 180f * sendRate * Time.deltaTime);
+        }
     }
 }
