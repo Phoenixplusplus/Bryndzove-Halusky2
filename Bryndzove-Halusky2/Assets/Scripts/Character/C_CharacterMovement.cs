@@ -52,9 +52,11 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
         // jump
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            if (!isJumping) StartCoroutine(Jump());
+            if (JumpCheck()) StartCoroutine(Jump());
         }
     }
+
+    bool JumpCheck() { return Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0f), -Vector3.up, 0.55f); }
 
     void RotateWithMouseX()
     {
