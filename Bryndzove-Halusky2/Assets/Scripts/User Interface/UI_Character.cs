@@ -58,6 +58,7 @@ public class UI_Character : MonoBehaviour {
         HealthAmmoIMG.gameObject.SetActive(true);
         TimeleftBackIMG.gameObject.SetActive(true);
         chat.SetActive(true);
+        chat.GetComponent<Chat>().ResetChat();
 
         // set their attributes
         ammoSlider.maxValue = equippedWeapon.clipSize;
@@ -91,6 +92,7 @@ public class UI_Character : MonoBehaviour {
         if (HealthAmmoIMG.isActiveAndEnabled) HealthAmmoIMG.gameObject.SetActive(false);
         if (TimeleftBackIMG.isActiveAndEnabled) TimeleftBackIMG.gameObject.SetActive(false);
         if (!TimeUpIMG.isActiveAndEnabled) TimeUpIMG.gameObject.SetActive(true);
+
         StartCoroutine(RoundEnd(2f, 5f));
     }
 

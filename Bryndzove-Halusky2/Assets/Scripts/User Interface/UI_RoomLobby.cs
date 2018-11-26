@@ -53,8 +53,6 @@ public class UI_RoomLobby : NetworkManager
         // If has new player joined room Lobby, and I am master client, assign a team to new player
         if (HasNewPlayerJoined && PhotonNetwork.isMasterClient)
         {
-            //Debug.Log("Nudes request recieved");
-
             // Pick up team for new player, 
             // The first statemnt will assign player into red team if red team has less players in team than blue team
             if (GM.redTeam.GetCurPlayersTeamCount() < GM.blueTeam.GetCurPlayersTeamCount())
@@ -63,9 +61,7 @@ public class UI_RoomLobby : NetworkManager
                 {
                     if (PhotonNetwork.otherPlayers[i].NickName == m_playerRequested)
                     {
-                        photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Red" });
                         GM.redTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
-                        //GM.isRedTeam = true;
                     }
                 }
             } // The second statemnt will assign player into blue team if blue team has less players in team than red team
@@ -75,9 +71,7 @@ public class UI_RoomLobby : NetworkManager
                 {
                     if (PhotonNetwork.otherPlayers[i].NickName == m_playerRequested)
                     {
-                        photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Blue" });
                         GM.blueTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
-                        //GM.isBlueTeam = true;
                     }
                 }
             }
@@ -90,15 +84,11 @@ public class UI_RoomLobby : NetworkManager
                     {
                         if (randNumb == 0)
                         {
-                            photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Red" });
                             GM.redTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
-                            //GM.isRedTeam = true;
                         }
                         else
                         {
-                            photonView.RPC("SendTeamToGameManager", PhotonTargets.All, new object[] { m_playerRequested, "Blue" });
                             GM.blueTeam.JoinTeam(PhotonNetwork.otherPlayers[i].NickName);
-                            //GM.isBlueTeam = true;
                         }
                     }
                 }
@@ -146,7 +136,6 @@ public class UI_RoomLobby : NetworkManager
         }
         else
         {   // I am a masterClient and have just created this room, so I dont have to ask anyone for team
-
             // this must be reset because players that were not master in 1 room, could be master when they finish game and make a room
             m_BTN_StartGame.enabled = true;
             m_BTN_KickPlayer.enabled = true;
@@ -158,14 +147,10 @@ public class UI_RoomLobby : NetworkManager
             if (randNumb == 0)
             {
                 GM.redTeam.JoinTeam(PhotonNetwork.player.NickName, true);
-                GM.isRedTeam = true;
-                GM.redTeamCount++;
             }
             else
             {
                 GM.blueTeam.JoinTeam(PhotonNetwork.player.NickName, true);
-                GM.isBlueTeam = true;
-                GM.blueTeamCount++;
             }
         }
         Debug.Log("Master client of this room: " + PhotonNetwork.masterClient);
@@ -423,14 +408,5 @@ public class UI_RoomLobby : NetworkManager
                 photonView.RPC("OnNewMaster", PhotonTargets.All, PhotonNetwork.player.NickName, (int)enumTeams.BLUE_TEAM);
             }
         }
-    }
-
-    [PunRPC] void SendTeamToGameManager(string name, string team)
-    {
-        GM = GameObject.Find("GameManager").GetComponent<GameManager>();
-        if (GM.username == name)
-            if (team == "Red")
-                GM.isRedTeam = true;
-            else GM.isBlueTeam = true;
     }
 }

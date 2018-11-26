@@ -49,7 +49,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             headtex = gameManager.headtex;
             bodytex = gameManager.bodytex;
             weapon = gameManager.weapon;
-            if (gameManager.isRedTeam) Team = "Red";
+            if (gameManager.redTeam.IsPlayerInTeam(PhotonNetwork.player.NickName)) Team = "Red";
             else Team = "Blue";
             // apply values
             transform.Find("CharacterBody").GetComponent<Renderer>().material = gameManager.characterTexDict[bodytex];

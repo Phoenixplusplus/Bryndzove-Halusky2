@@ -44,12 +44,8 @@ public class GameManager : MonoBehaviour {
     public bool roundStarted = false;
     public bool roundFinished = false;
     [Header("Teams")]
-    public int redTeamCount = 0;
-    public int blueTeamCount = 0;
     public TeamInfo redTeam;
     public TeamInfo blueTeam;
-    public bool isRedTeam = false;
-    public bool isBlueTeam = false;
     [Header("Paint")]
     public int redTeamPaintCount = 0;
     public int blueTeamPaintCount = 0;
@@ -159,12 +155,8 @@ public class GameManager : MonoBehaviour {
         currentRoundTime = 0f;
         roundStarted = false;
         roundFinished = false;
-        redTeamCount = 0;
-        blueTeamCount = 0;
         redTeamPaintCount = 0;
         blueTeamPaintCount = 0;
-        isRedTeam = false;
-        isBlueTeam = false;
 
         // and decals/paintballs
         foreach (GameObject p in Paintballs)
