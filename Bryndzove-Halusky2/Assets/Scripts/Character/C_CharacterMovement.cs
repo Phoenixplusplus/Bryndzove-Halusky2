@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    public float mouseSensitivity = 3f, movementSpeed = 8.0f;
+    public float mouseSensitivity = 3f, movementSpeed = 50.0f;
     Vector2 newPosition = new Vector2(0.0f, 0.0f);
 
     public float WS, AD;
