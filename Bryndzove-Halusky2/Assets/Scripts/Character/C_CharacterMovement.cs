@@ -12,12 +12,12 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
 
     private GameManager gameManager;
     private C_Character characterRoot;
-    private CharacterController controller;
+    public CharacterController controller;
 
     float speed = 10.0f;
     float jumpSpeed = 8.0f;
     float gravity = 20.0f;
-    Vector3 moveDirection = Vector3.zero;
+    public Vector3 moveDirection = Vector3.zero;
 
     // Use this for initialization
     void Start()
@@ -50,15 +50,9 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
         AD = Input.GetAxis("Horizontal") * Time.fixedDeltaTime;
         WS = Input.GetAxis("Vertical") * Time.fixedDeltaTime;
 
-        Debug.Log("VelocityX: " + AD * Time.deltaTime * movementSpeed + " VelocityY: " + WS * Time.deltaTime * movementSpeed);
-        //localVelocity = new Vector3(AD, 0, WS);
-
-        localVelocity.x = AD;
-        localVelocity.y = WS;
+        localVelocity = new Vector3(AD, 0, WS);
 
         //transform.Translate(AD * Time.deltaTime * movementSpeed, 0, WS * Time.deltaTime * movementSpeed);
-
-
 
         if (controller.isGrounded)
         {

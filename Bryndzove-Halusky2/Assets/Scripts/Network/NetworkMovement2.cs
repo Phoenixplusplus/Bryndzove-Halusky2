@@ -56,7 +56,7 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
             if (stream.isWriting)
             {
                 stream.SendNext(transform.position);
-                stream.SendNext(characterMovement.localVelocity);
+                stream.SendNext(characterMovement.moveDirection);
                 stream.SendNext(transform.rotation);
             }
             // account for delays inbetween data recieved
