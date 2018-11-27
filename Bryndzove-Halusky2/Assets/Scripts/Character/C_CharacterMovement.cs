@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    public float mouseSensitivity = 3f, movementSpeed = 8f;
+    public float mouseSensitivity = 3f, movementSpeed = 8.0f;
+    Vector2 newPosition = new Vector2(0.0f, 0.0f);
+
     public float WS, AD;
     public Vector3 localVelocity;
 
@@ -38,11 +40,17 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     void Movement()
     {
         // move on keyboard input
-        AD = Input.GetAxis("Horizontal") * 0.02f;
-        WS = Input.GetAxis("Vertical") * 0.02f;
+        AD = Input.GetAxis("Horizontal") * Time.fixedDeltaTime;
+        WS = Input.GetAxis("Vertical") * Time.fixedDeltaTime;
 
-        localVelocity = new Vector3(AD, 0, WS);
-        transform.Translate(AD * movementSpeed, 0, WS * movementSpeed);
+
+
+        Debug.Log("VelocityX: " + AD * Time.deltaTime * movementSpeed + " VelocityY: " + WS * Time.deltaTime * movementSpeed);
+        //localVelocity = new Vector3(AD, 0, WS);
+        localVelocity.x = AD;
+        localVelocity.y = WS;
+
+        transform.Translate(AD * Time.deltaTime * movementSpeed, 0, WS * Time.deltaTime * movementSpeed);
 
         if (Input.GetKeyDown(KeyCode.Space)) { if (JumpCheck()) StartCoroutine(Jump()); }
     }
