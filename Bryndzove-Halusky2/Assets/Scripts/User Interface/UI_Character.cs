@@ -23,7 +23,7 @@ public class UI_Character : Photon.MonoBehaviour {
 
     // UI children
     public Slider ammoSlider, healthSlider;
-    public Text AmmoUpText, SpeedUpText, roundTime, redWinPercent, blueWinPercent;
+    public Text AmmoUpText, SpeedUpText, roundTime, redWinPercent, blueWinPercent, FPS_Text, PING_Text;
     public Image InfiniteAmmoIMG, SpeedUpIMG, HealthRecoveredIMG, TimeleftIMG, TimeleftBackIMG, HealthAmmoIMG, TimeUpIMG, WinBackgroundIMG, RedWinIMG, BlueWinIMG, WeWinIMG, WeLoseIMG;
     public Button BackToLobbyBTN;
     public GameObject chat;
@@ -57,6 +57,8 @@ public class UI_Character : Photon.MonoBehaviour {
         TimeleftIMG.gameObject.SetActive(true);
         HealthAmmoIMG.gameObject.SetActive(true);
         TimeleftBackIMG.gameObject.SetActive(true);
+        FPS_Text.gameObject.SetActive(true);
+        PING_Text.gameObject.SetActive(true);
         chat.SetActive(true);
         chat.GetComponent<Chat>().ResetChat();
 
@@ -78,6 +80,9 @@ public class UI_Character : Photon.MonoBehaviour {
             healthSlider.value = localCharacter.Health;
             roundTime.text = gameManager.roundTime.ToString("0.0");
             if (gameManager.roundFinished && endTrigger == false) OnRoundEnd();
+
+            FPS_Text.text = "FPS: " + (int)(Time.frameCount / Time.time);
+            PING_Text.text = "PING: " + PhotonNetwork.GetPing();
         }
     }
 
@@ -91,7 +96,10 @@ public class UI_Character : Photon.MonoBehaviour {
         if (TimeleftIMG.isActiveAndEnabled) TimeleftIMG.gameObject.SetActive(false);
         if (HealthAmmoIMG.isActiveAndEnabled) HealthAmmoIMG.gameObject.SetActive(false);
         if (TimeleftBackIMG.isActiveAndEnabled) TimeleftBackIMG.gameObject.SetActive(false);
+        if (FPS_Text.isActiveAndEnabled) FPS_Text.gameObject.SetActive(false);
+        if (PING_Text.isActiveAndEnabled) PING_Text.gameObject.SetActive(false);
         if (!TimeUpIMG.isActiveAndEnabled) TimeUpIMG.gameObject.SetActive(true);
+
 
         StartCoroutine(RoundEnd(2f, 5f));
     }
@@ -104,6 +112,11 @@ public class UI_Character : Photon.MonoBehaviour {
         for (int i = 0; i < transform.childCount; i++) { transform.GetChild(i).gameObject.SetActive(false); }
         // send event to any components that need to know about reseting values/enabling UI when player goes back to lobby
         if (PlayerBackToLobbyStatus != null) { PlayerBackToLobbyStatus(); }
+    }
+
+    public void GetPing()
+    {
+
     }
 
     // round end coroutine for UI and calculation
