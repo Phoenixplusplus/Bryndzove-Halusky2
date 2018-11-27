@@ -33,7 +33,7 @@ public class C_BodyTilt : Photon.MonoBehaviour {
     // set x,z rotation based on movement from C_CharacterMovement script
     void Tilt()
     {
-        WSADTilt = new Vector3(characterMovement.WS * characterMovement.movementSpeed * rotateRate, 0, -characterMovement.AD * characterMovement.movementSpeed * rotateRate);
+        WSADTilt = new Vector3(characterMovement.WS * 8.0f * rotateRate, 0, -characterMovement.AD * 8.0f * rotateRate);
 
         transform.localEulerAngles = WSADTilt;
     }
