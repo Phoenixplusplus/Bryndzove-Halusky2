@@ -58,7 +58,7 @@ public class NetworkMovement : NetworkManager
             stream.SendNext(transform.rotation);
             if (characterMovement)
             {
-                stream.SendNext(characterMovement.localVelocity);
+                //stream.SendNext(characterMovement.localVelocity);
                 stream.SendNext(characterMovement.speed);
             }
         }

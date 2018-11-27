@@ -15,9 +15,6 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     public Vector3 moveDirection = Vector3.zero;
     private float jumpSpeed = 8.0f;
     private float gravity = 20.0f;
-    // (used for C_BodyTilt and synching network movement)
-    public float WS, AD;
-    public Vector3 localVelocity;
 
     // Use this for initialization
     void Start()
@@ -46,14 +43,6 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     // the base movement for the character - values will be sent over the network in the NetworkMovement2 script
     void Movement()
     {
-        // used for C_BodyTilt script
-        AD = Input.GetAxis("Horizontal") * Time.fixedDeltaTime;
-        WS = Input.GetAxis("Vertical") * Time.fixedDeltaTime;
-
-        localVelocity = new Vector3(AD, 0, WS);
-
-        //transform.Translate(AD * Time.deltaTime * movementSpeed, 0, WS * Time.deltaTime * movementSpeed);
-
         // We are grounded, so recalculate
         // move direction directly from axes
         if (controller.isGrounded)
