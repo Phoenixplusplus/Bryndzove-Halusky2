@@ -68,7 +68,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4258491258053710}
-  - component: {fileID: 114999320999445604}
   - component: {fileID: 114445104811269176}
   - component: {fileID: 114249487498928622}
   - component: {fileID: 114420889334983134}
@@ -253,8 +252,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sendRate: 20
-  serializedSendRate: 20
+  sendRate: 40
+  serializedSendRate: 40
 --- !u!114 &114445104811269176
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,18 +280,3 @@ MonoBehaviour:
   instantiationId: -1
   currentMasterID: -1
   isRuntimeInstantiated: 0
---- !u!114 &114999320999445604
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1627549125480468}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsGameRunning: 0
-  Character: {fileID: 0}
-  sendRate: 30
-  serializedSendRate: 30

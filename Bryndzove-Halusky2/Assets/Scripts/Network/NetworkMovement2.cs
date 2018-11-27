@@ -6,7 +6,7 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
 
     // determine how much data will be sent and recieved every second
     // movement is synched based upon data recieved on these 'frames'
-    public int sendRate = 20, serializedSendRate = 20;
+    public int sendRate = 40, serializedSendRate = 40;
 
     private GameObject pCharacter;
     private C_CharacterMovement characterMovement;

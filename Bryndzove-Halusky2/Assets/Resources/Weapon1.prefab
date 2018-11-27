@@ -36,7 +36,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4695045685921254}
-  - component: {fileID: 114879913903731528}
   - component: {fileID: 114264804043926828}
   - component: {fileID: 114800613074681540}
   - component: {fileID: 114570093619640804}
@@ -257,8 +256,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9fde2654c1f0bab4cb978f58fd0b03e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sendRate: 20
-  serializedSendRate: 20
+  sendRate: 40
+  serializedSendRate: 40
 --- !u!114 &114800613074681540
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -281,18 +280,3 @@ MonoBehaviour:
   shotSpeed: 50
   Muzzle: {fileID: 0}
   paintballColour: {x: 0, y: 0, z: 0}
---- !u!114 &114879913903731528
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1193513322684640}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6fbd1cf476ae5b240a5f087da4621ef6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  IsGameRunning: 0
-  Character: {fileID: 0}
-  sendRate: 30
-  serializedSendRate: 30
