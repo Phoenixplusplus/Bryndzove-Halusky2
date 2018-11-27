@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class C_BodyTilt : Photon.MonoBehaviour {
 
+    // main tilt multiplier
+    public float rotateRate = 100f;
+
     private C_CharacterMovement characterMovement;
     private Vector3 WSADTilt;
-    public float rotateRate = 100f;
 
     void Awake()
     {
@@ -28,7 +30,7 @@ public class C_BodyTilt : Photon.MonoBehaviour {
         }
     }
 
-    // set x,z rotation based on movement from charactermovement script
+    // set x,z rotation based on movement from C_CharacterMovement script
     void Tilt()
     {
         WSADTilt = new Vector3(characterMovement.WS * characterMovement.movementSpeed * rotateRate, 0, -characterMovement.AD * characterMovement.movementSpeed * rotateRate);

@@ -23,18 +23,8 @@ public class W_Weapon : Photon.MonoBehaviour {
     private bool isFiring = false;
     private bool isReloading = false;
 
-    // Use this for initialization
-    void Start ()
-    {
-
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-
-    }
-
+    // main fire function called by the parent of the weapon
+    // virtual to be overriden for custom functionality in subclesses if needed
     public virtual bool Fire()
     {
         if (ammoCount <= 0 || isFiring == true || isReloading == true) return false;
@@ -47,6 +37,8 @@ public class W_Weapon : Photon.MonoBehaviour {
         return true;
     }
 
+    // reload function called by the parent of the weapon
+    // virtual to be overriden for custom functionality in subclesses if needed
     public virtual bool Reload()
     {
         if (ammoCount == clipSize) return false;
@@ -61,7 +53,7 @@ public class W_Weapon : Photon.MonoBehaviour {
 
     }
 
-    // weapon coroutines
+    // weapon delay coroutines
     IEnumerator RunShotDelay()
     {
         while (shotTime < shotDelay)
@@ -92,9 +84,7 @@ public class W_Weapon : Photon.MonoBehaviour {
         yield break;
     }
 
-    [PunRPC] public void SetOwner(string name)
-    {
-        Owner = name;
-    }
+    // RPC send on character Start() to determine the owner of this weapon so it can be childed properly over the network
+    [PunRPC] public void SetOwner(string name) { Owner = name; }
 
 }

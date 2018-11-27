@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class NetworkMovement2 : Photon.MonoBehaviour {
 
+    // determine how much data will be sent and recieved every second
+    // movement is synched based upon data recieved on these 'frames'
+    public int sendRate = 20, serializedSendRate = 20;
+
     private GameObject pCharacter;
     private C_CharacterMovement characterMovement;
-    float lastSyncTime = 0f;
-    float syncTime = 0f;
-    float syncDelay = 0f;
-    Vector3 syncStartPosition = Vector3.zero;
-    Vector3 syncEndPosition = Vector3.zero;
-    Quaternion syncStartRotation = Quaternion.identity;
-    Quaternion syncEndRotation = Quaternion.identity;
-    public int sendRate = 20, serializedSendRate = 20;
+    private float lastSyncTime = 0f;
+    private float syncTime = 0f;
+    private float syncDelay = 0f;
+    private Vector3 syncStartPosition = Vector3.zero;
+    private Vector3 syncEndPosition = Vector3.zero;
+    private Quaternion syncStartRotation = Quaternion.identity;
+    private Quaternion syncEndRotation = Quaternion.identity;
 
     void Awake()
     {
@@ -49,12 +52,14 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
     {
         if (pCharacter != null)
         {
+            // give the data other players need to synchronise our movement
             if (stream.isWriting)
             {
                 stream.SendNext(transform.position);
                 stream.SendNext(characterMovement.localVelocity);
                 stream.SendNext(transform.rotation);
             }
+            // account for delays inbetween data recieved
             else
             {
                 Vector3 syncPosition = (Vector3)stream.ReceiveNext();
@@ -71,6 +76,10 @@ public class NetworkMovement2 : Photon.MonoBehaviour {
         }
     }
 
+    // for smoother movement, lerp between the previously recieved data and the currently recieved data
+    // note: Vector3.MoveTowards() creates an unrealistic movement, lerping of course never reaches the end values, but it enough for smoother movement
+    // for positional updates, we must lerp over time that is when we recieved the last update and when we recieved the current one
+    // rotation is not as important and a static value seems to work well enough
     void SyncMovement()
     {
         if (pCharacter != null)

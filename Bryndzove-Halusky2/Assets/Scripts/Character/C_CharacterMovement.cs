@@ -4,17 +4,12 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    GameManager gameManager;
     public float mouseSensitivity = 3f, movementSpeed = 5f;
     public float WS, AD;
     public Vector3 localVelocity;
-    bool isJumping = false;
-    C_Character characterRoot;
 
-    void Awake()
-    {
-
-    }
+    private GameManager gameManager;
+    private C_Character characterRoot;
 
     // Use this for initialization
     void Start()
@@ -39,7 +34,7 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
         }
     }
 
-    // local
+    // the base movement for the character - values will be sent over the network in the NetworkMovement2 script
     void Movement()
     {
         // move on keyboard input
@@ -49,27 +44,24 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
         localVelocity = new Vector3(AD, 0, WS);
         transform.Translate(AD * movementSpeed, 0, WS * movementSpeed);
 
-        // jump
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            if (JumpCheck()) StartCoroutine(Jump());
-        }
+        if (Input.GetKeyDown(KeyCode.Space)) { if (JumpCheck()) StartCoroutine(Jump()); }
     }
 
-    bool JumpCheck() { return Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0f), -Vector3.up, 0.55f); }
-
+    // rotate character based on the mouse x input
     void RotateWithMouseX()
     {
-        // rotate on mouse X
         float rawMouseRotation = Input.GetAxis("Mouse X");
         Vector3 mouseRotation = new Vector3(0, rawMouseRotation, 0);
 
         transform.Rotate(mouseRotation * mouseSensitivity);
     }
 
+    // cast a small ray to see if we are grounded or not
+    bool JumpCheck() { return Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0f), -Vector3.up, 0.55f); }
+
+    // lift character up until threshold is met
     IEnumerator Jump()
     {
-        isJumping = true;
         float jumpHeight = 0f;
         while (jumpHeight < 0.2f)
         {
@@ -77,7 +69,6 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
             transform.Translate(0, jumpHeight, 0);
             yield return null;
         }
-        isJumping = false;
         yield break;
     }
 }

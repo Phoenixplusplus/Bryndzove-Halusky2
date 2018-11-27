@@ -26,13 +26,13 @@ public class DatabaseManager : MonoBehaviour {
     public delegate void LoadData();
     public static event LoadData LoadDataReady;
 
-    // UI changes made directly from databasemanager
+    // UI changes made directly from .php result
     public Text LoggedInto;
 
-    // public functions
-    public void CreateAccount(string username, string userpass) { StartCoroutine(DB_CreateAccount(username, userpass)); }
-    public void Login(string username, string userpass) { StartCoroutine(DB_Login(username, userpass)); }
-    public void LoadPlayerData(string username, string userpass) { StartCoroutine(DB_LoadPlayerData(username, userpass)); }
+    // public functions to start neccessary Coroutines
+    public void CreateAccount(string username, string userpass)                                                 { StartCoroutine(DB_CreateAccount(username, userpass)); }
+    public void Login(string username, string userpass)                                                         { StartCoroutine(DB_Login(username, userpass)); }
+    public void LoadPlayerData(string username, string userpass)                                                { StartCoroutine(DB_LoadPlayerData(username, userpass)); }
     public void SavePlayerData(string username, string userpass, string headtex, string bodytex, string weapon) { StartCoroutine(DB_SavePlayerData(username, userpass, headtex, bodytex, weapon)); }
 
     void Start()
@@ -40,8 +40,9 @@ public class DatabaseManager : MonoBehaviour {
         soundPosition = GameObject.Find("LobbyCamera").transform.position;
     }
 
-    // coroutines
-    // (if a stop delay is needed for a reply, fabricate one, it isn't done here)
+    // Coroutines
+    // determine (in php) whether this username and password is valid to create and account
+    // if it is, then wait for a reply that contains "created"
     IEnumerator DB_CreateAccount(string username, string userpass)
     {
         WWWForm form = new WWWForm();
@@ -59,6 +60,8 @@ public class DatabaseManager : MonoBehaviour {
         }
     }
 
+    // similarly, wait for a reply containing "Thanks" and then split the result into an array and assign the gamemanager these values
+    // these will eventually be taken by the character on Start() and send it to other players in the room
     IEnumerator DB_Login(string username, string userpass)
     {
         WWWForm form = new WWWForm();
@@ -90,6 +93,8 @@ public class DatabaseManager : MonoBehaviour {
         }
     }
 
+    // loading player data is similar to above, but we must send an event to the UI_Customise script to enable
+    // it to apply this to a dummy model to show the player the values of textures/weapon they have in their account
     IEnumerator DB_LoadPlayerData(string username, string userpass)
     {
         WWWForm form = new WWWForm();
@@ -122,6 +127,7 @@ public class DatabaseManager : MonoBehaviour {
         }
     }
 
+    // update the user information in the database once the player has finished customising their dummy character
     IEnumerator DB_SavePlayerData(string username, string userpass, string headtex, string bodytex, string weapon)
     {
         WWWForm form = new WWWForm();

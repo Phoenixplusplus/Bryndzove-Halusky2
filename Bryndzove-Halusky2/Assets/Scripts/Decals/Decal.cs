@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿// script part of the Deferred Decals package downloaded from the Unity website:
+// https://docs.unity3d.com/Manual/GraphicsCommandBuffers.html
+
+using UnityEngine;
 
 [ExecuteInEditMode]
 public class Decal : MonoBehaviour

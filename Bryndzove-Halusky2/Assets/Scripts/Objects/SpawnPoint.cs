@@ -8,18 +8,8 @@ public class SpawnPoint : Photon.MonoBehaviour {
     public string Team;
     public bool Occupied = false;
 
-	// Use this for initialization
-	void Start ()
-    {
-        
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-		
-	}
-
+    // if this spawnpoint is colliding with a player, send an RPC to everyone to tell them that this spawnpoint is occupied
+    // this means that 2 players cannot be spawned on the same point and cause problems
     void OnTriggerEnter(Collider other)
     {
         if (photonView.isMine)
@@ -42,15 +32,6 @@ public class SpawnPoint : Photon.MonoBehaviour {
         }
     }
 
-    [PunRPC] void TriggerEnter()
-    {
-        Occupied = true;
-        Debug.Log(Occupied);
-    }
-
-    [PunRPC] void TriggerExit()
-    {
-        Occupied = false;
-        Debug.Log(Occupied);
-    }
+    [PunRPC] void TriggerEnter() { Occupied = true; }
+    [PunRPC] void TriggerExit() { Occupied = false; }
 }

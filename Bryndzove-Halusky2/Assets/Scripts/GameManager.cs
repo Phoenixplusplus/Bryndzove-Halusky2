@@ -14,28 +14,10 @@ public class GameManager : MonoBehaviour {
 
     // player configuration dictionaries
     public Dictionary<string, Material> characterTexDict;
-    public Material Head1;
-    public Material Head2;
-    public Material Head3;
-    public Material Head4;
-    public Material Head5;
-    public Material Head6;
-    public Material Head7;
-    public Material Head8;
-    public Material Head9;
-    public Material Body1;
-    public Material Body2;
-    public Material Body3;
-    public Material Body4;
-    public Material Body5;
-    public Material Body6;
-    public Material Body7;
-    public Material Body8;
-    public Material Body9;
+    public Material Head1, Head2, Head3, Head4, Head5, Head6, Head7, Head8, Head9;
+    public Material Body1, Body2, Body3, Body4, Body5, Body6, Body7, Body8, Body9;
     public Dictionary<string, GameObject> characterWeaponDict;
-    public GameObject Weapon1; // pistol
-    public GameObject Weapon2; // machinegun
-    public GameObject Weapon3; // shotgun
+    public GameObject Weapon1, Weapon2, Weapon3; // pistol, machinegun, shotgunn
 
     [Header("-- Runtime Game Stats --")]
     [Header("Round")]
@@ -66,7 +48,7 @@ public class GameManager : MonoBehaviour {
     public Vector3 paintballsStartPosition = new Vector3(0, -10, 0);
     private int currentPaintball = 0;
 
-    Vector3 soundPosition;
+    private Vector3 soundPosition;
 
     void OnEnable()
     {

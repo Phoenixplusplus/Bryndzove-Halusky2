@@ -22,7 +22,8 @@ public class NetworkManager : Photon.MonoBehaviour
         PhotonNetwork.ConnectUsingSettings("v4.2");
         m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
-        lobbyCamera = GameObject.Find("LobbyCamera");    }
+        lobbyCamera = GameObject.Find("LobbyCamera");
+    }
 
     // Update is called once per frame
     void Update()

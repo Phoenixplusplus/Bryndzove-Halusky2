@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class P_Paintball : MonoBehaviour {
 
-    GameManager gameManager;
+    private GameManager gameManager;
 
     [Header("Attributes")]
     public Vector3 Position;
@@ -24,9 +24,6 @@ public class P_Paintball : MonoBehaviour {
     [Header("Ray Attributes")]
     public LayerMask layerMask;
     public float rayLength = 1000f;
-    private Vector3 hitNormal;
-    private Vector3 hitPosition;
-    private GameObject hitObject;
     // ray debugging
     private Vector3 startPosition;
     private Vector3 startForwardPosition;
@@ -35,6 +32,11 @@ public class P_Paintball : MonoBehaviour {
     public AudioSource sourceSplats;
     public AudioClip[] audioSplats;
     public AudioClip[] playerHits;
+
+    // ray attributes
+    private Vector3 hitNormal;
+    private Vector3 hitPosition;
+    private GameObject hitObject;
 
     // Use this for initialization
     void Start ()
@@ -48,8 +50,13 @@ public class P_Paintball : MonoBehaviour {
         // main paintball behaviour
         if (!isInit)
         {
+            // move forward at a constant speed
+            // this helps that each player just needs to send an RPC to everyone when they fire, then everything else can be handled locally as the speed never changes,
+            // of course, there could be minor differences between players because everybody does not recieve this RPC at the same time, but it is not anything to worry too much about
+            // (RPC is made in the weapon script)
             transform.position = transform.position + transform.forward * (Time.deltaTime * Speed);
 
+            // timeout after a while
             Timeout += Time.deltaTime;
             if (Timeout > maxTimeout) ResetPainball();
 
@@ -94,9 +101,9 @@ public class P_Paintball : MonoBehaviour {
         }
 	}
 
+    // handle the collision with player if they are of a different team
     void OnTriggerEnter(Collider other)
     {
-        // collision with player
         if (other.gameObject.tag == "Player")
         {
             C_Character character = other.transform.root.GetComponent<C_Character>();
@@ -129,6 +136,7 @@ public class P_Paintball : MonoBehaviour {
         }
     }
 
+    // reseting paintball, not destorying them
     void ResetPainball()
     {
         transform.position = gameManager.paintballsStartPosition;

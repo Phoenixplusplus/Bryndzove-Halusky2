@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class C_Character : Photon.MonoBehaviour, ICanPickup {
 
-    private GameManager gameManager;
-
     // events
     public delegate void PlayerStart();
     public static event PlayerStart PlayerReady;
@@ -18,7 +16,6 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     [Header("Attributes")]
     public float Health;
     public float maxHealth = 10f;
-    public float healthRecoverySpeed = 0.1f;
     public string username;
     public string userpass;
     public string headtex;
@@ -30,7 +27,8 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public AudioClip goSound;
     public bool isDead = false;
 
-    C_CameraMovement localCamera;
+    private GameManager gameManager;
+    private C_CameraMovement localCamera;
 
     // do not assign these values in editor
     public W_Weapon leftWeapon, rightWeapon;
@@ -39,10 +37,12 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     // Use this for initialization
     void Start()
     {
-        // on spawn from network manager
+        // Spawning of character only happen when the NetworkManager is ready to spawn one
         if (photonView.isMine)
         {
             gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+            localCamera = transform.GetChild(1).GetComponent<C_CameraMovement>();
+
             // grab values needed from gamemanager
             username = gameManager.username;
             userpass = gameManager.userpass;
@@ -51,49 +51,42 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             weapon = gameManager.weapon;
             if (gameManager.redTeam.IsPlayerInTeam(PhotonNetwork.player.NickName)) Team = "Red";
             else Team = "Blue";
-            // apply values
+
+            // apply textures based on values
             transform.Find("CharacterBody").GetComponent<Renderer>().material = gameManager.characterTexDict[bodytex];
             transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
             transform.Find("CharacterBody/CharacterLArm").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
             transform.Find("CharacterBody/CharacterRArm").GetComponent<Renderer>().material = gameManager.characterTexDict[headtex];
-            // (weapon values are assigned after team is chosen, as colour of weapon needs to change)
+            // weapon values are assigned after team is chosen, as colour of weapon needs to change
 
-            if (PhotonNetwork.isMasterClient == true)
-            {
-                Debug.Log("I am master client, setting reference to GameManager");
-                Debug.Log("Press V to see how many parts a team has painted");
-            }
-
-            // pick a team based on players in server send as buffed so others that join know
-            int rand = Random.Range(0, 3);
-            photonView.RPC("PickTeam", PhotonTargets.AllBuffered, rand);
-
+            // find an available spawn point
             MoveToSpawnPoint();
+
+            // attach weapon to slot
             AttachWeapon(gameObject, weapon);
+
+            // send this information to other players so they can texture me and child my weapon
             photonView.RPC("SendPlayerInfo", PhotonTargets.OthersBuffered, new object[] { username, userpass, headtex, bodytex, weapon, Team });
 
+            // set my health
             Health = maxHealth;
-            localCamera = transform.GetChild(1).GetComponent<C_CameraMovement>();
 
-            AudioSource.PlayClipAtPoint(goSound, localCamera.transform.position);
-
-            // send event to listeners
+            // send event to listeners that the character is spawned and ready
             if (PlayerReady != null)
             {
                 Debug.Log("Finished startup, Player is calling event to listeners");
                 PlayerReady();
             }
-        }
-        else
-        {
 
+            // play audio of round start
+            AudioSource.PlayClipAtPoint(goSound, localCamera.transform.position);
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        // keyboard input
+        // Update loop is only conserned with keyboard input -- and checking conditions for this input
         if (photonView.isMine)
         {
             if (!gameManager.roundFinished)
@@ -118,15 +111,6 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
                     {
                         leftWeapon.Reload();
                     }
-                    if (Input.GetKeyDown(KeyCode.V))
-                    {
-                        // debug to check team paint count
-                        if (PhotonNetwork.isMasterClient)
-                        {
-                            Debug.Log("Red team has painted " + gameManager.redTeamPaintCount + " parts!");
-                            Debug.Log("Blue team has painted " + gameManager.blueTeamPaintCount + " parts!");
-                        }
-                    }
                     if (Health <= 0)
                     {
                         CallDeath(3f);
@@ -136,58 +120,12 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         }
     }
 
-    [PunRPC] void PickTeam(int rand)
-    {
-        //Debug.Log("red = " + gameManager.redTeam.GetTeamColor());
-        //Debug.Log("blue = " + gameManager.blueTeam.GetTeamColor());
-        //int redTeamCount = 0;
-        //int blueTeamCount = 0;
-
-        //// find all characters in the server currently as see which team they're on
-        //GameObject[] playerRefs = GameObject.FindGameObjectsWithTag("Character");
-
-        //for (int i = 0; i < playerRefs.Length; i++)
-        //{
-        //    if (playerRefs[i].GetComponent<C_Character>().Team == "Red") redTeamCount++;
-        //    if (playerRefs[i].GetComponent<C_Character>().Team == "Blue") blueTeamCount++;
-        //}
-
-        //// pick a team based on teamcount
-        //if (redTeamCount > blueTeamCount)
-        //{
-        //    Team = "Blue";
-        //    blueTeamCount++;
-        //}
-        //else if (blueTeamCount > redTeamCount)
-        //{
-        //    Team = "Red";
-        //    redTeamCount++;
-        //}
-        //else
-        //{
-        //    if (rand == 1)
-        //    {
-        //        Team = "Blue";
-        //        blueTeamCount++;
-        //    }
-        //    else
-        //    {
-        //        Team = "Red";
-        //        redTeamCount++;
-        //    }
-        //}
-
-        //// if this client happens to be master, find and update GameManager
-        //if (PhotonNetwork.isMasterClient == true)
-        //{
-        //    GameObject.Find("GameManager").GetComponent<GameManager>().redTeamCount = redTeamCount;
-        //    GameObject.Find("GameManager").GetComponent<GameManager>().blueTeamCount = blueTeamCount;
-        //}
-    }
-
-    // main function to send a users data to all other users, so they can texture them and attach their weapon, on start
+    // Called on Start()
+    // main function to send a users data to all other users, so they can texture them and attach their weapon, as well as register their database information
+    // this is needed for things like death cam and other UI that needs to know which player was killed by which
     [PunRPC] void SendPlayerInfo(string RPCusername, string RPCuserpass, string RPCheadtex, string RPCbodytex, string RPCweapon, string RPCteam)
     {
+        // set their base information
         username = RPCusername;
         userpass = RPCuserpass;
         headtex = RPCheadtex;
@@ -202,7 +140,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         {
             if (playerRefs[i].GetComponent<C_Character>().username == RPCusername)
             {
-                // if their username is the same as on one recieved in RPC, change their materials based on strings that was send in rpc too
+                // if their username is the same as on one recieved in RPC, everyone needs to change their materials based on strings that was send in rpc too
                 playerRefs[i].transform.Find("CharacterBody").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCbodytex];
                 playerRefs[i].transform.Find("CharacterBody/CharacterHead").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCheadtex];
                 playerRefs[i].transform.Find("CharacterBody/CharacterLArm").GetComponent<Renderer>().material = GameObject.Find("GameManager").GetComponent<GameManager>().characterTexDict[RPCheadtex];
@@ -218,6 +156,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
                         // change colour == Team
                         if (playerRefs[i].GetComponent<C_Character>().Team == "Red")
                         {
+                            // if the weapon name contains 3 (ie the shotgun) we must material it differently to the other weapons
                             if (!weaponRefs[w].name.Contains("3"))
                             {
                                 weaponRefs[w].transform.GetChild(0).GetComponent<Renderer>().material = redMaterial;
@@ -242,9 +181,9 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         }
     }
 
+    // move to spawn point
     void MoveToSpawnPoint()
     {
-        // move to spawn point
         GameObject[] spawnPointRefs = GameObject.FindGameObjectsWithTag("SpawnPoint");
 
         for (int i = 0; i < spawnPointRefs.Length; i++)
@@ -258,14 +197,20 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         }
     }
 
+    // attaching a weapon to the corresponding player
     void AttachWeapon(GameObject root, string weapon)
     {
-        // spawn weapon
+        // declare game object, and find the slot where we want to child it to
         GameObject localL_Gun;
         Transform L_gunSlot = transform.Find("CharacterBody/CharacterLArm/LGunSlot");
 
-        localL_Gun = (GameObject)PhotonNetwork.Instantiate(weapon, L_gunSlot.transform.position + new Vector3(0, 0.1f, 0), transform.rotation, 0); // weapon = a string taken from the database, which must match the name of the weapon in the resources folder
+        // instantiate weapon and child it to the found slot
+        // weapon string is ultimately taken from the database and assigned to the gamemanager, which this character recieves on start - or for other players - is recieved in the RPC
+        // that was sent to them on Start()
+        localL_Gun = (GameObject)PhotonNetwork.Instantiate(weapon, L_gunSlot.transform.position + new Vector3(0, 0.1f, 0), transform.rotation, 0);
         localL_Gun.transform.parent = L_gunSlot;
+
+        // send to everyone the owner of this weapon
         localL_Gun.GetPhotonView().RPC("SetOwner", PhotonTargets.AllBuffered, username);
 
         // change colour == Team
@@ -450,7 +395,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
     public void CallDeath(float time) { StartCoroutine(OnDeath(time)); }
 
     // notify players of kill
-    // this coroutine is triggers by the RPC function below
+    // this coroutine is triggered by the RPC function below
     IEnumerator NotifyOfKill(string owner, string killedCharacter, float time)
     {
         GameObject KillNotifyObj = GameObject.Find("_UI/CharacterUI/KillNotificationText");

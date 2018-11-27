@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UI_Character : MonoBehaviour {
+public class UI_Character : Photon.MonoBehaviour {
 
     // events
     public delegate void PlayerBackToLobby();
@@ -119,9 +119,21 @@ public class UI_Character : MonoBehaviour {
         RedWinIMG.gameObject.SetActive(true);
         BlueWinIMG.gameObject.SetActive(true);
 
-        totalPaint = gameManager.redTeamPaintCount + gameManager.blueTeamPaintCount;
-        redRatio = gameManager.redTeamPaintCount / totalPaint;
-        blueRatio = gameManager.blueTeamPaintCount / totalPaint;
+        // only master calculates the result of the round and sends this result to all other players
+        if (PhotonNetwork.isMasterClient)
+        {
+            totalPaint = gameManager.redTeamPaintCount + gameManager.blueTeamPaintCount;
+            redRatio = gameManager.redTeamPaintCount / totalPaint;
+            blueRatio = gameManager.blueTeamPaintCount / totalPaint;
+
+            // check for minimum or maximum values
+            if (gameManager.redTeamPaintCount == totalPaint) redRatio = 1;
+            if (gameManager.blueTeamPaintCount == totalPaint) blueRatio = 1;
+            if (gameManager.redTeamPaintCount == 0) redRatio = 0;
+            if (gameManager.blueTeamPaintCount == 0) blueRatio = 0;
+
+            photonView.RPC("GetWinLoseRatio", PhotonTargets.All, redRatio, blueRatio);
+        }
 
         while (firstTime < time + 0.1f)
         {
@@ -183,5 +195,11 @@ public class UI_Character : MonoBehaviour {
 
         Debug.Log("Breaking");
         yield break;
+    }
+
+    [PunRPC] void GetWinLoseRatio(float RPCredRatio, float RPCblueRatio)
+    {
+        redRatio = RPCredRatio;
+        blueRatio = RPCblueRatio;
     }
 }

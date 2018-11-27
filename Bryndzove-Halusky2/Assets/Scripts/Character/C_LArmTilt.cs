@@ -4,13 +4,7 @@ using UnityEngine;
 
 public class C_LArmTilt : Photon.MonoBehaviour
 {
-
     private GameObject characterCamera;
-
-    void Awake()
-    {
-
-    }
 
     // Use this for initialization
     void Start()

@@ -76,4 +76,5 @@ MonoBehaviour:
   - SendMessagePlayerLeft
   - SendMessagePlayerMessage
   - SendTeamToGameManager
+  - GetWinLoseRatio
   DisableAutoOpenWizard: 1

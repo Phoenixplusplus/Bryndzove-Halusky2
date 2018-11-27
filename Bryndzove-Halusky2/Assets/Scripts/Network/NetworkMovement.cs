@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+//// LEGACY CODE ////
 public class NetworkMovement : NetworkManager
 {
     private GameObject pCharacter;

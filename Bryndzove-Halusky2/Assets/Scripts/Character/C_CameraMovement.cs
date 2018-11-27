@@ -4,14 +4,17 @@ using UnityEngine;
 
 public class C_CameraMovement : Photon.MonoBehaviour {
 
-    GameManager gameManager;
+    // control variables
     public float cameraSensitivity, cameraSensitivityDamp = 3f;
-    C_CharacterMovement characterMovement;
-    Vector3 mouseRotation;
-    Vector3 initialPos;
-    Quaternion initialRot;
-    Transform parent;
-    C_Character character;
+
+    // references
+    private GameManager gameManager;
+    private C_CharacterMovement characterMovement;
+    // initial variables
+    private Vector3 mouseRotation;
+    private Vector3 initialPos;
+    private Quaternion initialRot;
+    private Transform parent;
 
     void Awake()
     {
@@ -27,7 +30,6 @@ public class C_CameraMovement : Photon.MonoBehaviour {
         initialPos = transform.localPosition;
         initialRot = transform.localRotation;
         parent = transform.parent;
-        character = parent.GetComponent<C_Character>();
     }
 	
 	// Update is called once per frame
@@ -62,6 +64,8 @@ public class C_CameraMovement : Photon.MonoBehaviour {
         }
     }
 
+    // -- Functions/Coroutine only called by C_Character.OnDeath() when it detects death
+    // reset camera back to zero and then reparent to it's original parent
     public void ResetCamera()
     {
         transform.rotation = Quaternion.identity;
@@ -71,12 +75,14 @@ public class C_CameraMovement : Photon.MonoBehaviour {
         transform.localRotation = initialRot;
     }
 
+    // parent the camera to the GameObject that killed the player and start the Coroutine EnableDeathCam
     public void CallDeathCam(float time, GameObject killedByPlayer)
     {
         transform.parent = null;
         StartCoroutine(EnableDeathCam(time, killedByPlayer));
     }
 
+    // Coroutine is enabled and the position/rotation of the camera is adjusted slightly - break out after a given amount of time
     IEnumerator EnableDeathCam(float time, GameObject killedByPlayer)
     {
         float deathTime = 0f;

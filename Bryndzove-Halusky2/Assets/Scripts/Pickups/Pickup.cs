@@ -14,23 +14,17 @@ public class Pickup : MonoBehaviour {
 
     [Header("Materials")]
     public Material baseMaterial;
-    public Material secondaryMaterial1;
-    public Material secondaryMaterial2;
-    public Material secondaryMaterial3;
-    public Material secondaryMaterial4;
-    public Material secondaryMaterial5;
+    public Material secondaryMaterial1, secondaryMaterial2, secondaryMaterial3, secondaryMaterial4, secondaryMaterial5;
     Dictionary<string, Material> materialDict;
-    public Material ammoUp;
-    public Material speedUp;
-    public Material healthUp;
+    public Material ammoUp, speedUp, healthUp;
 
-    Vector3 startPos;
-    bool movingUp = true;
-    float currentHideTime = 0f;
+    private Vector3 startPos;
+    private bool movingUp = true;
+    private float currentHideTime = 0f;
 
     void Awake()
     {
-        // assign random secondary colour
+        // initialise material dictionary
         materialDict = new Dictionary<string, Material>();
         materialDict.Add("secondaryMaterial1", secondaryMaterial1);
         materialDict.Add("secondaryMaterial2", secondaryMaterial2);
@@ -38,10 +32,12 @@ public class Pickup : MonoBehaviour {
         materialDict.Add("secondaryMaterial4", secondaryMaterial4);
         materialDict.Add("secondaryMaterial5", secondaryMaterial5);
 
+        // assign random secondary colour
         int rand = Random.Range(1, 6);
         transform.Find("Present/Model").GetComponent<Renderer>().materials = new Material[] { materialDict["secondaryMaterial" + rand], baseMaterial, materialDict["secondaryMaterial" + rand], materialDict["secondaryMaterial" + rand] };
 
         // assign the billboard material to match pickup type
+        // instead of creating subclasses, just base which pickup is which by an enum
         if (pickUpType == PickupType.Random) { pickUpType = (PickupType)Random.Range(1, 4); } 
         if (pickUpType == PickupType.AmmoUp) transform.Find("Billboard").GetComponent<Renderer>().material = ammoUp;
         if (pickUpType == PickupType.SpeedUp) transform.Find("Billboard").GetComponent<Renderer>().material = speedUp;
@@ -61,6 +57,7 @@ public class Pickup : MonoBehaviour {
         Bounce(bounceHeight);
 	}
 
+    // bounce animation
     void Bounce(float distance)
     {
         if (movingUp == true)
