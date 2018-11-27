@@ -5,7 +5,7 @@ using UnityEngine;
 public class C_BodyTilt : Photon.MonoBehaviour {
 
     // main tilt multiplier
-    public float rotateRate = 100f;
+    public float rotateRate = 100.0f;
 
     private C_CharacterMovement characterMovement;
     private Vector3 WSADTilt;

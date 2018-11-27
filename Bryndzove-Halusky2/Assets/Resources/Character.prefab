@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 114803956066566892}
   - component: {fileID: 114787870906412550}
   - component: {fileID: 54445859611663706}
+  - component: {fileID: 143558805137061094}
   m_Layer: 11
   m_Name: Character
   m_TagString: Character
@@ -760,7 +761,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mouseSensitivity: 3
-  movementSpeed: 8
+  movementSpeed: 500
   WS: 0
   AD: 0
   localVelocity: {x: 0, y: 0, z: 0}
@@ -985,3 +986,20 @@ CapsuleCollider:
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!143 &143558805137061094
+CharacterController:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1488069754296512}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 1, z: 0}
