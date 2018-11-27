@@ -38,8 +38,8 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     void Movement()
     {
         // move on keyboard input
-        AD = Input.GetAxis("Horizontal") * Time.fixedDeltaTime;
-        WS = Input.GetAxis("Vertical") * Time.fixedDeltaTime;
+        AD = Input.GetAxis("Horizontal") * Time.deltaTime;
+        WS = Input.GetAxis("Vertical") * Time.deltaTime;
 
         localVelocity = new Vector3(AD, 0, WS);
         transform.Translate(AD * movementSpeed, 0, WS * movementSpeed);

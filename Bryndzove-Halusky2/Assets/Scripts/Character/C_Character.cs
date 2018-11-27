@@ -389,6 +389,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         RespawningObj.SetActive(false);
         if (photonView.isMine) localCamera.ResetCamera();
         MoveToSpawnPoint();
+        leftWeapon.ammoCount = leftWeapon.clipSize;
         yield break;
     }
 
