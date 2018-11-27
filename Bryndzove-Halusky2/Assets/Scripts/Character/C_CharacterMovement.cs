@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    public float mouseSensitivity = 3f, movementSpeed = 5f;
+    public float mouseSensitivity = 3f, movementSpeed = 8f;
     public float WS, AD;
     public Vector3 localVelocity;
 
@@ -38,8 +38,8 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     void Movement()
     {
         // move on keyboard input
-        AD = Input.GetAxis("Horizontal") * Time.deltaTime;
-        WS = Input.GetAxis("Vertical") * Time.deltaTime;
+        AD = Input.GetAxis("Horizontal") * 0.02f;
+        WS = Input.GetAxis("Vertical") * 0.02f;
 
         localVelocity = new Vector3(AD, 0, WS);
         transform.Translate(AD * movementSpeed, 0, WS * movementSpeed);

@@ -318,7 +318,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             while (speedTime < time)
             {
                 speedTime += Time.deltaTime;
-                characterMovement.movementSpeed = 8f;
+                characterMovement.movementSpeed = 11f;
                 SpeedUpText.text = (time - speedTime).ToString("0.0");
                 yield return null;
             }
