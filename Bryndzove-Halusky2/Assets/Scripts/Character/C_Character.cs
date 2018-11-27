@@ -311,14 +311,14 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         speedUpObj2.SetActive(true);
         SpeedUpObj.SetActive(true);
 
-        if (characterMovement.movementSpeed != 13f) // check to see if they haven't got the effect already
+        if (characterMovement.movementSpeed != 600f) // check to see if they haven't got the effect already
         {
 
             float speedTime = 0f;
             while (speedTime < time)
             {
                 speedTime += Time.deltaTime;
-                characterMovement.movementSpeed = 11f;
+                characterMovement.movementSpeed = 600f;
                 SpeedUpText.text = (time - speedTime).ToString("0.0");
                 yield return null;
             }
@@ -358,7 +358,6 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         RespawningObj.SetActive(true);
 
         // death stuff
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.None;
         isDead = true;
         AudioSource.PlayClipAtPoint(deathSound, transform.position);
 
@@ -383,7 +382,6 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             yield return null;
         }
 
-        GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeRotation;
         Health = maxHealth;
         isDead = false;
         RespawningObj.SetActive(false);
