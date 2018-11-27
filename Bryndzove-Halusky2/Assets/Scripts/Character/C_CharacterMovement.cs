@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class C_CharacterMovement : Photon.MonoBehaviour {
 
-    public float mouseSensitivity = 3f, movementSpeed = 50.0f;
-    Vector2 newPosition = new Vector2(0.0f, 0.0f);
-
-    public float WS, AD;
-    public Vector3 localVelocity;
+    public float mouseSensitivity = 3f;
 
     private GameManager gameManager;
     private C_Character characterRoot;
-    public CharacterController controller;
+    private CharacterController controller;
 
-    float speed = 10.0f;
-    float jumpSpeed = 8.0f;
-    float gravity = 20.0f;
+    // movement attributes
+    public float speed = 10.0f;
     public Vector3 moveDirection = Vector3.zero;
+    private float jumpSpeed = 8.0f;
+    private float gravity = 20.0f;
+    // (used for C_BodyTilt and synching network movement)
+    public float WS, AD;
+    public Vector3 localVelocity;
 
     // Use this for initialization
     void Start()
@@ -46,7 +46,7 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
     // the base movement for the character - values will be sent over the network in the NetworkMovement2 script
     void Movement()
     {
-        // move on keyboard input
+        // used for C_BodyTilt script
         AD = Input.GetAxis("Horizontal") * Time.fixedDeltaTime;
         WS = Input.GetAxis("Vertical") * Time.fixedDeltaTime;
 
@@ -54,11 +54,10 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
 
         //transform.Translate(AD * Time.deltaTime * movementSpeed, 0, WS * Time.deltaTime * movementSpeed);
 
+        // We are grounded, so recalculate
+        // move direction directly from axes
         if (controller.isGrounded)
         {
-            // We are grounded, so recalculate
-            // move direction directly from axes
-
             moveDirection = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
             moveDirection = transform.TransformDirection(moveDirection);
             moveDirection = moveDirection * speed;
@@ -74,8 +73,6 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
 
         // Move the controller
         controller.Move(moveDirection * Time.deltaTime);
-
-        //if (Input.GetKeyDown(KeyCode.Space)) { if (JumpCheck()) StartCoroutine(Jump()); }
     }
 
     // rotate character based on the mouse x input
@@ -85,21 +82,5 @@ public class C_CharacterMovement : Photon.MonoBehaviour {
         Vector3 mouseRotation = new Vector3(0, rawMouseRotation, 0);
 
         transform.Rotate(mouseRotation * mouseSensitivity);
-    }
-
-    // cast a small ray to see if we are grounded or not
-    bool JumpCheck() { return Physics.Raycast(transform.position + new Vector3(0f, 0.5f, 0f), -Vector3.up, 0.55f); }
-
-    // lift character up until threshold is met
-    IEnumerator Jump()
-    {
-        float jumpHeight = 0f;
-        while (jumpHeight < 0.2f)
-        {
-            jumpHeight += Time.deltaTime;
-            transform.Translate(0, jumpHeight, 0);
-            yield return null;
-        }
-        yield break;
     }
 }

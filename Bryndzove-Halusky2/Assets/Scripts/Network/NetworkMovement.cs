@@ -59,7 +59,7 @@ public class NetworkMovement : NetworkManager
             if (characterMovement)
             {
                 stream.SendNext(characterMovement.localVelocity);
-                stream.SendNext(characterMovement.movementSpeed);
+                stream.SendNext(characterMovement.speed);
             }
         }
         else

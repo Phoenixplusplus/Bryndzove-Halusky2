@@ -261,7 +261,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
                 case PickupType.SpeedUp:
                     {
                         Debug.Log(username + " got speed box");
-                        StartCoroutine(OnSpeedPickup(this.GetComponent<C_CharacterMovement>().movementSpeed, 5f));
+                        StartCoroutine(OnSpeedPickup(this.GetComponent<C_CharacterMovement>().speed, 5f));
                         return;
                     }
             }
@@ -311,21 +311,21 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
         speedUpObj2.SetActive(true);
         SpeedUpObj.SetActive(true);
 
-        if (characterMovement.movementSpeed != 600f) // check to see if they haven't got the effect already
+        if (characterMovement.speed != 13f) // check to see if they haven't got the effect already
         {
 
             float speedTime = 0f;
             while (speedTime < time)
             {
                 speedTime += Time.deltaTime;
-                characterMovement.movementSpeed = 600f;
+                characterMovement.speed = 13f;
                 SpeedUpText.text = (time - speedTime).ToString("0.0");
                 yield return null;
             }
 
             speedUpObj2.SetActive(false);
             SpeedUpObj.SetActive(false);
-            characterMovement.movementSpeed = currentSpeed;
+            characterMovement.speed = currentSpeed;
             yield break;
         }
         else yield break;
