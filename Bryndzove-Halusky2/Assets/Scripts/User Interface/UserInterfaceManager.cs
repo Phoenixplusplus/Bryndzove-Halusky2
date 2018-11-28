@@ -29,7 +29,6 @@ public class UserInterfaceManager : MonoBehaviour
         UI_CreateRoom = CNVS_MainMenu.transform.GetChild(2).transform.GetChild(5);
         UI_PlayerBeenKicked = CNVS_MainMenu.transform.GetChild(2).transform.GetChild(6);
 
-
         // Disable UI
         UI_PlayerBeenKicked.gameObject.SetActive(false);
         UI_RoomSection.gameObject.SetActive(false);
@@ -38,16 +37,7 @@ public class UserInterfaceManager : MonoBehaviour
         CNVS_MainMenu.transform.GetChild(2).gameObject.SetActive(false);
     }
 
-    void OnEnable()
-    {
-        UI_Character.PlayerBackToLobbyStatus += ResetUI;
-    }
-
-    void OnDisable()
-    {
-        UI_Character.PlayerBackToLobbyStatus -= ResetUI;
-    }
-
+    // Public Section
     public void EnableMainMenu()                { CNVS_MainMenu.gameObject.SetActive(true); }
     public void DisableMainMenu()               { CNVS_MainMenu.gameObject.SetActive(false); }
 
@@ -79,6 +69,12 @@ public class UserInterfaceManager : MonoBehaviour
 
     // Return the count of players connected in master server and rooms together
     public int GetPlayersInMasterServer()       { return PhotonNetwork.countOfPlayersOnMaster + PhotonNetwork.countOfPlayersInRooms; }
+
+
+
+    // Evenets Section
+    void OnEnable()                             { UI_Character.PlayerBackToLobbyStatus += ResetUI; }
+    void OnDisable()                            { UI_Character.PlayerBackToLobbyStatus -= ResetUI; }
 
     // Return the UI back to how it was when player first launched game
     void ResetUI()

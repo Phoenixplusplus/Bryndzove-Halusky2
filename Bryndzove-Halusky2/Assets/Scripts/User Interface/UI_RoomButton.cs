@@ -12,6 +12,7 @@ public class UI_RoomButton : Photon.MonoBehaviour
     private Text playersCount;
     private Button m_ThisButton;
 
+    // Initialize references
     void Awake()
     {
         roomNumber = this.gameObject.transform.GetChild(0).GetComponent<Text>();
@@ -23,7 +24,7 @@ public class UI_RoomButton : Photon.MonoBehaviour
         m_ThisButton = GetComponent<Button>();
     }
 
-
+    // Set details from room into button
     public void SetRoomDetails(int newRoomNumber, bool newRoomStatus, string newRoomName, string newMapName, int newPlayerCount, int newMaxPlayerCount)
     {
         roomNumber.text = "" + newRoomNumber;
@@ -44,6 +45,7 @@ public class UI_RoomButton : Photon.MonoBehaviour
         m_ThisButton.enabled = true;
     }
 
+    // Reset button variables
     public void ResetButton()
     {
         roomNumber.text = "";

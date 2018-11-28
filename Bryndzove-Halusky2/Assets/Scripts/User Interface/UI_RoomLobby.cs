@@ -18,9 +18,7 @@ public class UI_RoomLobby : NetworkManager
     private Image[] m_blueTeamPlayersButtonsImages = new Image[4];
     private Image BTN_IMG_StartRoom;
     private Image BTN_IMG_KickPlayer;
-    private bool HasPickedTeam;
     private bool HasNewPlayerJoined;
-    private string lastAssignedMasterClient;
     private string m_playerRequested;
     private string m_playerMarkedToKick;
     private int MAXIMUM_COUNT_OF_PLAYERS_IN_TEAM;
@@ -41,7 +39,6 @@ public class UI_RoomLobby : NetworkManager
         m_playerMarkedToKick = "";
         m_lastMarkedPlayerToKickIsFromTeam = enumTeams.NO_TEAM;
 
-        HasPickedTeam = false;
         HasNewPlayerJoined = false;
 
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
@@ -332,9 +329,6 @@ public class UI_RoomLobby : NetworkManager
     // MasterClient is sending message to all players in the room except him self
     [PunRPC] void MasterIsSendingTeamInformations(string[] tempRedTeamStringArray, string[] tempBlueTeamStringArray, string masterClientName)
     {
-        // Keep track of master client NickName
-        lastAssignedMasterClient = masterClientName;
-
         // Update teams with new data, and master client name
         GM.redTeam.UpdateTeam(tempRedTeamStringArray, masterClientName);
         GM.blueTeam.UpdateTeam(tempBlueTeamStringArray, masterClientName);

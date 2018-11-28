@@ -21,9 +21,7 @@ public class TeamInfo
         buttonsArray = new Button[4];
         playersNameArray = new string[maxPlayersInTeamCount];
 
-
         for (int i = 0; i < playersNameArray.Length; i++) playersNameArray[i] = "Empty Slot";
-
 
         // Initialize buttons
         if (redTeam)
@@ -64,9 +62,6 @@ public class TeamInfo
         }
     }
 
-
-
-
     // Getter functions
     // Ask if the slot is empty or not
     public bool GetSlotStatus(int slotIndex)
@@ -90,9 +85,6 @@ public class TeamInfo
     // Get maximus size of team
     public int GetMaxPlayersTeamCount()     { return maxPlayersInTeamCount; }
 
-
-
-
     // Utility functions
     // Check if is player in team
     public bool IsPlayerInTeam(string playerName)
@@ -111,8 +103,8 @@ public class TeamInfo
             {
                 if (playersNameArray[i] != "" && playerNickName == playersNameArray[i])
                 {
-                    return;
                     Debug.Log("Can not join team, team is full");
+                    return;
                 }
             }
 

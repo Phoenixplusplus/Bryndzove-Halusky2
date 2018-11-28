@@ -7,7 +7,6 @@ public class NetworkManager : Photon.MonoBehaviour
     protected TypedLobby lobbyName = new TypedLobby("NewLobby", LobbyType.Default);
     public RoomInfo[] roomsList;
     protected GameManager GM;
-    private GameObject lobbyCamera;
     protected GameObject localCharacter;
     private UserInterfaceManager m_UI_manager;
 
@@ -22,7 +21,6 @@ public class NetworkManager : Photon.MonoBehaviour
         PhotonNetwork.ConnectUsingSettings("v4.2");
         m_UI_manager = GameObject.Find("UIManager").GetComponent<UserInterfaceManager>();
         GM = GameObject.Find("GameManager").GetComponent<GameManager>();
-        lobbyCamera = GameObject.Find("LobbyCamera");
     }
 
     // Update is called once per frame

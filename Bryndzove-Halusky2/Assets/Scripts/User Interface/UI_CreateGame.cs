@@ -7,8 +7,7 @@ public class UI_CreateGame : MonoBehaviour
     private byte m_playersCount;
     private int m_mapID;
     private InputField m_roomName;
-    private InputField m_roomPasword;
-    private bool IsRoomPublic;
+   // private InputField m_roomPasword;
     private Image BTN_IMG_Public;
     private Image BTN_IMG_Private;
     private Image BTN_IMG_1vs1;
@@ -25,7 +24,7 @@ public class UI_CreateGame : MonoBehaviour
 
         // Initialize a text component
         m_roomName = this.gameObject.transform.GetChild(2).GetComponent<InputField>();
-        m_roomPasword = this.gameObject.transform.GetChild(3).GetComponent<InputField>();
+        //m_roomPasword = this.gameObject.transform.GetChild(3).GetComponent<InputField>();
 
         // Get buttons images
         BTN_IMG_1vs1 = this.gameObject.transform.GetChild(4).GetComponent<Image>();
@@ -91,9 +90,6 @@ public class UI_CreateGame : MonoBehaviour
         // Set player count
         m_playersCount = 4;
 
-        // Set to public
-        IsRoomPublic = true;
-
         // Reset the room name
         if (m_roomName) m_roomName.text = PhotonNetwork.player.NickName + "'s room";
 
@@ -106,14 +102,12 @@ public class UI_CreateGame : MonoBehaviour
 
     public void SetRoomToPublic()
     {
-        IsRoomPublic = true;
         BTN_IMG_Public.color = m_colorSelected;
         BTN_IMG_Private.color = m_colorNotSelected;
     }
 
     public void SetRoomToPrivate()
     {
-        IsRoomPublic = false;
         BTN_IMG_Public.color = m_colorNotSelected;
         BTN_IMG_Private.color = m_colorSelected;
     }

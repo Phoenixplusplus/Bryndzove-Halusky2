@@ -24,9 +24,6 @@ public class P_Paintball : MonoBehaviour {
     [Header("Ray Attributes")]
     public LayerMask layerMask;
     public float rayLength = 1000f;
-    // ray debugging
-    private Vector3 startPosition;
-    private Vector3 startForwardPosition;
 
     [Header("Sound Attributes")]
     public AudioSource sourceSplats;
@@ -130,9 +127,6 @@ public class P_Paintball : MonoBehaviour {
             hitObject = hit.transform.gameObject;
 
             if (hitObject.GetComponent<ApplyPaint>() == null) Debug.Log(hitObject.name + "has no ApplyPaint script.. somehow");
-
-            startPosition = transform.position;
-            startForwardPosition = transform.forward;
         }
     }
 
