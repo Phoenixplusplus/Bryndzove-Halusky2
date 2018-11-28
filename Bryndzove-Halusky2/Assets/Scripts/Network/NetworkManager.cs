@@ -5,13 +5,11 @@ using UnityEngine;
 public class NetworkManager : Photon.MonoBehaviour
 {
     protected TypedLobby lobbyName = new TypedLobby("NewLobby", LobbyType.Default);
-    public RoomInfo[] roomsList;
     protected GameManager GM;
     protected GameObject localCharacter;
+    public RoomInfo[] roomsList;
     private UserInterfaceManager m_UI_manager;
 
-
-    // character prefab
     [SerializeField]
     private GameObject Character;
 

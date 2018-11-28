@@ -19,24 +19,6 @@ public class W_Shotgun : W_Weapon {
         Character = transform.root.gameObject.GetComponent<C_Character>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public override bool Fire()
-    {
-        return base.Fire();
-        // do other shotgun only related stuff below if needed
-    }
-
-    public override bool Reload()
-    {
-        return base.Reload();
-        // do other shotgun only related stuff below if needed
-    }
-
     // called by base class Fire(), this sends the RPC to all players in room to spawn a paintball at the given location with other attributes
     // this is based on the Muzzle child position and we also set the paintball colour here depending on the character's team too
     public override void CreatePaintball()

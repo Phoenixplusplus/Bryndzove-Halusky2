@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44824833, g: 0.49827534, b: 0.57558256, a: 1}
+  m_IndirectSpecularColor: {r: 0.44824868, g: 0.49827552, b: 0.5755828, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1079,7 +1079,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6edf31986144a41868a534c68873e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPressSound: {fileID: 8300000, guid: ff0d24423a5151f4db1cec3733d34543, type: 3}
   username: 
   userpass: 
   headtex: 
@@ -1119,6 +1118,7 @@ MonoBehaviour:
   Paintball: {fileID: 1456266222574426, guid: ccc79cfab293de049af0f6a4a4f82dd1, type: 2}
   paintballsSize: 100
   paintballsStartPosition: {x: 0, y: -10, z: 0}
+  buttonPressSound: {fileID: 8300000, guid: ff0d24423a5151f4db1cec3733d34543, type: 3}
 --- !u!4 &107218005
 Transform:
   m_ObjectHideFlags: 0
@@ -5784,8 +5784,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371148419}
   m_HandleRect: {fileID: 371148418}
   m_Direction: 2
-  m_Value: 0
-  m_Size: 0.99999976
+  m_Value: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -18565,11 +18565,11 @@ MonoBehaviour:
   loggedInSound: {fileID: 8300000, guid: 290c9f358d28f8040925b6d0a9a4d814, type: 3}
   loginFailedSound: {fileID: 8300000, guid: 522a4367d973f0142b35260da2354eb3, type: 3}
   createAccountReply: 
-  createAccountBool: 0
   loginReply: 
-  loginBool: 0
   loadUserDataReply: 
   saveUserDataReply: 
+  loginBool: 0
+  createAccountBool: 0
   LoggedInto: {fileID: 975456788}
 --- !u!4 &1501459401
 Transform:
@@ -19630,7 +19630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0.000015258789}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1567187854

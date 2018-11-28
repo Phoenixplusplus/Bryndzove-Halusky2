@@ -8,19 +8,19 @@ public class DatabaseManager : MonoBehaviour {
     [Header("Sounds")]
     public AudioClip loggedInSound;
     public AudioClip loginFailedSound;
-    Vector3 soundPosition;
+    private Vector3 soundPosition;
 
-    string createAccountURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/CreateAccount.php";
-    string loginURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/Login.php";
-    string loadPlayerDataURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/LoadPlayerData.php";
-    string savePlayerDataURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/SavePlayerData.php";
+    private string createAccountURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/CreateAccount.php";
+    private string loginURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/Login.php";
+    private string loadPlayerDataURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/LoadPlayerData.php";
+    private string savePlayerDataURL = "http://kunet.kingston.ac.uk/k1652267/Bryndzove/SavePlayerData.php";
 
     public string createAccountReply = "";
-    public bool createAccountBool = false;
     public string loginReply = "";
-    public bool loginBool = false;
     public string loadUserDataReply = "";
     public string saveUserDataReply = "";
+    public bool loginBool = false;
+    public bool createAccountBool = false;
 
     // events
     public delegate void LoadData();

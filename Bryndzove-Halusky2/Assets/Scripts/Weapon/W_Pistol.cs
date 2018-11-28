@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class W_Pistol : W_Weapon {
 
-    // construct
     W_Pistol()
     {
         clipSize = 12;
@@ -18,24 +17,6 @@ public class W_Pistol : W_Weapon {
 	void Start ()
     {
         Character = transform.root.gameObject.GetComponent<C_Character>();
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        
-    }
-
-    public override bool Fire()
-    {
-        return base.Fire();
-        // do other pistol gun only related stuff below if needed
-    }
-
-    public override bool Reload()
-    {
-        return base.Reload();
-        // do other pistol gun only related stuff below if needed
     }
 
     // called by base class Fire(), this sends the RPC to all players in room to spawn a paintball at the given location with other attributes

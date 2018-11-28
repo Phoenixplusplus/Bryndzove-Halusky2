@@ -9,21 +9,10 @@ public class EventManager : MonoBehaviour {
     public static event PlayerInstantiated PlayerSpawned;
 
     // subscribe to other events
-    void OnEnable()
-    {
-        C_Character.PlayerReady += ParsePlayerReadyEvent;
-    }
-    
+    void OnEnable() { C_Character.PlayerReady += ParsePlayerReadyEvent; }
     // unsubscribe to other events
-    void OnDisable()
-    {
-        C_Character.PlayerReady -= ParsePlayerReadyEvent;
-    }
+    void OnDisable() { C_Character.PlayerReady -= ParsePlayerReadyEvent; }
 
     // when the player is ready, because we are manager, we will parse this message on to anyone listening
-    void ParsePlayerReadyEvent()
-    {
-        Debug.Log("I heard from Player he has finished startup, parsing info to any listeners..");
-        PlayerSpawned();
-    }
+    void ParsePlayerReadyEvent() { PlayerSpawned(); }
 }

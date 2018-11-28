@@ -25,7 +25,7 @@ public class W_Weapon : Photon.MonoBehaviour {
 
     // main fire function called by the parent of the weapon
     // virtual to be overriden for custom functionality in subclesses if needed
-    public virtual bool Fire()
+    public bool Fire()
     {
         if (ammoCount <= 0 || isFiring == true || isReloading == true) return false;
 
@@ -39,7 +39,7 @@ public class W_Weapon : Photon.MonoBehaviour {
 
     // reload function called by the parent of the weapon
     // virtual to be overriden for custom functionality in subclesses if needed
-    public virtual bool Reload()
+    public bool Reload()
     {
         if (ammoCount == clipSize) return false;
 
@@ -48,10 +48,8 @@ public class W_Weapon : Photon.MonoBehaviour {
         return true;
     }
 
-    public virtual void CreatePaintball()
-    {
-
-    }
+    // overridden in subclasses
+    public virtual void CreatePaintball() { }
 
     // weapon delay coroutines
     IEnumerator RunShotDelay()

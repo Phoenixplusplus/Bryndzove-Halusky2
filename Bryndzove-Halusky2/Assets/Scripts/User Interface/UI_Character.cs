@@ -39,7 +39,7 @@ public class UI_Character : Photon.MonoBehaviour {
     {
         EventManager.PlayerSpawned += Initialise;
     }
-
+    
     void OnDisable()
     {
         EventManager.PlayerSpawned -= Initialise;

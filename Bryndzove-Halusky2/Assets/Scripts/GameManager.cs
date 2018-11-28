@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
-    public AudioClip buttonPressSound;
     [Header("Player Database Values")]
     public string username;
     public string userpass;
@@ -48,6 +47,7 @@ public class GameManager : MonoBehaviour {
     public Vector3 paintballsStartPosition = new Vector3(0, -10, 0);
     private int currentPaintball = 0;
 
+    public AudioClip buttonPressSound;
     private Vector3 soundPosition;
 
     void OnEnable()

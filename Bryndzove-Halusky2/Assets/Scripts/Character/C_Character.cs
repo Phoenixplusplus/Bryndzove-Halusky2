@@ -72,11 +72,7 @@ public class C_Character : Photon.MonoBehaviour, ICanPickup {
             Health = maxHealth;
 
             // send event to listeners that the character is spawned and ready
-            if (PlayerReady != null)
-            {
-                Debug.Log("Finished startup, Player is calling event to listeners");
-                PlayerReady();
-            }
+            if (PlayerReady != null) { PlayerReady(); }
 
             // play audio of round start
             AudioSource.PlayClipAtPoint(goSound, localCamera.transform.position);

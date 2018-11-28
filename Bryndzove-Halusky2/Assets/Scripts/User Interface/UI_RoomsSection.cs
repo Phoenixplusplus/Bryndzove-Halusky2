@@ -5,9 +5,9 @@ using UnityEngine;
 public class UI_RoomsSection : MonoBehaviour
 {
     private UI_RoomButton[] m_roomButtonsArray;
-    private int m_countOfRoomButtons;
     private NetworkManager m_networkManager;
     private UserInterfaceManager m_UI_manager;
+    private int m_countOfRoomButtons;
 
     // Use this for initialization
     void Start()
