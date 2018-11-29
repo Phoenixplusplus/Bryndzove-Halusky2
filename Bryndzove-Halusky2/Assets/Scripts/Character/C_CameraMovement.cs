@@ -16,11 +16,6 @@ public class C_CameraMovement : Photon.MonoBehaviour {
     private Quaternion initialRot;
     private Transform parent;
 
-    void Awake()
-    {
-
-    }
-
     // Use this for initialization
     void Start ()
     {

@@ -5784,7 +5784,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 371148419}
   m_HandleRect: {fileID: 371148418}
   m_Direction: 2
-  m_Value: 1
+  m_Value: 0
   m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
@@ -9093,7 +9093,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4520084439069432, guid: 0a358c6f894d4b248841917d66e6d42f, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 114969835822877328, guid: 0a358c6f894d4b248841917d66e6d42f,
         type: 2}
@@ -11037,7 +11037,7 @@ Transform:
   - {fileID: 1545150925}
   - {fileID: 2124327652}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &929385024
 GameObject:
@@ -11304,7 +11304,7 @@ Transform:
   - {fileID: 170076735}
   - {fileID: 1469319415}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &975456786
 GameObject:
@@ -17825,7 +17825,7 @@ Transform:
   - {fileID: 1062755426}
   - {fileID: 1958185242}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1468132807
 GameObject:
@@ -19630,7 +19630,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.000015258789}
+  m_AnchoredPosition: {x: 0, y: 0.000030517578}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0}
 --- !u!114 &1567187854
@@ -24611,11 +24611,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 180273c97e285074f833d06207da6b82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sampleDude: {fileID: 1958185241}
   Background: {fileID: 1515186938}
   RoomsSelection: {fileID: 126319621}
   MainButtonsSelection: {fileID: 783027175}
   CustomiseMenu: {fileID: 1110972537}
+  sampleDude: {fileID: 1958185241}
   currentHeadTex: 0
   currentBodyTex: 0
   currentWeapon: 0

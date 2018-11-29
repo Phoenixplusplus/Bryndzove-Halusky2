@@ -86,19 +86,21 @@ public class Pickup : MonoBehaviour {
 
     IEnumerator HidePickUp()
     {
+        Renderer r_Billboard = transform.Find("Billboard").GetComponent<Renderer>();
+        Renderer r_Model = transform.Find("Present/Model").GetComponent<Renderer>();
         while (currentHideTime < hideTime)
         {
             currentHideTime += Time.deltaTime;
             GetComponent<BoxCollider>().enabled = false;
-            transform.Find("Billboard").GetComponent<Renderer>().enabled = false;
-            transform.Find("Present/Model").GetComponent<Renderer>().enabled = false;
+            if (r_Billboard.enabled == true) r_Billboard.enabled = false;
+            if (r_Model.enabled == true) r_Model.enabled = false;
             yield return null;
         }
 
         currentHideTime = 0f;
         GetComponent<BoxCollider>().enabled = true;
-        transform.Find("Billboard").GetComponent<Renderer>().enabled = true;
-        transform.Find("Present/Model").GetComponent<Renderer>().enabled = true;
+        if (r_Billboard.enabled == false) r_Billboard.enabled = true;
+        if (r_Model.enabled == false) r_Model.enabled = true;
         yield break;
     }
 }

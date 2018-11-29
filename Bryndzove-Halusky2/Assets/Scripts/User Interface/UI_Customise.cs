@@ -5,31 +5,18 @@ using UnityEngine.UI;
 
 public class UI_Customise : MonoBehaviour {
 
-    GameManager gameManager;
-    DatabaseManager Database;
-    public GameObject sampleDude;
+    private GameManager gameManager;
+    private DatabaseManager Database;
 
     public GameObject Background;
     public GameObject RoomsSelection;
     public GameObject MainButtonsSelection;
     public GameObject CustomiseMenu;
 
+    public GameObject sampleDude;
     public int currentHeadTex;
     public int currentBodyTex;
     public int currentWeapon;
-
-	// Use this for initialization
-	void Start ()
-    {
-        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        Database = GameObject.Find("DatabaseManager").GetComponent<DatabaseManager>();
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        
-	}
 
     // event subscription
     void OnEnable()
@@ -40,6 +27,13 @@ public class UI_Customise : MonoBehaviour {
     void OnDisable()
     {
         DatabaseManager.LoadDataReady -= SetupDude;
+    }
+
+    // Use this for initialization
+    void Start ()
+    {
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        Database = GameObject.Find("DatabaseManager").GetComponent<DatabaseManager>();
     }
 
     public void EnableCustomiseScreen()

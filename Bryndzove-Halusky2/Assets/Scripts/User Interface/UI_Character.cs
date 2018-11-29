@@ -14,12 +14,12 @@ public class UI_Character : Photon.MonoBehaviour {
     public C_Character localCharacter;
     private W_Weapon equippedWeapon;
     public Camera lobbyCamera;
-    bool endTrigger = false;
-    float totalPaint = 0f;
-    float redRatio = 0f;
-    float blueRatio = 0f;
-    float redLerp = 0f;
-    float blueLerp = 0f;
+    private bool endTrigger = false;
+    private float totalPaint = 0f;
+    private float redRatio = 0f;
+    private float blueRatio = 0f;
+    private float redLerp = 0f;
+    private float blueLerp = 0f;
 
     // UI children
     public Slider ammoSlider, healthSlider;
@@ -33,7 +33,7 @@ public class UI_Character : Photon.MonoBehaviour {
     public AudioClip No;
     public AudioClip TimeUp;
 
-    bool runUpdate = false;
+    private bool runUpdate = false;
 
     void OnEnable()
     {
