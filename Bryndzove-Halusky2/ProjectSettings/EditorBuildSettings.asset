@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Jacob Scene.unity
     guid: 28f2d4b802dec2e41ad6d9890a2a9841
+  - enabled: 0
+    path: Assets/Scenes/PrefabDemo.unity
+    guid: ce3abe28615b7f9419cf094b8d75116d
   m_configObjects: {}

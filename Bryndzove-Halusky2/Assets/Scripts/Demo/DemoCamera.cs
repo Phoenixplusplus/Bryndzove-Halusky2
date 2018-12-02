@@ -131,7 +131,7 @@ public class DemoCamera : MonoBehaviour {
     
     void FocusGuns()
     {
-        demoCamera.transform.position = new Vector3(-5.970694f, 1.557681f, 16.69923f);
+        demoCamera.transform.position = new Vector3(-5.970694f, 1.557681f, 17.69923f);
         demoCamera.transform.rotation = new Quaternion(0, 180, 0f, 1);
         isFocusGuns = true;
     }
